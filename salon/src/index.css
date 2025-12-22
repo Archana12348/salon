@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap");
+
+:root {
+  --font-heading--family: "Playfair Display", serif;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,12 +15,12 @@
 }
 
 .swiper-pagination-bullet {
-  background: #ff9c00 !important; /* orange color for dots */
+  background: #00ced1 !important; /* orange color for dots */
   opacity: 0.5;
 }
 
 .swiper-pagination-bullet-active {
-  background: #ff9c00 !important; /* active dot color */
+  background: #00ced1 !important; /* active dot color */
   opacity: 1;
   transform: scale(1.2); /* slightly larger active dot */
   transition: all 0.3s ease;
