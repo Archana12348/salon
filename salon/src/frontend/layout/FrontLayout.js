@@ -21,7 +21,7 @@ export default function MainLayout() {
 
       {isHomePage && <></>}
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

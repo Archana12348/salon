@@ -15,7 +15,7 @@ export default function AnnouncementBar() {
         {/* Center Text */}
         <p className="text-black text-xs sm:text-sm md:text-base text-center flex-1 px-2">
           Looking for the perfect last-minute makeup? We’re here to help. Call
-          Us <span className="font-semibold">(800-843-3269)</span>.
+          Us <span className="font-semibold">(+91 90413 69160)</span>.
         </p>
 
         {/* Right Arrow */}

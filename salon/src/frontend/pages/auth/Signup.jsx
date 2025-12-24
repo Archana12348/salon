@@ -50,7 +50,7 @@ export default function Signup() {
             <label className="text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
-              placeholder="Enter email"
+              placeholder="Enter your email "
               className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-500"
               required
             />

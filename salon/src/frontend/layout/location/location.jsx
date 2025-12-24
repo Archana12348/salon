@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // Placeholder images - Replace these with your actual imports or URLs
 const wilshireImage = "/gallery/location2.avif";
@@ -29,13 +30,13 @@ export default function LocationsSection() {
       <div className="w-full flex justify-center items-center gap-2  text-sm md:text-base font-light">
         <span>{estDate}</span>
         <span className="text-gray-300">|</span>
-        <a href="#" className="underline hover:text-black transition-colors">
+        <Link to="#" className="underline hover:text-black transition-colors">
           Learn More
-        </a>
+        </Link>
         <span className="text-gray-300">|</span>
-        <a href="#" className="underline hover:text-black transition-colors">
+        <Link to="#" className="underline hover:text-black transition-colors">
           Book Now
-        </a>
+        </Link>
       </div>
     </div>
   );
