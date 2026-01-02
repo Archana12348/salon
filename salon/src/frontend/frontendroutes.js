@@ -18,6 +18,7 @@ export const FrontendRoutes = (
       <Route path="aboutus" element={<AboutUsPage />} />
       <Route path="product" element={<ProductPage />} />
       <Route path="userprofile" element={<UserProfile />} />
+      <Route path="contact" element={<Contact />} />
     </Route>
 
     {/* 🔹 LOGIN / SIGNUP OUTSIDE FRONT LAYOUT */}

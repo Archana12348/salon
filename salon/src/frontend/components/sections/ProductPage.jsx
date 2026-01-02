@@ -178,9 +178,9 @@ export default function ProductPage() {
             {/* COLLAPSIBLE ANIMATED SECTION */}
             <div
               className={`
-    overflow-hidden transition-all duration-500 ease-in-out
-    ${showMore ? "max-h-[2000px] mt-3" : "max-h-0"}
-  `}
+             overflow-hidden transition-all duration-500 ease-in-out
+             ${showMore ? "max-h-[2000px] mt-3" : "max-h-0"}
+            `}
             >
               <div className="space-y-3  text-gray-700">
                 {/* Remaining nutrition — Staggered */}
