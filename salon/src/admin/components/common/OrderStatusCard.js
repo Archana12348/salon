@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "../ui/Card";
 import { Users } from "lucide-react";
-import Badge from "../ui/Badge";
 
 const OrderStatusCard = ({
   title,
