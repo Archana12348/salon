@@ -8,6 +8,7 @@ import Signup from "./pages/auth/Signup";
 import AboutUsPage from "./pages/aboutus/AboutUs";
 import ProductPage from "./components/sections/ProductPage";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import NotFound from "./pages/NotFound";
 
 export const FrontendRoutes = (
   <>
@@ -23,5 +24,8 @@ export const FrontendRoutes = (
     {/* 🔹 LOGIN / SIGNUP OUTSIDE FRONT LAYOUT */}
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<Signup />} />
+
+    {/* 🔹 404 FALLBACK */}
+    <Route path="*" element={<NotFound />} />
   </>
 );
