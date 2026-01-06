@@ -36,6 +36,7 @@ import PublicRoute from "./routes/PublicRoute";
 import Login from "./pages/auth/LoginPage";
 import Register from "./pages/auth/SignupPage";
 import Logout from "./pages/auth/Logout";
+import Settings from "./pages/SettingsPage";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
 
@@ -67,10 +68,16 @@ export const AdminRoutes = (
         <Route path="packages" element={<Packages />} />
         <Route path="packages/add" element={<PackagesAdd />} />
         <Route path="packages/:id/edit" element={<PackagesEdit />} />
-        <Route path="services" element={<Services />} />
+        {/* <Route path="services" element={<Services />} />
         <Route path="services/add" element={<ServicesAdd />} />
         <Route path="services/:id/edit" element={<ServicesEdit />} />
-        <Route path="bookings" element={<Booking />} />
+        <Route path="bookings" element={<Booking  />} />
+        <Route path="bookings/add" element={<BookingAdd />} />
+        <Route path="bookings/:id/edit" element={<BookingEdit />} /> */}
+        <Route path="services" element={<Booking />} />
+        <Route path="services/add" element={<BookingAddss />} />
+        <Route path="services/:id/edit" element={<BookingAddssedit />} />
+        <Route path="bookings" element={<Services />} />
         <Route path="bookings/add" element={<BookingAdd />} />
         <Route path="bookings/:id/edit" element={<BookingEdit />} />
         <Route path="banner" element={<Banner />} />
@@ -81,6 +88,7 @@ export const AdminRoutes = (
         <Route path="slider/:id/edit" element={<SliderEdit />} />
         <Route path="bookingadd" element={<BookingAddss />} />
         <Route path="bookingadd/:id/edit" element={<BookingAddssedit />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
     </Route>
   </>

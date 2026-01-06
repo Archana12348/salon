@@ -53,9 +53,10 @@ export default function ProtectedRoute({ children }) {
   if (loading) return null; // or loader
 
   console.log(isAuthenticated, loading);
-  if (!isAuthenticated) {
-    return <Navigate to="/admin/auth/login" replace />;
-  }
+  debugger;
+  // if (!isAuthenticated ) {
+  //   return <Navigate to="/admin/auth/login" replace />;
+  // }
 
   return <Outlet />;
 }

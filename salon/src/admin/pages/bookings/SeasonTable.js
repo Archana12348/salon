@@ -187,7 +187,7 @@ const SeasonsPage = () => {
                 </Button>
               )}
 
-              <Button onClick={() => navigate("/add")}>
+              <Button onClick={() => navigate("/admin/bookingadd")}>
                 <Plus className="mr-2 h-4 w-4" /> Add New Service
               </Button>
             </div>
@@ -278,7 +278,9 @@ const SeasonsPage = () => {
                       </TableCell>
                       <TableCell className="flex">
                         <button
-                          onClick={() => navigate(`/edit-seasons/${s.id}`)}
+                          onClick={() =>
+                            navigate(`/admin/services/${s.id}/edit`)
+                          }
                           className="text-blue-500 mr-3"
                         >
                           <Pencil size={18} />

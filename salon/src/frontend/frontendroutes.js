@@ -9,6 +9,8 @@ import ProductPage from "./components/sections/ProductPage";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import AboutUs from "./pages/aboutus/AboutUs";
 import Team from "./pages/team/Team";
+import ProductnewProfile from "./pages/ProductDetails";
+// import NotFound from "./pages/NotFound";
 
 export const FrontendRoutes = (
   <>
@@ -21,7 +23,10 @@ export const FrontendRoutes = (
       <Route path="contact" element={<Contact />} />
       <Route path="aboutus" element={<AboutUs />} />
       <Route path="team" element={<Team />} />
+      <Route path="userprofile/:slug" element={<UserProfile />} />
     </Route>
+    <Route path="contact" element={<Contact />} />
+    <Route path="productdetails" element={<ProductnewProfile />} />
 
     {/* 🔹 LOGIN / SIGNUP OUTSIDE FRONT LAYOUT */}
     <Route path="/login" element={<Login />} />
