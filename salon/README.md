@@ -1,1 +1,1 @@
-GROCERY APP
+Salon Website
