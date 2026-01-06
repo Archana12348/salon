@@ -98,7 +98,7 @@ export default function ServicesSection() {
     <div className="max-w-7xl mx-auto py-7 sm:px-6 md:py-12">
       {/* Heading */}
       <h2
-        className="text-3xl sm:text-3xl md:text-5xl font-bold text-center mb-10 text-black"
+        className="text-3xl sm:text-3xl md:text-4xl  text-center mb-10 text-black"
         style={{ fontFamily: "var(--font-heading--family)" }}
       >
         Our Premium Services

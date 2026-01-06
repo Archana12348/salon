@@ -37,7 +37,10 @@ export default function LuxuryTestimonials() {
       {/* Heading */}
       <div className="text-center mb-10 sm:mb-14 text-black bg-clip-text">
         <p className="text-xs sm:text-sm tracking-[3px] ">OUR CLIENTS</p>
-        <h2 className="text-2xl sm:text-4xl  tracking-wide mt-2">
+        <h2
+          className="text-3xl sm:text-3xl md:text-4xl  text-center mb-10 text-black mt-2"
+          style={{ fontFamily: "var(--font-heading--family)" }}
+        >
           LOVE LETTERS
         </h2>
       </div>

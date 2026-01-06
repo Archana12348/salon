@@ -48,13 +48,16 @@ export default function LocationsSection() {
         style={{ fontFamily: "var(--font-heading--family)" }}
       >
         {/* Top Label */}
-        <p className="text-xs  tracking-[0.2em] uppercase  mb-2">
+        <p
+          className="text-xs  tracking-[0.2em] uppercase  mb-2"
+          style={{ fontFamily: "var(--font-heading--family)" }}
+        >
           Our Locations
         </p>
 
         {/* Main Title */}
         <h2
-          className="text-5xl   mb-12"
+          className="text-3xl sm:text-3xl md:text-4xl  text-center mb-10 text-black"
           style={{ fontFamily: "var(--font-heading--family)" }}
         >
           Welcome to Reine

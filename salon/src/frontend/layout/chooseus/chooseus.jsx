@@ -34,7 +34,10 @@ export default function WhyTrustUs() {
         fontFamily: "var(--font-heading--family)",
       }}
     >
-      <h2 className="text-center text-black bg-clip-text  text-3xl sm:text-3xl md:text-4xl font-semibold mb-8">
+      <h2
+        className="text-3xl sm:text-3xl md:text-4xl  text-center mb-10 text-black"
+        style={{ fontFamily: "var(--font-heading--family)" }}
+      >
         Why Trust Us?
       </h2>
 

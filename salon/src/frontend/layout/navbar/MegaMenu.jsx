@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 
-export default function MegaMenu({ type }) {
+export default function MegaMenu({ type, onMouseEnter, onMouseLeave }) {
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-[92vw] max-w-6xl bg-white text-black shadow-2xl  border border-gray-100 z-[999]">
+    <div
+      className="absolute left-1/2 -translate-x-1/2 top-full mt-3 
+      w-[92vw] max-w-6xl bg-white text-black shadow-2xl 
+      border border-gray-100 z-[999]"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <div className="px-6 py-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 text-sm">
         {type === "services" && (
           <>
