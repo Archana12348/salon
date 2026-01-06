@@ -8,6 +8,7 @@ import Signup from "./pages/auth/Signup";
 import ProductPage from "./components/sections/ProductPage";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import AboutUs from "./pages/aboutus/AboutUs";
+import Team from "./pages/team/Team";
 
 export const FrontendRoutes = (
   <>
@@ -19,6 +20,7 @@ export const FrontendRoutes = (
       <Route path="userprofile" element={<UserProfile />} />
       <Route path="contact" element={<Contact />} />
       <Route path="aboutus" element={<AboutUs />} />
+      <Route path="team" element={<Team />} />
     </Route>
 
     {/* 🔹 LOGIN / SIGNUP OUTSIDE FRONT LAYOUT */}

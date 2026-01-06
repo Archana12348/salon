@@ -288,8 +288,12 @@ export default function HeaderWithVideo() {
     "
           style={{ fontFamily: "var(--font-heading--family)" }}
         >
-          <Link to="#">Home</Link>
-          <Link to="#">About Us</Link>
+          <Link to="#" className="hover:underline">
+            Home
+          </Link>
+          <Link to="#" className="hover:underline">
+            About Us
+          </Link>
           {/* ===== SERVICES ===== */}
           <div
             className="relative"
