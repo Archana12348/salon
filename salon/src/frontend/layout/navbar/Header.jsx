@@ -194,16 +194,34 @@
 import { useEffect, useState, useRef } from "react";
 import { User, Calendar, Search, MapPin, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
-// import MegaMenu from "./MegaMenu";
+import MegaMenu from "./MegaMenu";
 import MobileMenu from "./MobileMenu";
 
 export default function HeaderWithVideo() {
   const [showNavbar, setShowNavbar] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
-  const openMenu = (menu) => setActiveMenu(menu);
   const closeMenu = () => setActiveMenu(null);
+  const closeTimerRef = useRef(null);
 
+  const openMenu = (menu) => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+    }
+    setActiveMenu(menu);
+  };
+
+  const closeMenuWithDelay = () => {
+    closeTimerRef.current = setTimeout(() => {
+      setActiveMenu(null);
+    }, 1000); // 👉 1.5 sec delay (chaaho to 2000)
+  };
+
+  const cancelClose = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+    }
+  };
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 120) {
@@ -219,7 +237,7 @@ export default function HeaderWithVideo() {
   return (
     <>
       {/* SCROLL NAVBAR */}
-      {/* <div
+      <div
         className={`fixed top-0 left-0 w-full z-50 bg-white shadow-md text-black transition-all duration-500 ${
           showNavbar
             ? "translate-y-0 opacity-100"
@@ -227,9 +245,9 @@ export default function HeaderWithVideo() {
         }`}
       >
         {/* TOP ROW */}
-      {/* <div className="flex items-center justify-between px-3 sm:px-6 md:px-10 py-3 sm:py-4"> */}
-      {/* LEFT ICONS */}
-      {/* <div className="flex gap-3 sm:gap-4">
+        <div className="flex items-center justify-between px-3 sm:px-6 md:px-10 py-3 sm:py-4">
+          {/* LEFT ICONS */}
+          <div className="flex gap-3 sm:gap-4">
             <Search size={16} className="sm:size-[18px] cursor-pointer" />
             <MapPin size={16} className="sm:size-[18px] cursor-pointer" />
             <div className=" ml-14 flex items-center justify-between px-4 mt-[18px] md:hidden absolute top-0 left-0 w-full z-20 text-black">
@@ -241,25 +259,25 @@ export default function HeaderWithVideo() {
 
               <div />
             </div>
-          </div> */}
+          </div>
 
-      {/* LOGO / TITLE */}
-      {/* <h2
+          {/* LOGO / TITLE */}
+          <h2
             className="text-lg sm:text-2xl md:text-3xl lg:text-4xl tracking-wide text-center whitespace-nowrap"
             style={{ fontFamily: "var(--font-heading--family)" }}
           >
             LA VIE JUMERIAH
-          </h2> */}
+          </h2>
 
-      {/* RIGHT ICONS */}
-      {/* <div className="flex gap-3 sm:gap-4">
+          {/* RIGHT ICONS */}
+          <div className="flex gap-3 sm:gap-4">
             <User size={16} className="sm:size-[18px] cursor-pointer" />
             <Calendar size={16} className="sm:size-[18px] cursor-pointer" />
           </div>
-        </div> */}
+        </div>
 
-      {/* NAV LINKS */}
-      {/* <nav
+        {/* NAV LINKS */}
+        <nav
           className=" hidden md:flex
       ' flex-wrap justify-center
       gap-x-4 gap-y-2
@@ -271,40 +289,52 @@ export default function HeaderWithVideo() {
           style={{ fontFamily: "var(--font-heading--family)" }}
         >
           <Link to="#">Home</Link>
-          <Link to="#">About Us</Link> */}
-      {/* ===== SERVICES ===== */}
-      {/* <div
+          <Link to="#">About Us</Link>
+          {/* ===== SERVICES ===== */}
+          <div
             className="relative"
             onMouseEnter={() => openMenu("services")}
-            onMouseLeave={closeMenu}
+            onMouseLeave={closeMenuWithDelay}
           >
             <Link to="#" className="hover:underline">
               Services
             </Link>
 
-            {activeMenu === "services" && <MegaMenu type="services" />}
-          </div> */}
+            {activeMenu === "services" && (
+              <MegaMenu
+                type="services"
+                onMouseEnter={cancelClose}
+                onMouseLeave={closeMenuWithDelay}
+              />
+            )}
+          </div>
 
-      {/* ===== PRODUCTS ===== */}
-      {/* <div
+          {/* ===== PRODUCTS ===== */}
+          <div
             className="relative"
             onMouseEnter={() => openMenu("products")}
-            onMouseLeave={closeMenu}
+            onMouseLeave={closeMenuWithDelay}
           >
             <Link to="#" className="hover:underline">
               Products
             </Link>
 
-            {activeMenu === "products" && <MegaMenu type="products" />}
+            {activeMenu === "products" && (
+              <MegaMenu
+                type="products"
+                onMouseEnter={cancelClose}
+                onMouseLeave={closeMenuWithDelay}
+              />
+            )}
           </div>
 
           <Link to="contact">Contact Us</Link>
         </nav>
-      </div>  */}
+      </div>
 
       <header className="relative w-full h-screen overflow-hidden">
         {/* MOBILE HEADER */}
-        {/* <div className=" ml-16 flex items-center justify-between px-4 mt-[16px] md:hidden absolute top-0 left-0 w-full z-20 text-white">
+        <div className=" ml-16 flex items-center justify-between px-4 mt-[16px] md:hidden absolute top-0 left-0 w-full z-20 text-white">
           <Menu
             className="cursor-pointer"
             size={20}
@@ -312,7 +342,7 @@ export default function HeaderWithVideo() {
           />
 
           <div />
-        </div> */}
+        </div>
         {/* Background Video */}
         <video
           className="absolute top-0 left-0 w-full h-full object-cover"
@@ -324,7 +354,7 @@ export default function HeaderWithVideo() {
         />
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 " />
 
         {/* Content */}
         <div className="relative z-10 text-white h-full flex flex-col">
@@ -362,26 +392,38 @@ export default function HeaderWithVideo() {
             <div
               className="relative"
               onMouseEnter={() => openMenu("services")}
-              onMouseLeave={closeMenu}
+              // onMouseLeave={closeMenuWithDelay}
             >
-              <Link to="#" className="hover:underline">
+              <Link to="#" className="hover:underline ">
                 Services
               </Link>
 
-              {/* {activeMenu === "services" && <MegaMenu type="services" />} */}
+              {activeMenu === "services" && (
+                <MegaMenu
+                  type="services"
+                  onMouseEnter={cancelClose}
+                  onMouseLeave={closeMenuWithDelay}
+                />
+              )}
             </div>
 
             {/* ===== PRODUCTS ===== */}
             <div
               className="relative"
               onMouseEnter={() => openMenu("products")}
-              onMouseLeave={closeMenu}
+              // onMouseLeave={closeMenuWithDelay}
             >
               <Link to="#" className="hover:underline">
                 Products
               </Link>
 
-              {/* {activeMenu === "products" && <MegaMenu type="products" />} */}
+              {activeMenu === "products" && (
+                <MegaMenu
+                  type="products"
+                  onMouseEnter={cancelClose}
+                  onMouseLeave={closeMenuWithDelay}
+                />
+              )}
             </div>
 
             <Link to="contact">Contact Us</Link>
