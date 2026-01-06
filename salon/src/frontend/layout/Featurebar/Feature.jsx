@@ -25,7 +25,7 @@ export default function FeaturesSection() {
       }}
     >
       <div
-        className="max-w-6xl mx-auto px-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10"
+        className="max-w-6xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 "
         style={{ fontFamily: "var(--font-heading--family)" }}
       >
         {features.map((item, index) => {

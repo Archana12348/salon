@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}", // 👈 IMPORTANT
+    "./public/index.html",
+  ],
   theme: {
     extend: {
       animation: {
@@ -8,7 +11,7 @@ module.exports = {
       },
       keyframes: {
         marquee: {
-          "0%": { transform: "translateX(0)" },
+          "0%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(-50%)" },
         },
       },

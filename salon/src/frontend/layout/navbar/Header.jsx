@@ -252,7 +252,7 @@ export default function HeaderWithVideo() {
             <MapPin size={16} className="sm:size-[18px] cursor-pointer" />
             <div className=" ml-14 flex items-center justify-between px-4 mt-[18px] md:hidden absolute top-0 left-0 w-full z-20 text-black">
               <Menu
-                className="cursor-pointer"
+                className="cursor-pointer mt-2"
                 size={16}
                 onClick={() => setMobileMenuOpen(true)}
               />
@@ -278,7 +278,7 @@ export default function HeaderWithVideo() {
 
         {/* NAV LINKS */}
         <nav
-          className=" hidden md:flex
+          className=" hidden md:flex text-black
       ' flex-wrap justify-center
       gap-x-4 gap-y-2
       px-3 pb-3
@@ -288,10 +288,10 @@ export default function HeaderWithVideo() {
     "
           style={{ fontFamily: "var(--font-heading--family)" }}
         >
-          <Link to="#" className="hover:underline">
+          <Link to="#" className="text-black">
             Home
           </Link>
-          <Link to="#" className="hover:underline">
+          <Link to="#" className="text-black">
             About Us
           </Link>
           {/* ===== SERVICES ===== */}
@@ -300,7 +300,7 @@ export default function HeaderWithVideo() {
             onMouseEnter={() => openMenu("services")}
             onMouseLeave={closeMenuWithDelay}
           >
-            <Link to="#" className="hover:underline">
+            <Link to="#" className="hover:underline text-black">
               Services
             </Link>
 
@@ -319,7 +319,7 @@ export default function HeaderWithVideo() {
             onMouseEnter={() => openMenu("products")}
             onMouseLeave={closeMenuWithDelay}
           >
-            <Link to="#" className="hover:underline">
+            <Link to="#" className="hover:underline text-black">
               Products
             </Link>
 
@@ -332,7 +332,9 @@ export default function HeaderWithVideo() {
             )}
           </div>
 
-          <Link to="contact">Contact Us</Link>
+          <Link to="contact" className="text-black">
+            Contact Us
+          </Link>
         </nav>
       </div>
 
@@ -340,7 +342,7 @@ export default function HeaderWithVideo() {
         {/* MOBILE HEADER */}
         <div className=" ml-16 flex items-center justify-between px-4 mt-[16px] md:hidden absolute top-0 left-0 w-full z-20 text-white">
           <Menu
-            className="cursor-pointer"
+            className="cursor-pointer mt-2"
             size={20}
             onClick={() => setMobileMenuOpen(true)}
           />
@@ -387,18 +389,22 @@ export default function HeaderWithVideo() {
 
           {/* NAVBAR */}
           <nav
-            className="hidden md:flex mt-7 md:mt-11 lg:mt-7  flex-wrap justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest px-4 text-center"
+            className="hidden md:flex mt-7 md:mt-11 lg:mt-7  flex-wrap justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest px-4 text-center text-white"
             style={{ fontFamily: "var(--font-heading--family)" }}
           >
-            <Link to="/">Home</Link>
-            <Link to="about">About Us</Link>
+            <Link to="/" className="text-white">
+              Home
+            </Link>
+            <Link to="about" className="text-white">
+              About Us
+            </Link>
             {/* ===== SERVICES ===== */}
             <div
               className="relative"
               onMouseEnter={() => openMenu("services")}
               // onMouseLeave={closeMenuWithDelay}
             >
-              <Link to="#" className="hover:underline ">
+              <Link to="#" className="hover:underline text-white ">
                 Services
               </Link>
 
@@ -417,7 +423,7 @@ export default function HeaderWithVideo() {
               onMouseEnter={() => openMenu("products")}
               // onMouseLeave={closeMenuWithDelay}
             >
-              <Link to="#" className="hover:underline">
+              <Link to="#" className="hover:underline text-white">
                 Products
               </Link>
 
@@ -430,7 +436,9 @@ export default function HeaderWithVideo() {
               )}
             </div>
 
-            <Link to="contact">Contact Us</Link>
+            <Link to="contact" className="text-white">
+              Contact Us
+            </Link>
           </nav>
 
           {/* BUTTONS */}
@@ -438,10 +446,10 @@ export default function HeaderWithVideo() {
             className="mt-auto mb-16 sm:mb-24 flex flex-col sm:flex-row gap-4 justify-center px-4"
             style={{ fontFamily: "var(--font-heading--family)" }}
           >
-            <button className="border bg-[#00CED1] text-black border-[#00CED1] hover:border-white px-6 sm:px-8 py-3 text-xs sm:text-sm uppercase hover:bg-white transition">
+            <button className=" bg-[#00CED1] text-black   px-6 sm:px-8 py-3 text-xs sm:text-sm uppercase hover:bg-white transition">
               Shop Now
             </button>
-            <button className="border bg-[#00CED1] text-black border-[#00CED1] hover:border-white px-6 sm:px-8 py-3 text-xs sm:text-sm uppercase hover:bg-white transition">
+            <button className=" bg-[#00CED1] text-black   px-6 sm:px-8 py-3 text-xs sm:text-sm uppercase hover:bg-white transition">
               Book Appointment
             </button>
           </div>
