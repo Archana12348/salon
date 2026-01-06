@@ -559,7 +559,7 @@ const FabricsPage = () => {
 
   return (
     <div className="space-y-4 sm:space-y-6 px-2 sm:px-4 lg:px-6 py-4">
-      <h1 className="text-3xl font-bold mb-4 dark:text-white">Packages</h1>
+      <h1 className="text-3xl font-bold mb-4 text-black">Packages</h1>
       <Card>
         <CardHeader>
           <div className="flex justify-between items-center">
