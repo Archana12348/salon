@@ -15,19 +15,19 @@ export default function LuxuryTestimonials() {
       text: "My hair was feeling rough & dry from all the heat styling. I tried a treatment at Glamr and the difference was amazing. My hair feels healthier, looks shinier, and I'm getting compliments left and right. I’m definitely coming back for regular.",
       name: "JENNIFER TAYLOR",
       role: "MANAGER",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "https://randomuser.me/api/portraits/women/45.jpg",
     },
     {
       text: "My hair was feeling rough & dry from all the heat styling. I tried a treatment at Glamr and the difference was amazing. My hair feels healthier, looks shinier, and I'm getting compliments left and right. I’m definitely coming back for regular.",
       name: "JENNIFER TAYLOR",
       role: "MANAGER",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "https://randomuser.me/api/portraits/women/46.jpg",
     },
   ];
 
   return (
     <div
-      className="py-14 sm:py-20  px-4 sm:px-6"
+      className="py-14 sm:py-20 px-4 sm:px-6"
       style={{
         backgroundImage:
           "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('/whychoose/bgchoose.jpeg')",
@@ -35,18 +35,13 @@ export default function LuxuryTestimonials() {
       }}
     >
       {/* Heading */}
-      <div className="text-center mb-10 sm:mb-14 text-black bg-clip-text">
-        <p className="text-xs sm:text-sm tracking-[3px] ">OUR CLIENTS</p>
-        <h2
-          className="text-3xl sm:text-3xl md:text-4xl  text-center mb-10 text-black mt-2"
-          style={{ fontFamily: "var(--font-heading--family)" }}
-        >
-          LOVE LETTERS
-        </h2>
+      <div className="text-center mb-10 sm:mb-14 text-black">
+        <p className="text-xs sm:text-sm tracking-[3px]">OUR CLIENTS</p>
+        <h2 className="text-3xl sm:text-3xl md:text-4xl mt-2">LOVE LETTERS</h2>
       </div>
 
       {/* Two-tone Background */}
-      <div className="relative mx-auto max-w-6xl w-full ">
+      <div className="relative mx-auto max-w-6xl w-full">
         <div className="absolute inset-0 grid grid-cols-2">
           <div className="bg-white"></div>
           <div className="bg-[#00CED1]"></div>
@@ -63,7 +58,14 @@ export default function LuxuryTestimonials() {
             delay: 3000,
             disableOnInteraction: false,
           }}
-          loop
+          loop={true}
+          slidesPerView={1} // ✅ Always 1 slide
+          spaceBetween={20}
+          breakpoints={{
+            0: { slidesPerView: 1 },
+            640: { slidesPerView: 1 },
+            1024: { slidesPerView: 1 },
+          }}
           className="relative py-10 sm:py-20 px-4 sm:px-10"
         >
           {reviews.map((item, i) => (
@@ -72,27 +74,25 @@ export default function LuxuryTestimonials() {
                 {/* Stars */}
                 <div className="flex justify-center gap-1 mb-4 sm:mb-6">
                   {[1, 2, 3, 4, 5].map((s) => (
-                    <span
-                      key={s}
-                      className="text-[#d4af37] text-2xl sm:text-2xl"
-                    >
+                    <span key={s} className="text-[#d4af37] text-2xl">
                       ★
                     </span>
                   ))}
                 </div>
 
-                {/* Text */}
+                {/* Review Text */}
                 <p className="text-black text-sm sm:text-lg leading-relaxed">
                   “{item.text}”
                 </p>
 
-                {/* User */}
+                {/* User Info */}
                 <div className="mt-6 sm:mt-10 flex flex-col items-center">
                   <img
                     src={item.image}
+                    alt={item.name}
                     className="w-14 h-14 sm:w-20 sm:h-20 rounded-full object-cover border border-gray-400"
                   />
-                  <h3 className="mt-3 text-black sm:mt-4 text-base sm:text-lg font-semibold tracking-widest">
+                  <h3 className="mt-3 sm:mt-4 text-base sm:text-lg font-semibold tracking-widest text-black">
                     {item.name}
                   </h3>
                   <p className="text-black text-xs sm:text-sm tracking-[2px]">
@@ -103,8 +103,6 @@ export default function LuxuryTestimonials() {
             </SwiperSlide>
           ))}
         </Swiper>
-
-        {/* Navigation Buttons */}
       </div>
     </div>
   );

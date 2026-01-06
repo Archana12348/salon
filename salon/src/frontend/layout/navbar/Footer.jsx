@@ -136,9 +136,9 @@ export default function FooterPage() {
             Our Location
           </h2>
 
-          <p className="font-semibold mt-2 ">India Office</p>
-          <p>📍 Address: Lavie Jumeirah PPR Market,</p>
-          <p>Shop No. A1 Mithapur Road,</p>
+          <p className="font-semibold mt-2 -mb-0 ">India Office</p>
+          <p className="-mb-0">📍 Address: Lavie Jumeirah PPR Market,</p>
+          <p className="-mb-0">Shop No. A1 Mithapur Road,</p>
           <p>Jalandhar, Punjab</p>
         </div>
 
@@ -151,18 +151,30 @@ export default function FooterPage() {
             Get in Touch
           </h2>
 
-          <p>Phone: +91 90413 69160</p>
+          <p className="-mb-0">Phone: +91 90413 69160</p>
           <p>kylaviejum@gmail.com</p>
 
           <div className="flex items-center justify-center gap-4 mt-4 text-xl">
-            <FaFacebookF
-              className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
-              size={22}
-            />
-            <FaInstagram
-              className="hover:text-pink-400 transition-colors duration-300 cursor-pointer"
-              size={22}
-            />
+            <a
+              href="https://www.facebook.com/people/La-Vie-Jumeirah-Maison-de-Beaut%C3%A9-by-KY/61584077280090/?rdid=m7grFEeEiTAfMcEb&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1AftmmtQw4%2F"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaFacebookF
+                className="hover:text-blue-400 transition-colors duration-300 cursor-pointer text-white"
+                size={22}
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/laviejumeirah/?igsh=eno5Y2o1ajY2NWZq#"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaInstagram
+                className="hover:text-pink-400 transition-colors duration-300 cursor-pointer text-white"
+                size={22}
+              />
+            </a>
           </div>
         </div>
 
@@ -175,7 +187,7 @@ export default function FooterPage() {
             Working Hours
           </h2>
 
-          <p>Regular: 9:00 AM – 9:00 PM</p>
+          <p className="-mb-0">Regular: 9:00 AM – 9:00 PM</p>
           <p>Winter: 10:00 AM – 8:00 PM</p>
         </div>
       </div>
@@ -184,18 +196,32 @@ export default function FooterPage() {
 
       {/* Social Icons */}
       <div className="py-10 flex items-center justify-center gap-8 text-2xl">
-        <FaFacebookF
-          className="hover:text-blue-400 transition-colors duration-300 cursor-pointer"
-          size={22}
-        />
+        <a
+          href="https://www.facebook.com/people/La-Vie-Jumeirah-Maison-de-Beaut%C3%A9-by-KY/61584077280090/?rdid=m7grFEeEiTAfMcEb&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1AftmmtQw4%2F"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group"
+        >
+          <FaFacebookF
+            size={22}
+            className="text-white transition-colors duration-300 group-hover:text-blue-400 cursor-pointer"
+          />
+        </a>
+
         <FaTwitter
           className="hover:text-blue-300 transition-colors duration-300 cursor-pointer"
           size={22}
         />
-        <FaInstagram
-          className="hover:text-pink-400 transition-colors duration-300 cursor-pointer"
-          size={22}
-        />
+        <a
+          href="https://www.instagram.com/laviejumeirah/?igsh=eno5Y2o1ajY2NWZq#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaInstagram
+            className="hover:text-pink-400 transition-colors duration-300 cursor-pointer text-white"
+            size={22}
+          />
+        </a>
         <FaYoutube
           className="hover:text-red-500 transition-colors duration-300 cursor-pointer"
           size={22}
@@ -203,13 +229,13 @@ export default function FooterPage() {
       </div>
 
       {/* Menu */}
-      <div className="flex flex-wrap items-center justify-center gap-6 text-sm tracking-widest mb-8 px-4">
+      <div className="flex flex-wrap items-center justify-center gap-6 text-sm tracking-widest mb-8 px-4 ">
         {["ABOUT", "SERVICES", "TEAM", "GALLERY", "BLOG", "CONTACT"].map(
           (item) => (
             <Link
               key={item}
               to="#"
-              className="hover:text-white hover:underline transition duration-300"
+              className="text-white hover:underline transition duration-300"
             >
               {item}
             </Link>

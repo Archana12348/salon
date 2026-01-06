@@ -35,7 +35,7 @@ const AboutUs = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(247, 236, 186, ${p.life / 30})`; // golden glitter
+        ctx.fillStyle = `rgba(231, 165, 9, ${p.life / 30})`; // golden glitter
         ctx.fill();
 
         if (p.life <= 0) particles.splice(index, 1);

@@ -60,7 +60,7 @@ export default function MegaMenu({ type, onMouseEnter, onMouseLeave }) {
 function MenuBlock({ title, items }) {
   return (
     <div>
-      <h4 className="font-semibold mb-4 uppercase tracking-wide text-gray-800">
+      <h4 className="font-semibold text-sm mb-4 uppercase tracking-wide text-gray-800">
         {title}
       </h4>
       <ul className="space-y-3">
@@ -68,7 +68,7 @@ function MenuBlock({ title, items }) {
           <li key={index}>
             <Link
               to="#"
-              className="block transition-colors duration-200 hover:text-[#00CED1]"
+              className="block transition-colors duration-200 text-black hover:text-[#00CED1]"
             >
               {item}
             </Link>

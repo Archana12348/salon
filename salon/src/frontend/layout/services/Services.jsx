@@ -98,7 +98,7 @@ export default function ServicesSection() {
     <div className="max-w-7xl mx-auto py-7 sm:px-6 md:py-12">
       {/* Heading */}
       <h2
-        className="text-3xl sm:text-3xl md:text-4xl  text-center mb-10 text-black"
+        className="text-3xl sm:text-3xl md:text-4xl text-center mb-10 text-black"
         style={{ fontFamily: "var(--font-heading--family)" }}
       >
         Our Premium Services
@@ -125,7 +125,7 @@ export default function ServicesSection() {
           <SwiperSlide key={index}>
             <div className="flex flex-col items-center text-center group">
               {/* Image Box */}
-              <div className="relative  flex items-center justify-cente overflow-hidde shadow-lg transition-transform duration-500 group-hover:scale-105 ">
+              <div className="relative  flex items-center justify-cente overflow-hidde transition-transform duration-500 group-hover:scale-105 ">
                 <img
                   src={item.img}
                   alt={item.name}

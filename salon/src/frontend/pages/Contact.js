@@ -16,7 +16,7 @@ export default function ServicesPage() {
       setError(null);
 
       const res = await fetch(
-        "http://127.0.0.1:8000/api/site/sub-categories/4",
+        "https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories/4",
         {
           headers: { Accept: "application/json" },
         }
@@ -47,7 +47,7 @@ export default function ServicesPage() {
       setError(null);
 
       const res = await fetch(
-        `http://127.0.0.1:8000/api/site/all-services/4?page=${page}`,
+        `https://jumeirah.premierwebtechservices.com/backend/api/site/all-services/4?page=${page}`,
         {
           headers: { Accept: "application/json" },
         }
