@@ -220,305 +220,318 @@ export default function ServiceForm({ initialData = {}, onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Basic Info */}
-      <h2 className="text-xl font-bold mb-2">Basic Info</h2>
-      <div>
-        <label>
-          Service Name <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="text"
-          value={serviceName}
-          onChange={(e) => setServiceName(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-        />
-        {errors.serviceName && (
-          <p className="text-red-500">{errors.serviceName}</p>
-        )}
-      </div>
-      <div>
-        <label>Slug</label>
-        <input
-          type="text"
-          value={slug}
-          readOnly
-          className="w-full border rounded px-3 py-2 bg-gray-100"
-        />
-      </div>
-      <div>
-        <label>
-          Category <span className="text-red-500">*</span>
-        </label>
-        <select
-          value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-        >
-          <option value="">Select Category</option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
-        {errors.categoryId && (
-          <p className="text-red-500">{errors.categoryId}</p>
-        )}
-      </div>
-      <div>
-        <label>Subcategory</label>
-        <select
-          value={subcategoryId}
-          onChange={(e) => setSubcategoryId(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-        >
-          <option value="">Select Subcategory</option>
-          {subcategories.map((sc) => (
-            <option key={sc.id} value={sc.id}>
-              {sc.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label>Package</label>
-        <select
-          value={serviceCategory}
-          onChange={(e) => setServiceCategory(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-        >
-          <option value="">Select Package</option>
-          {packages.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label>
-          Duration (minutes) <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="number"
-          value={duration}
-          onChange={(e) => setDuration(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-        />
-        {errors.duration && <p className="text-red-500">{errors.duration}</p>}
-      </div>
-      <div>
-        <label>Description</label>
-        <RichTextEditor value={description} onChange={setDescription} />
-      </div>
-
-      {/* Media */}
-      <h2 className="text-xl font-bold mb-2">Media</h2>
-      <div>
-        <label>Main Image</label>
-        <input type="file" onChange={handleMainImageChange} />
-        {mainImagePreview && (
-          <img
-            src={mainImagePreview}
-            alt="Main"
-            className="w-32 h-32 mt-2 object-cover"
-          />
-        )}
-      </div>
-      <div>
-        <label>Gallery</label>
-        <div
-          {...getRootProps()}
-          className="border border-dashed p-4 cursor-pointer text-center"
-        >
-          <input {...getInputProps()} />
-          <p>Drag & drop images here, or click to select</p>
-        </div>
-        <div className="flex gap-2 mt-2 flex-wrap">
-          {galleryPreview.map((src, i) => (
-            <img
-              key={i}
-              src={src}
-              alt={`Gallery ${i}`}
-              className="w-24 h-24 object-cover"
+    <div className="p-6 bg-sky shadow-lg border-black-200 rounded-md">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Basic Info */}
+        <fieldset className="border border-gray-700 rounded-lg p-4 mb-6">
+          <h2 className="px-3 text-xl font-bold bg-white">Basic Info</h2>
+          <div>
+            <label>
+              Service Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={serviceName}
+              onChange={(e) => setServiceName(e.target.value)}
+              className="w-full border rounded px-3 py-2"
             />
-          ))}
-        </div>
-      </div>
+            {errors.serviceName && (
+              <p className="text-red-500">{errors.serviceName}</p>
+            )}
+          </div>
+          <div>
+            <label>Slug</label>
+            <input
+              type="text"
+              value={slug}
+              readOnly
+              className="w-full border rounded px-3 py-2 bg-gray-100"
+            />
+          </div>
+          <div>
+            <label>
+              Category <span className="text-red-500">*</span>
+            </label>
+            <select
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            >
+              <option value="">Select Category</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            {errors.categoryId && (
+              <p className="text-red-500">{errors.categoryId}</p>
+            )}
+          </div>
+          <div>
+            <label>Subcategory</label>
+            <select
+              value={subcategoryId}
+              onChange={(e) => setSubcategoryId(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            >
+              <option value="">Select Subcategory</option>
+              {subcategories.map((sc) => (
+                <option key={sc.id} value={sc.id}>
+                  {sc.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label>Package</label>
+            <select
+              value={serviceCategory}
+              onChange={(e) => setServiceCategory(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            >
+              <option value="">Select Package</option>
+              {packages.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label>
+              Duration (minutes) <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            />
+            {errors.duration && (
+              <p className="text-red-500">{errors.duration}</p>
+            )}
+          </div>
+          <div>
+            <label>Description</label>
+            <RichTextEditor value={description} onChange={setDescription} />
+          </div>
+        </fieldset>
 
-      {/* Pricing & Location */}
-      <h2 className="text-xl font-bold mb-2">Pricing & Location</h2>
-      <div>
-        <label>
-          Price <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-        />
-        {errors.price && <p className="text-red-500">{errors.price}</p>}
-      </div>
-      <div>
-        <label>Location</label>
-        <select
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-        >
-          <option value="onsite">Onsite</option>
-          <option value="online">Online</option>
-        </select>
-      </div>
-      <div>
-        <label>Status</label>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-        >
-          <option value={1}>Active</option>
-          <option value={0}>Inactive</option>
-        </select>
-      </div>
-
-      {/* Availability */}
-      <h2 className="text-xl font-bold mb-2">Availability</h2>
-      <div>
-        <label>Type</label>
-        <select
-          value={availability}
-          onChange={(e) => setAvailability(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-        >
-          <option value="weekly">Weekly</option>
-          <option value="specific_date">Specific Date</option>
-        </select>
-      </div>
-
-      {/* Weekly Slots */}
-      {availability === "weekly" && (
-        <div className="grid grid-cols-2 gap-3">
-          {days.map((day) => (
-            <div key={day}>
-              <p className="capitalize font-medium">{day}</p>
-              <input
-                type="time"
-                value={weeklySlots[day]?.from || ""}
-                onChange={(e) => updateSlot(day, "from", e.target.value)}
-                className="border rounded px-2 py-1"
+        <fieldset className="border border-gray-300 rounded-lg p-4 mb-6">
+          {/* Media */}
+          <h2 className="text-xl font-bold mb-2">Media</h2>
+          <div>
+            <label>Main Image</label>
+            <input type="file" onChange={handleMainImageChange} />
+            {mainImagePreview && (
+              <img
+                src={mainImagePreview}
+                alt="Main"
+                className="w-32 h-32 mt-2 object-cover"
               />
+            )}
+          </div>
+          <div>
+            <label>Gallery</label>
+            <div
+              {...getRootProps()}
+              className="border border-dashed p-4 cursor-pointer text-center"
+            >
+              <input {...getInputProps()} />
+              <p>Drag & drop images here, or click to select</p>
+            </div>
+            <div className="flex gap-2 mt-2 flex-wrap">
+              {galleryPreview.map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt={`Gallery ${i}`}
+                  className="w-24 h-24 object-cover"
+                />
+              ))}
+            </div>
+          </div>
+        </fieldset>
+        <fieldset className="border border-gray-300 rounded-lg p-4 mb-6">
+          {/* Pricing & Location */}
+          <h2 className="text-xl font-bold mb-2">Pricing & Location</h2>
+          <div>
+            <label>
+              Price <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            />
+            {errors.price && <p className="text-red-500">{errors.price}</p>}
+          </div>
+          <div>
+            <label>Location</label>
+            <select
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            >
+              <option value="onsite">Onsite</option>
+              <option value="online">Online</option>
+            </select>
+          </div>
+          <div>
+            <label>Status</label>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            >
+              <option value={1}>Active</option>
+              <option value={0}>Inactive</option>
+            </select>
+          </div>
+        </fieldset>
+        <fieldset className="border border-gray-300 rounded-lg p-4 mb-6">
+          {/* Availability */}
+          <h2 className="text-xl font-bold mb-2">Availability</h2>
+          <div>
+            <label>Type</label>
+            <select
+              value={availability}
+              onChange={(e) => setAvailability(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            >
+              <option value="weekly">Weekly</option>
+              <option value="specific_date">Specific Date</option>
+            </select>
+          </div>
+
+          {/* Weekly Slots */}
+          {availability === "weekly" && (
+            <div className="grid grid-cols-2 gap-3">
+              {days.map((day) => (
+                <div key={day}>
+                  <p className="capitalize font-medium">{day}</p>
+                  <input
+                    type="time"
+                    value={weeklySlots[day]?.from || ""}
+                    onChange={(e) => updateSlot(day, "from", e.target.value)}
+                    className="border rounded px-2 py-1"
+                  />
+                  <input
+                    type="time"
+                    value={weeklySlots[day]?.to || ""}
+                    onChange={(e) => updateSlot(day, "to", e.target.value)}
+                    className="border rounded px-2 py-1"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Specific Dates */}
+          {availability === "specific_date" && (
+            <div>
+              <button
+                type="button"
+                onClick={() =>
+                  setSpecificDates([
+                    ...specificDates,
+                    { date: new Date(), from: defaultFrom, to: defaultTo },
+                  ])
+                }
+                className="mb-2 bg-blue-500 text-white px-3 py-1 rounded"
+              >
+                + Add Date
+              </button>
+
+              {specificDates.map((d, i) => (
+                <div key={i} className="grid grid-cols-3 gap-2 mt-2">
+                  <DatePicker
+                    selected={d.date}
+                    onChange={(date) => {
+                      const updated = [...specificDates];
+                      updated[i].date = date;
+                      setSpecificDates(updated);
+                    }}
+                    dateFormat="dd/MM/yyyy"
+                  />
+
+                  <DatePicker
+                    selected={d.from}
+                    onChange={(date) => {
+                      const updated = [...specificDates];
+                      updated[i].from = date;
+                      setSpecificDates(updated);
+                    }}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={30}
+                    dateFormat="HH:mm"
+                  />
+
+                  <DatePicker
+                    selected={d.to}
+                    onChange={(date) => {
+                      const updated = [...specificDates];
+                      updated[i].to = date;
+                      setSpecificDates(updated);
+                    }}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={30}
+                    dateFormat="HH:mm"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </fieldset>
+        <fieldset className="border border-gray-300 rounded-lg p-4 mb-6">
+          {/* FAQ */}
+          <h2 className="text-xl font-bold mb-2">FAQ</h2>
+          {faq.map((f, i) => (
+            <div key={i} className="grid grid-cols-1 gap-2 mb-2">
+              <label>Question</label>
               <input
-                type="time"
-                value={weeklySlots[day]?.to || ""}
-                onChange={(e) => updateSlot(day, "to", e.target.value)}
-                className="border rounded px-2 py-1"
+                type="text"
+                placeholder="Enter question"
+                value={f.question}
+                onChange={(e) => {
+                  const x = [...faq];
+                  x[i].question = e.target.value;
+                  setFaq(x);
+                }}
+                className="w-full border rounded px-3 py-2"
+              />
+              <label>Answer</label>
+              <textarea
+                placeholder="Enter answer"
+                value={f.answer}
+                onChange={(e) => {
+                  const x = [...faq];
+                  x[i].answer = e.target.value;
+                  setFaq(x);
+                }}
+                className="w-full border rounded px-3 py-2"
               />
             </div>
           ))}
-        </div>
-      )}
-
-      {/* Specific Dates */}
-      {availability === "specific_date" && (
-        <div>
           <button
             type="button"
-            onClick={() =>
-              setSpecificDates([
-                ...specificDates,
-                { date: new Date(), from: defaultFrom, to: defaultTo },
-              ])
-            }
-            className="mb-2 bg-blue-500 text-white px-3 py-1 rounded"
+            onClick={() => setFaq([...faq, { question: "", answer: "" }])}
+            className="bg-blue-500 text-white px-3 py-1 rounded mb-4"
           >
-            + Add Date
+            + Add FAQ
           </button>
-
-          {specificDates.map((d, i) => (
-            <div key={i} className="grid grid-cols-3 gap-2 mt-2">
-              <DatePicker
-                selected={d.date}
-                onChange={(date) => {
-                  const updated = [...specificDates];
-                  updated[i].date = date;
-                  setSpecificDates(updated);
-                }}
-                dateFormat="dd/MM/yyyy"
-              />
-
-              <DatePicker
-                selected={d.from}
-                onChange={(date) => {
-                  const updated = [...specificDates];
-                  updated[i].from = date;
-                  setSpecificDates(updated);
-                }}
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={30}
-                dateFormat="HH:mm"
-              />
-
-              <DatePicker
-                selected={d.to}
-                onChange={(date) => {
-                  const updated = [...specificDates];
-                  updated[i].to = date;
-                  setSpecificDates(updated);
-                }}
-                showTimeSelect
-                showTimeSelectOnly
-                timeIntervals={30}
-                dateFormat="HH:mm"
-              />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* FAQ */}
-      <h2 className="text-xl font-bold mb-2">FAQ</h2>
-      {faq.map((f, i) => (
-        <div key={i} className="grid grid-cols-1 gap-2 mb-2">
-          <label>Question</label>
-          <input
-            type="text"
-            placeholder="Enter question"
-            value={f.question}
-            onChange={(e) => {
-              const x = [...faq];
-              x[i].question = e.target.value;
-              setFaq(x);
-            }}
-            className="w-full border rounded px-3 py-2"
-          />
-          <label>Answer</label>
-          <textarea
-            placeholder="Enter answer"
-            value={f.answer}
-            onChange={(e) => {
-              const x = [...faq];
-              x[i].answer = e.target.value;
-              setFaq(x);
-            }}
-            className="w-full border rounded px-3 py-2"
-          />
-        </div>
-      ))}
-      <button
-        type="button"
-        onClick={() => setFaq([...faq, { question: "", answer: "" }])}
-        className="bg-blue-500 text-white px-3 py-1 rounded mb-4"
-      >
-        + Add FAQ
-      </button>
-
-      <button type="submit" className="bg-red-600 text-white px-5 py-2 rounded">
-        Save Service
-      </button>
-    </form>
+        </fieldset>
+        <button
+          type="submit"
+          className="bg-red-600 text-white px-5 py-2 rounded"
+        >
+          Save Service
+        </button>
+      </form>
+    </div>
   );
 }
