@@ -78,6 +78,7 @@
 //     </div>
 //   );
 // }
+
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
@@ -95,6 +96,14 @@ const services = [
 
 export default function ServicesSection() {
   return (
+    //     <div
+    //   className="w-full py-16 sm:py-20 md:py-24 "
+    //   style={{
+    //     backgroundImage:
+    //       "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('/gallery/bbbbb.jpg')",
+    //     fontFamily: "var(--font-heading--family)",
+    //   }}
+    // ></div>
     <div className="max-w-7xl mx-auto py-7 sm:px-6 md:py-12">
       {/* Heading */}
       <h2
