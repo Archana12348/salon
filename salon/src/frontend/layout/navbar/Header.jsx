@@ -192,6 +192,7 @@
 // }
 
 import { useEffect, useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { User, Calendar, Search, MapPin, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import MegaMenu from "./MegaMenu";
@@ -203,7 +204,8 @@ export default function HeaderWithVideo() {
   const [activeMenu, setActiveMenu] = useState(null);
   const closeMenu = () => setActiveMenu(null);
   const closeTimerRef = useRef(null);
-
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
   const openMenu = (menu) => {
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current);
@@ -222,18 +224,43 @@ export default function HeaderWithVideo() {
       clearTimeout(closeTimerRef.current);
     }
   };
+
   useEffect(() => {
+    if (isHomePage) {
+      window.scrollTo(0, 0); // 👈 scroll top
+      setShowNavbar(false); // 👈 navbar turant hide
+    } else {
+      setShowNavbar(true); // 👈 other pages par fixed
+    }
+  }, [isHomePage]);
+
+  useEffect(() => {
+    if (!isHomePage) {
+      setShowNavbar(true); // 👉 other pages par navbar FIX rahe
+      return;
+    }
+
     const handleScroll = () => {
-      if (window.scrollY > 120) {
-        setShowNavbar(true);
-      } else {
-        setShowNavbar(false);
-      }
+      setShowNavbar(window.scrollY > 120);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHomePage]);
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 120) {
+  //       setShowNavbar(true);
+  //     } else {
+  //       setShowNavbar(false);
+  //     }
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
+
   return (
     <>
       {/* SCROLL NAVBAR */}
@@ -271,7 +298,13 @@ export default function HeaderWithVideo() {
 
           {/* RIGHT ICONS */}
           <div className="flex gap-3 sm:gap-4">
-            <User size={16} className="sm:size-[18px] cursor-pointer" />
+            <Link to="/login">
+              <User
+                size={16}
+                className="sm:size-[18px] cursor-pointer text-black"
+              />
+            </Link>
+
             <Calendar size={16} className="sm:size-[18px] cursor-pointer" />
           </div>
         </div>
@@ -288,7 +321,7 @@ export default function HeaderWithVideo() {
     "
           style={{ fontFamily: "var(--font-heading--family)" }}
         >
-          <Link to="#" className="text-black">
+          <Link to="/" className="text-black">
             Home
           </Link>
           <Link to="#" className="text-black">
@@ -337,128 +370,161 @@ export default function HeaderWithVideo() {
           </Link>
         </nav>
       </div>
+      {isHomePage && (
+        <header className="relative w-full h-screen overflow-hidden">
+          {/* MOBILE HEADER */}
+          <div className=" ml-16 flex items-center justify-between px-4 mt-[16px] md:hidden absolute top-0 left-0 w-full z-20 text-white">
+            <Menu
+              className="cursor-pointer mt-2"
+              size={20}
+              onClick={() => setMobileMenuOpen(true)}
+            />
 
-      <header className="relative w-full h-screen overflow-hidden">
-        {/* MOBILE HEADER */}
-        <div className=" ml-16 flex items-center justify-between px-4 mt-[16px] md:hidden absolute top-0 left-0 w-full z-20 text-white">
-          <Menu
-            className="cursor-pointer mt-2"
-            size={20}
-            onClick={() => setMobileMenuOpen(true)}
+            <div />
+          </div>
+          {/* Background Video */}
+          <video
+            className="absolute top-0 left-0 w-full h-full object-cover"
+            src="/gallery/videobg.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
           />
 
-          <div />
-        </div>
-        {/* Background Video */}
-        <video
-          className="absolute top-0 left-0 w-full h-full object-cover"
-          src="/gallery/videobg.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
+          {/* Overlay */}
+          <div className="absolute inset-0 " />
 
-        {/* Overlay */}
-        <div className="absolute inset-0 " />
+          {/* Content */}
+          <div className="relative z-10 text-white h-full flex flex-col">
+            {/* TOP BAR */}
+            <div className="flex items-center justify-between px-4 sm:px-6 md:px-10 py-4">
+              {/* Left Icons */}
+              <div className="flex gap-3 sm:gap-4">
+                <Search size={20} className="cursor-pointer" />
+                <MapPin size={20} className="cursor-pointer" />
+              </div>
 
-        {/* Content */}
-        <div className="relative z-10 text-white h-full flex flex-col">
-          {/* TOP BAR */}
-          <div className="flex items-center justify-between px-4 sm:px-6 md:px-10 py-4">
-            {/* Left Icons */}
-            <div className="flex gap-3 sm:gap-4">
-              <Search size={20} className="cursor-pointer" />
-              <MapPin size={20} className="cursor-pointer" />
+              {/* Center Title */}
+              <h1
+                className="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wide text-center mt-4 md:mt-11 lg:mt-4"
+                style={{ fontFamily: "var(--font-heading--family)" }}
+              >
+                LA VIE JUMERIAH
+              </h1>
+
+              {/* Right Icons */}
+              <div className="flex gap-3 sm:gap-4">
+                <Link to="/login">
+                  <User size={20} className="cursor-pointer text-white" />
+                </Link>
+                <Calendar size={20} className="cursor-pointer" />
+              </div>
             </div>
 
-            {/* Center Title */}
-            <h1
-              className="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wide text-center mt-4 md:mt-11 lg:mt-4"
+            {/* NAVBAR */}
+            <nav
+              className="hidden md:flex mt-7 md:mt-11 lg:mt-7  flex-wrap justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest px-4 text-center text-white"
               style={{ fontFamily: "var(--font-heading--family)" }}
             >
-              LA VIE JUMERIAH
-            </h1>
+              <Link to="/" className="text-white">
+                Home
+              </Link>
+              <Link to="about" className="text-white">
+                About Us
+              </Link>
+              {/* ===== SERVICES ===== */}
+              <div
+                className="relative"
+                onMouseEnter={() => openMenu("services")}
+                // onMouseLeave={closeMenuWithDelay}
+              >
+                <Link to="#" className="hover:underline text-white ">
+                  Services
+                </Link>
 
-            {/* Right Icons */}
-            <div className="flex gap-3 sm:gap-4">
-              <User size={20} className="cursor-pointer" />
-              <Calendar size={20} className="cursor-pointer" />
+                {activeMenu === "services" && (
+                  <MegaMenu
+                    type="services"
+                    onMouseEnter={cancelClose}
+                    onMouseLeave={closeMenuWithDelay}
+                  />
+                )}
+              </div>
+
+              {/* ===== PRODUCTS ===== */}
+              <div
+                className="relative"
+                onMouseEnter={() => openMenu("products")}
+                // onMouseLeave={closeMenuWithDelay}
+              >
+                <Link to="#" className="hover:underline text-white">
+                  Products
+                </Link>
+
+                {activeMenu === "products" && (
+                  <MegaMenu
+                    type="products"
+                    onMouseEnter={cancelClose}
+                    onMouseLeave={closeMenuWithDelay}
+                  />
+                )}
+              </div>
+
+              <Link to="contact" className="text-white">
+                Contact Us
+              </Link>
+            </nav>
+
+            {/* BUTTONS */}
+            <div
+              className="mt-auto mb-16 sm:mb-24 flex flex-col sm:flex-row gap-6 justify-center px-4"
+              style={{ fontFamily: "var(--font-heading--family)" }}
+            >
+              {/* Shop Now */}
+              <button
+                className="
+      relative overflow-hidden
+      px-8 sm:px-10 py-3
+      text-xs sm:text-sm uppercase tracking-wider font-semibold
+      rounded-full
+      bg-gradient-to-r from-[#00CED1] via-[#20B2AA] to-[#00CED1]
+      text-black
+      shadow-[0_0_20px_rgba(0,206,209,0.5)]
+      transition-all duration-300
+      hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
+    "
+              >
+                <span className="relative z-10">Shop Now</span>
+                <span className="absolute inset-0 bg-white opacity-0 hover:opacity-20 transition" />
+              </button>
+
+              {/* Book Appointment */}
+              <button
+                className="
+      relative overflow-hidden
+      px-8 sm:px-10 py-3
+      text-xs sm:text-sm uppercase tracking-wider font-semibold
+      rounded-full
+      border border-[#00CED1]
+      text-[#00CED1]
+      bg-transparent
+      shadow-[0_0_15px_rgba(0,206,209,0.4)]
+      transition-all duration-300
+      hover:bg-[#00CED1] hover:text-white
+      hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
+    "
+              >
+                Book Appointment
+              </button>
             </div>
           </div>
-
-          {/* NAVBAR */}
-          <nav
-            className="hidden md:flex mt-7 md:mt-11 lg:mt-7  flex-wrap justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest px-4 text-center text-white"
-            style={{ fontFamily: "var(--font-heading--family)" }}
-          >
-            <Link to="/" className="text-white">
-              Home
-            </Link>
-            <Link to="about" className="text-white">
-              About Us
-            </Link>
-            {/* ===== SERVICES ===== */}
-            <div
-              className="relative"
-              onMouseEnter={() => openMenu("services")}
-              // onMouseLeave={closeMenuWithDelay}
-            >
-              <Link to="#" className="hover:underline text-white ">
-                Services
-              </Link>
-
-              {activeMenu === "services" && (
-                <MegaMenu
-                  type="services"
-                  onMouseEnter={cancelClose}
-                  onMouseLeave={closeMenuWithDelay}
-                />
-              )}
-            </div>
-
-            {/* ===== PRODUCTS ===== */}
-            <div
-              className="relative"
-              onMouseEnter={() => openMenu("products")}
-              // onMouseLeave={closeMenuWithDelay}
-            >
-              <Link to="#" className="hover:underline text-white">
-                Products
-              </Link>
-
-              {activeMenu === "products" && (
-                <MegaMenu
-                  type="products"
-                  onMouseEnter={cancelClose}
-                  onMouseLeave={closeMenuWithDelay}
-                />
-              )}
-            </div>
-
-            <Link to="contact" className="text-white">
-              Contact Us
-            </Link>
-          </nav>
-
-          {/* BUTTONS */}
-          <div
-            className="mt-auto mb-16 sm:mb-24 flex flex-col sm:flex-row gap-4 justify-center px-4"
-            style={{ fontFamily: "var(--font-heading--family)" }}
-          >
-            <button className=" bg-[#00CED1] text-black   px-6 sm:px-8 py-3 text-xs sm:text-sm uppercase hover:bg-white transition">
-              Shop Now
-            </button>
-            <button className=" bg-[#00CED1] text-black   px-6 sm:px-8 py-3 text-xs sm:text-sm uppercase hover:bg-white transition">
-              Book Appointment
-            </button>
-          </div>
-        </div>
-        <MobileMenu
-          isOpen={mobileMenuOpen}
-          onClose={() => setMobileMenuOpen(false)}
-        />
-      </header>
+          <MobileMenu
+            isOpen={mobileMenuOpen}
+            onClose={() => setMobileMenuOpen(false)}
+          />
+        </header>
+      )}
     </>
   );
 }

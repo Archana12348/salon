@@ -38,7 +38,7 @@ const AdminHeader = () => {
           <Button variant="ghost" size="icon" className="md:hidden">
             <Menu className="h-5 w-5 text-black" />
           </Button>
-          <h1 className="text-lg font-semibold text-red-600">Salon</h1>
+          <h1 className="text-lg font-semibold text-[#00CED1]">Salon</h1>
         </div>
 
         {/* Right */}

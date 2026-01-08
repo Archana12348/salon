@@ -3,6 +3,7 @@ import { useLocation, Outlet } from "react-router-dom";
 import Header from "../layout/navbar/Header";
 import Footer from "../layout/navbar/Footer";
 import AnnouncementBar from "./navbar/Topbar";
+import SparkleCanvas from "../components/common/effect/SparkleCanvas";
 
 // 2. Remove { children } from the function arguments
 export default function MainLayout() {
@@ -11,6 +12,7 @@ export default function MainLayout() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <SparkleCanvas />
       <AnnouncementBar />
       <Header />
 

@@ -10,6 +10,8 @@ import UserProfile from "./pages/UserProfile/UserProfile";
 import AboutUs from "./pages/aboutus/AboutUs";
 import Team from "./pages/team/Team";
 import ProductnewProfile from "./pages/ProductDetails";
+import ForgetPassword from "./pages/auth/Forget";
+import ContactUs from "./pages/contactus/ContactUs";
 // import NotFound from "./pages/NotFound";
 
 export const FrontendRoutes = (
@@ -24,12 +26,15 @@ export const FrontendRoutes = (
       <Route path="aboutus" element={<AboutUs />} />
       <Route path="team" element={<Team />} />
       <Route path="userprofile/:slug" element={<UserProfile />} />
+      <Route path="contactUs" element={<ContactUs />} />
     </Route>
     <Route path="contact" element={<Contact />} />
     <Route path="productdetails" element={<ProductnewProfile />} />
+    <Route path="contactUs" element={<ContactUs />} />
 
     {/* 🔹 LOGIN / SIGNUP OUTSIDE FRONT LAYOUT */}
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<Signup />} />
+    <Route path="/forget-password" element={<ForgetPassword />} />
   </>
 );
