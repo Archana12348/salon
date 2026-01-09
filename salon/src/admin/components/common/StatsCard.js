@@ -1,31 +1,15 @@
-import React from "react";
-import { TrendingUp, TrendingDown } from "lucide-react";
-
-const StatsCard = ({ stat }) => {
+const StatsCard = ({ title, value, icon: Icon }) => {
   return (
-    <div className="flex flex-col justify-between p-4 rounded-xl shadow-md dark:bg-transparent border border-gray-200 dark:border-gray-700 min-w-[150px]">
-      {/* Icon + Title Row */}
-      <div className="flex aling-items-center gap-2">
-        {stat.icon && <stat.icon className="text-gray-400 text-xl" />}
-        <p className="text-m text-black font-medium dark:text-gray-300">
-          {stat.title}
-        </p>
+    <div className="rounded-xl border bg-white p-6 shadow-sm">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xl text-gray-500 font-semibold ">{title}</p>
+          <h2 className="text-3xl font-bold mt-1">{value}</h2>
+        </div>
+        <div className="rounded-full bg-gray-100 p-3">
+          <Icon className="h-6 w-6 text-gray-700" />
+        </div>
       </div>
-
-      {/* Value */}
-      <h3 className="text-2xl font-bold text-black dark:text-white">
-        {stat.value}
-      </h3>
-
-      {/* Change */}
-      {/* <p className="text-xs text-muted-foreground">
-        {stat.trend === "up" ? (
-          <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
-        ) : (
-          <TrendingDown className="h-3 w-3 mr-1 text-red-500" />
-        )}
-        {stat.change} from last month
-      </p> */}
     </div>
   );
 };

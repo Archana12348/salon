@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
 
-const TimeSlot = ({ selectedDate, selectedTime, setSelectedTime, onBack }) => {
+const TimeSlot = ({
+  selectedDate,
+  selectedTime,
+  setSelectedTime,
+  onBack,
+  onNext,
+}) => {
   const [takenSlots, setTakenSlots] = useState([]);
   const [slots, setSlots] = useState([]);
 
   // Generate time RANGE slots like "10:00 AM - 12:00 PM"
   const generateRangeSlots = (startHour, endHour, duration = 2) => {
     const result = [];
-
     for (let hour = startHour; hour < endHour; hour += duration) {
       const start = formatTime(hour);
       const end = formatTime(hour + duration);
       result.push(`${start} - ${end}`);
     }
-
     return result;
   };
 
@@ -24,63 +28,86 @@ const TimeSlot = ({ selectedDate, selectedTime, setSelectedTime, onBack }) => {
     return `${displayHour.toString().padStart(2, "0")}:00 ${suffix}`;
   };
 
+  // Check if slot is in the past
+  const isPastSlot = (time) => {
+    if (!selectedDate) return false;
+
+    const [fromRaw] = time.split(" - ");
+    let [hours, minutes] = fromRaw.split(":");
+    const modifier = fromRaw.includes("PM") ? "PM" : "AM";
+    hours = parseInt(hours);
+
+    if (modifier === "PM" && hours !== 12) hours += 12;
+    if (modifier === "AM" && hours === 12) hours = 0;
+
+    const slotDateTime = new Date(selectedDate);
+    slotDateTime.setHours(hours, parseInt(minutes), 0, 0);
+
+    return slotDateTime < new Date();
+  };
+
+  // Generate slots based on day
   useEffect(() => {
     if (!selectedDate) return;
 
-    const day = selectedDate.getDay(); // 0 = Sunday, 6 = Saturday
-
+    const day = selectedDate.getDay(); // 0 = Sun, 6 = Sat
     let generated = [];
 
     if (day >= 1 && day <= 5) {
       // Mon–Fri
-      generated = generateRangeSlots(10, 20, 2); // 10 AM - 8 PM (2hr slots)
+      generated = generateRangeSlots(10, 20, 2); // 10 AM - 8 PM
     } else {
       // Sat–Sun
-      generated = generateRangeSlots(10, 19, 2); // 10 AM - 7 PM (2hr slots)
+      generated = generateRangeSlots(10, 19, 2); // 10 AM - 7 PM
     }
 
     setSlots(generated);
+
+    // Reset taken slots (or fetch from API)
     setTakenSlots([]);
   }, [selectedDate]);
 
   if (!selectedDate) return null;
 
-  const handleSelect = (time) => {
-    setSelectedTime(time);
-  };
-
   return (
     <div className="bg-white p-5 shadow-lg rounded-2xl mt-5">
       <h2 className="text-2xl font-semibold mb-4 text-center">Select Time</h2>
 
-      {/* ⭐⭐⭐ THREE COLUMN GRID ⭐⭐⭐ */}
+      {/* Grid of slots */}
       <div className="grid grid-cols-3 gap-3">
         {slots.map((time) => {
-          const isTaken = takenSlots.includes(time);
+          const isTaken = takenSlots.includes(time) || isPastSlot(time);
+          const isSelected = selectedTime === time;
 
           return (
             <button
               key={time}
               disabled={isTaken}
-              onClick={() => handleSelect(time)}
-              className={`p-3 rounded-lg border text-sm transition
-                ${
-                  isTaken
-                    ? "bg-red-200 cursor-not-allowed"
-                    : "bg-gray-100 hover:bg-blue-600 hover:text-white"
-                }
-                ${
-                  selectedTime === time
-                    ? "bg-blue-600 text-white shadow-md"
-                    : ""
-                }
-              `}
+              onClick={() => setSelectedTime(time)}
+              className={`relative p-3 rounded-lg border text-sm transition
+        ${
+          isTaken
+            ? "bg-red-200 cursor-not-allowed"
+            : "bg-gray-100 hover:bg-blue-600 hover:text-white"
+        }
+        ${isSelected && !isTaken ? "text-white shadow-md" : ""}
+      `}
             >
-              {isTaken ? `${time} (Taken)` : time}
+              {/* Glow effect */}
+              {isSelected && !isTaken && (
+                <span className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-sky-400 to-sky-400 opacity-50 blur-xl rounded-lg z-0"></span>
+              )}
+
+              {/* Button text on top */}
+              <span className="relative z-10">
+                {isTaken ? `${time} (Unavailable)` : time}
+              </span>
             </button>
           );
         })}
       </div>
+
+      {/* Back button */}
       <div className="flex gap-3 mt-5">
         <button
           type="button"
@@ -88,6 +115,13 @@ const TimeSlot = ({ selectedDate, selectedTime, setSelectedTime, onBack }) => {
           className="flex-1 bg-gray-200 py-3 rounded-xl"
         >
           Back
+        </button>
+        <button
+          type="button"
+          onClick={onNext}
+          className="flex-1 bg-gray-200 py-3 rounded-xl"
+        >
+          Next
         </button>
       </div>
     </div>

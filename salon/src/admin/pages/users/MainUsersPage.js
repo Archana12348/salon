@@ -1,386 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import Swal from "sweetalert2";
-// import { useNavigate } from "react-router-dom";
-// import { Eye, Edit, Trash2 } from "lucide-react";
-// import { toast } from "react-toastify";
-// import Button from "../../components/ui/Button";
-
-// const UsersListPage = () => {
-//   const [users, setUsers] = useState([]); // current page users from backend
-//   const [allUsers, setAllUsers] = useState([]); // kept for compatibility but not used to filter client-side
-//   const [selectedUsers, setSelectedUsers] = useState([]);
-//   const [searchTerm, setSearchTerm] = useState("");
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [usersPerPage, setUsersPerPage] = useState(10); // Default per page
-//   const [total, setTotal] = useState(0);
-//   const [loading, setLoading] = useState(false);
-//   const navigate = useNavigate();
-
-//   // Fetch users from API (server-side pagination & search)
-//   const fetchUsers = async () => {
-//     try {
-//       setLoading(true);
-//       const res = await axios.get(
-//         `https://tyka.premierhostings.com/backend/api/users?page=${currentPage}&perPage=${usersPerPage}&search=${encodeURIComponent(
-//           searchTerm
-//         )}`
-//       );
-//       // Expecting response structure similar to coupons: { data: [...], total: <number> }
-//       const data = res.data?.data ?? res.data ?? [];
-//       const totalCount =
-//         res.data?.total ?? (Array.isArray(data) ? data.length : 0);
-
-//       setUsers(data);
-//       setAllUsers(data); // keep as-is so other logic that references allUsers doesn't break
-//       setTotal(totalCount);
-//       // clear selection for items not on current page
-//       setSelectedUsers((prev) =>
-//         prev.filter((id) => data.some((u) => u.id === id))
-//       );
-//     } catch (error) {
-//       console.error("Failed to fetch users", error);
-//       toast.error("Failed to load users");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchUsers();
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [currentPage, usersPerPage, searchTerm]);
-
-//   // Single delete
-//   const handleDelete = async (id) => {
-//     const result = await Swal.fire({
-//       title: "Are you sure?",
-//       text: "This user will be permanently deleted!",
-//       icon: "warning",
-//       showCancelButton: true,
-//       confirmButtonColor: "#d33",
-//       cancelButtonColor: "#3085d6",
-//       confirmButtonText: "Yes, delete it!",
-//     });
-
-//     if (result.isConfirmed) {
-//       try {
-//         await axios.delete(
-//           `https://tyka.premierhostings.com/backend/api/users/${id}`
-//         );
-//         toast.success("User deleted successfully");
-//         fetchUsers();
-//       } catch (error) {
-//         console.error("Delete failed", error);
-//         toast.error("Failed to delete user");
-//       }
-//     }
-//   };
-
-//   // Bulk Delete with SweetAlert success
-//   const handleBulkDelete = async () => {
-//     if (selectedUsers.length === 0) {
-//       toast.warning("No users selected");
-//       return;
-//     }
-
-//     const result = await Swal.fire({
-//       title: `Delete ${selectedUsers.length} selected users?`,
-//       text: "This action cannot be undone.",
-//       icon: "warning",
-//       showCancelButton: true,
-//       confirmButtonColor: "#d33",
-//       cancelButtonColor: "#3085d6",
-//       confirmButtonText: "Yes, delete them!",
-//     });
-
-//     if (!result.isConfirmed) return;
-
-//     try {
-//       try {
-//         const bulkResp = await axios.post(
-//           "https://tyka.premierhostings.com/backend/api/users/bulk-delete",
-//           { ids: selectedUsers }
-//         );
-//         if (bulkResp?.data?.success === false) throw new Error("Bulk failed");
-//       } catch (bulkError) {
-//         // fallback to individual delete
-//         await Promise.all(
-//           selectedUsers.map((id) =>
-//             axios.delete(
-//               `https://tyka.premierhostings.com/backend/api/users/${id}`
-//             )
-//           )
-//         );
-//       }
-//       setSelectedUsers([]);
-//       fetchUsers();
-
-//       Swal.fire(
-//         "Deleted!",
-//         "Selected users have been deleted successfully.",
-//         "success"
-//       );
-//     } catch (error) {
-//       console.error("Bulk delete failed", error);
-//       Swal.fire("Error!", "Failed to delete selected users.", "error");
-//     }
-//   };
-
-//   const totalPages = Math.max(1, Math.ceil(total / usersPerPage));
-
-//   const getPageNumbers = () => {
-//     const pages = [];
-//     const maxVisiblePages = 3;
-//     if (totalPages <= maxVisiblePages) {
-//       for (let i = 1; i <= totalPages; i++) pages.push(i);
-//     } else {
-//       if (currentPage <= 2) pages.push(1, 2, 3, "...", totalPages);
-//       else if (currentPage >= totalPages - 1)
-//         pages.push(1, "...", totalPages - 2, totalPages - 1, totalPages);
-//       else
-//         pages.push(
-//           1,
-//           "...",
-//           currentPage - 1,
-//           currentPage,
-//           currentPage + 1,
-//           "...",
-//           totalPages
-//         );
-//     }
-//     return pages;
-//   };
-
-//   const toggleSelectUser = (id) => {
-//     setSelectedUsers((prev) =>
-//       prev.includes(id) ? prev.filter((uid) => uid !== id) : [...prev, id]
-//     );
-//   };
-
-//   const toggleSelectAll = () => {
-//     if (selectedUsers.length === users.length && users.length > 0) {
-//       setSelectedUsers([]);
-//     } else {
-//       setSelectedUsers(users.map((u) => u.id));
-//     }
-//   };
-
-//   const areAllOnPageSelected =
-//     users.length > 0 && users.every((u) => selectedUsers.includes(u.id));
-
-//   return (
-//     <div className="p-4 bg-transparent">
-//       {/* Header */}
-//       <div className="flex flex-wrap justify-between items-center mb-4 gap-3">
-//         <h2 className="text-2xl font-bold ">Users</h2>
-//         <div className="flex flex-wrap gap-2 items-center">
-//           <input
-//             type="text"
-//             placeholder="Search users..."
-//             value={searchTerm}
-//             onChange={(e) => {
-//               setSearchTerm(e.target.value);
-//               setCurrentPage(1);
-//             }}
-//             className="border rounded px-3 py-1"
-//           />
-//           <select
-//             value={usersPerPage}
-//             onChange={(e) => {
-//               setUsersPerPage(Number(e.target.value));
-//               setCurrentPage(1);
-//             }}
-//             className="border rounded px-3 py-1"
-//           >
-//             <option value={10}>10</option>
-//             <option value={20}>20</option>
-//             <option value={50}>50</option>
-//             <option value={100}>100</option>
-//           </select>
-//           <button
-//             onClick={() => navigate("/newuser")}
-//             className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-//           >
-//             Add User
-//           </button>
-//           <button
-//             onClick={handleBulkDelete}
-//             className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-//           >
-//             Delete Selected
-//           </button>
-//         </div>
-//       </div>
-
-//       {/* Table */}
-//       <div className="overflow-x-auto">
-//         <table className="min-w-full border border-white">
-//           <thead>
-//             <tr className="bg-black text-white">
-//               <th className="p-2 border">
-//                 <input
-//                   type="checkbox"
-//                   checked={areAllOnPageSelected}
-//                   onChange={toggleSelectAll}
-//                 />
-//               </th>
-//               <th className="p-2 border">Name</th>
-//               <th className="p-2 border">Email</th>
-//               <th className="p-2 border">Phone</th>
-//               <th className="p-2 border">Role</th>
-//               <th className="p-2 border">Status</th>
-//               <th className="p-2 border">Actions</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {loading ? (
-//               <tr>
-//                 <td colSpan="7" className="text-center  p-4">
-//                   Loading...
-//                 </td>
-//               </tr>
-//             ) : users.length > 0 ? (
-//               users.map((user) => (
-//                 <tr
-//                   key={user.id}
-//                   className="text-center border-b "
-//                 >
-//                   <td className="p-2 border">
-//                     <input
-//                       type="checkbox"
-//                       checked={selectedUsers.includes(user.id)}
-//                       onChange={() => toggleSelectUser(user.id)}
-//                     />
-//                   </td>
-//                   <td className="p-2 border">{user.name}</td>
-//                   <td className="p-2 border">{user.email}</td>
-//                   <td className="p-2 border">{user.phone}</td>
-//                   <td className="p-2 border">
-//                     {user.roles?.length
-//                       ? user.roles.map((role) => role.role_name).join(", ")
-//                       : "No Roles"}
-//                   </td>
-//                   <td className="p-2 border">
-//                     {user.status === 1 || user.status === "1"
-//                       ? "Active"
-//                       : "Inactive"}
-//                   </td>
-//                   <td className="p-2 border space-x-2">
-//                     <button
-//                       onClick={() => navigate(`/view-user/${user.id}`)}
-//                       className="text-green-500 hover:text-green-700"
-//                     >
-//                       <Eye size={16} />
-//                     </button>
-//                     <button
-//                       onClick={() => navigate(`/edit-user/${user.id}`)}
-//                       className="text-yellow-500 hover:text-yellow-700"
-//                     >
-//                       <Edit size={16} />
-//                     </button>
-//                     <button
-//                       onClick={() => handleDelete(user.id)}
-//                       className="text-red-500 hover:text-red-700"
-//                     >
-//                       <Trash2 size={16} />
-//                     </button>
-//                   </td>
-//                 </tr>
-//               ))
-//             ) : (
-//               <tr>
-//                 <td colSpan="7" className="text-center  p-4">
-//                   No users found.
-//                 </td>
-//               </tr>
-//             )}
-//           </tbody>
-//         </table>
-//       </div>
-
-//       {/* Pagination */}
-//       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 p-4 border-t">
-//         <div className="text-sm text-gray-600  ml-3 mb-4">
-//           Showing {total === 0 ? 0 : (currentPage - 1) * usersPerPage + 1} to{" "}
-//           {currentPage * usersPerPage > total
-//             ? total
-//             : currentPage * usersPerPage}{" "}
-//           of {total} entries
-//         </div>
-
-//         <div className="flex gap-2 flex-wrap">
-//           {/* Previous */}
-//           <Button
-//             size="sm"
-//             disabled={currentPage === 1}
-//             onClick={() => setCurrentPage((prev) => prev - 1)}
-//           >
-//             Previous
-//           </Button>
-
-//           {/* First Page Always */}
-//           <Button
-//             size="sm"
-//             variant={currentPage === 1 ? "default" : "outline"}
-//             onClick={() => setCurrentPage(1)}
-//           >
-//             1
-//           </Button>
-
-//           {/* Left Dots */}
-//           {currentPage > 3 && <span className="px-2 py-1">...</span>}
-
-//           {/* Middle Pages (window of 3 around currentPage) */}
-//           {Array.from({ length: 3 }, (_, i) => {
-//             const pageNumber = currentPage - 1 + i;
-//             if (pageNumber > 1 && pageNumber < totalPages) {
-//               return (
-//                 <Button
-//                   key={pageNumber}
-//                   size="sm"
-//                   variant={currentPage === pageNumber ? "default" : "outline"}
-//                   onClick={() => setCurrentPage(pageNumber)}
-//                 >
-//                   {pageNumber}
-//                 </Button>
-//               );
-//             }
-//             return null;
-//           })}
-
-//           {/* Right Dots */}
-//           {currentPage < totalPages - 2 && (
-//             <span className="px-2 py-1">...</span>
-//           )}
-
-//           {/* Last Page Always */}
-//           {totalPages > 1 && (
-//             <Button
-//               size="sm"
-//               variant={currentPage === totalPages ? "default" : "outline"}
-//               onClick={() => setCurrentPage(totalPages)}
-//             >
-//               {totalPages}
-//             </Button>
-//           )}
-
-//           {/* Next */}
-//           <Button
-//             size="sm"
-//             disabled={currentPage === totalPages}
-//             onClick={() => setCurrentPage((prev) => prev + 1)}
-//           >
-//             Next
-//           </Button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default UsersListPage;
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -400,6 +17,8 @@ const UsersListPage = () => {
   const [meta, setMeta] = useState(null); // pagination meta
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   // Fetch users with backend pagination
   const fetchUsers = async () => {
@@ -410,7 +29,7 @@ const UsersListPage = () => {
           searchTerm
         )}&sort=${sortOrder}`
       );
-      console.log(res);
+      console.log(res.data.data);
       debugger;
 
       setUsers(res.data?.data ?? []);
@@ -513,22 +132,33 @@ const UsersListPage = () => {
     users.length > 0 && users.every((u) => selectedUsers.includes(u.id));
 
   return (
-    <div className="p-4 bg-transparent">
+    <div className="p-6 max-w-6xl mx-auto border rounded-lg bg-white dark:bg-gray-900 shadow">
       {/* Header */}
-      <div className="flex flex-wrap justify-between items-center mb-4 gap-3">
-        <h2 className="text-2xl font-bold ">Users</h2>
-        <div className="flex flex-wrap gap-2 items-center">
-          <input
-            type="text"
-            placeholder="Search users..."
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentPage(1);
-            }}
-            className="border rounded px-3 py-1"
-          />
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">Users</h2>
+      </div>
 
+      <div className="flex flex-col sm:flex-row gap-3 w-full mt-4 mb-4">
+        <div className="flex items-center rounded-md px-3 py-2 flex-1 min-w-0"></div>
+        <button
+          onClick={handleBulkDelete}
+          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+        >
+          Delete Selected
+        </button>
+
+        <button
+          onClick={() => navigate("/admin/user/add")}
+          className="bg-sky-500 text-white px-4 py-2 rounded hover:bg-sky-600"
+        >
+          Add User
+        </button>
+      </div>
+
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row justify-between gap-3 mb-4 mt-2">
+        <div className="flex items-center gap-2 text-xl font-semibold">
+          <label>Show</label>
           <select
             value={usersPerPage}
             onChange={(e) => {
@@ -537,13 +167,11 @@ const UsersListPage = () => {
             }}
             className="border rounded px-3 py-1"
           >
-            {[10, 20, 50, 100].map((num) => (
-              <option key={num} value={num}>
-                {num}
-              </option>
+            {[10, 20, 50, 100].map((n) => (
+              <option key={n}>{n}</option>
             ))}
           </select>
-
+          <label>entries</label>
           <select
             value={sortOrder}
             onChange={(e) => {
@@ -555,104 +183,113 @@ const UsersListPage = () => {
             <option value="asc">Sort Asc</option>
             <option value="desc">Sort Desc</option>
           </select>
+        </div>
 
-          <button
-            onClick={() => navigate("/admin/user/add")}
-            className="bg-sky-500 text-white px-4 py-2 rounded hover:bg-sky-600"
-          >
-            Add User
-          </button>
-
-          <button
-            onClick={handleBulkDelete}
-            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
-          >
-            Delete Selected
-          </button>
+        {/* Search box */}
+        <div
+          className="flex items-center px-3 w-full sm:w-64
+             border border-transparent rounded-md
+             focus-within:border-black transition"
+          style={{ width: "450px" }}
+        >
+          <input
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+            placeholder="Search users..."
+            className="border-none p-2 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 w-full outline-none"
+          />
         </div>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-black">
-          <thead>
-            <tr className="bg-black text-white">
-              <th className="p-2 border">
-                <input
-                  type="checkbox"
-                  checked={areAllOnPageSelected}
-                  onChange={toggleSelectAll}
-                />
-              </th>
-              <th className="p-2 border">Name</th>
-              <th className="p-2 border">Email</th>
-              <th className="p-2 border">Phone</th>
-              <th className="p-2 border">Status</th>
-              <th className="p-2 border">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan="7" className="text-center  p-4">
-                  Loading...
-                </td>
+        <fieldset className="border border-gray-700 rounded-lg p-4 mb-6">
+          <table className="min-w-full border border-black">
+            <thead className="text-center">
+              <tr className="bg-black text-white">
+                <th className="p-2 border">
+                  <input
+                    type="checkbox"
+                    checked={areAllOnPageSelected}
+                    onChange={toggleSelectAll}
+                  />
+                </th>
+                <th className="p-2 border">Name</th>
+                <th className="p-2 border">Email</th>
+                <th className="p-2 border">Phone</th>
+                <th className="p-2 border">Status</th>
+                <th className="p-2 border">Actions</th>
               </tr>
-            ) : users.length > 0 ? (
-              users.map((user) => (
-                <tr key={user.id} className="text-center border-b ">
-                  <td className="p-2 border">
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.includes(user.id)}
-                      onChange={() => toggleSelectUser(user.id)}
-                    />
-                  </td>
-                  <td className="p-2 border">{user.name}</td>
-                  <td className="p-2 border">{user.email}</td>
-                  <td className="p-2 border">{user.phone}</td>
-                  <td className="p-2 border">
-                    {user.status === 1 || user.status === "1"
-                      ? "Active"
-                      : "Inactive"}
-                  </td>
-                  <td className="p-2 border space-x-2">
-                    <button
-                      onClick={() => navigate(`admin/user/${user.id}/edit`)}
-                      className="text-green-500 hover:text-green-700"
-                    >
-                      <Eye size={16} />
-                    </button>
-                    <button
-                      onClick={() => navigate(`admin/user/${user.id}/edit`)}
-                      className="text-yellow-500 hover:text-yellow-700"
-                    >
-                      <Edit size={16} />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(user.id)}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan="7" className="text-center  p-4">
+                    Loading...
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7" className="text-center  p-4">
-                  No users found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ) : users.length > 0 ? (
+                users.map((user) => (
+                  <tr key={user.id} className="text-center border-b ">
+                    <td className="p-2 border">
+                      <input
+                        type="checkbox"
+                        checked={selectedUsers.includes(user.id)}
+                        onChange={() => toggleSelectUser(user.id)}
+                      />
+                    </td>
+                    <td className="p-2 border">{user.name}</td>
+                    <td className="p-2 border">{user.email}</td>
+                    <td className="p-2 border">{user.phone}</td>
+                    <td className="p-2 border">
+                      {user.status === 1 || user.status === "1"
+                        ? "Active"
+                        : "Inactive"}
+                    </td>
+                    <td className="p-2 border space-x-2">
+                      <button
+                        onClick={() => {
+                          setSelectedUser(user);
+                          setShowModal(true);
+                        }}
+                        className="text-green-500 hover:text-green-700"
+                      >
+                        <Eye className="h-5 w-5" />
+                      </button>
+                      <button
+                        onClick={() => navigate(`admin/user/${user.id}/edit`)}
+                        className="text-yellow-500 hover:text-yellow-700"
+                      >
+                        <Edit size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(user.id)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="text-center  p-4">
+                    No users found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </fieldset>
       </div>
 
       {/* Pagination */}
       {meta && (
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 p-4 border-t">
-          <div className="text-sm text-gray-600  ml-3 mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 p-2 border-t">
+          <div className="text-gray-600 font-semibold ml-3 mb-4 text-xl">
             Showing {meta.from ?? 0} to {meta.to ?? 0} of {meta.total ?? 0}{" "}
             entries
           </div>
@@ -725,6 +362,48 @@ const UsersListPage = () => {
             >
               Next
             </Button>
+          </div>
+        </div>
+      )}
+      {showModal && selectedUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+            {/* Close button */}
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-black"
+            >
+              ✕
+            </button>
+
+            <h2 className="text-xl font-bold mb-4">Customer Details</h2>
+
+            <div className="space-y-3">
+              <div>
+                <span className="font-semibold">Name:</span> {selectedUser.name}
+              </div>
+              <div>
+                <span className="font-semibold">Email:</span>{" "}
+                {selectedUser.email}
+              </div>
+              <div>
+                <span className="font-semibold">Phone:</span>{" "}
+                {selectedUser.phone}
+              </div>
+              <div>
+                <span className="font-semibold">Status:</span>{" "}
+                {selectedUser.active == 1 ? "Active" : "Inactive"}
+              </div>
+            </div>
+
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={() => setShowModal(false)}
+                className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}

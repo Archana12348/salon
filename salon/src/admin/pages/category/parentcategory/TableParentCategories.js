@@ -10,104 +10,71 @@ import {
 } from "../../../components/ui/Table";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
-import { Eye, Edit, Trash2, Plus } from "lucide-react";
+import { Edit, Trash2, Plus } from "lucide-react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import {
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "../../../components/ui/Card";
+import { CardHeader, CardTitle } from "../../../components/ui/Card";
 
 const ParentCategories = () => {
   const navigate = useNavigate();
+
   const [parentCategories, setParentCategories] = useState([]);
-  const [headCategories, setHeadCategories] = useState([]);
   const [selectedParents, setSelectedParents] = useState([]);
 
-  // Pagination & search
+  // pagination & search
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const token =
-    localStorage.getItem("token") || localStorage.getItem("authToken");
+  // meta
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalEntries, setTotalEntries] = useState(0);
+  const [from, setFrom] = useState(0);
+  const [to, setTo] = useState(0);
+
+  // ================= FETCH =================
+  const fetchSubCategories = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:8000/api/admin/subcategories?page=${currentPage}&perPage=${itemsPerPage}&search=${searchTerm}`
+      );
+      const result = await res.json();
+
+      setParentCategories(result.data || []);
+      setTotalPages(result.meta.last_page);
+      setTotalEntries(result.meta.total);
+      setFrom(result.meta.from || 0);
+      setTo(result.meta.to || 0);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to fetch subcategories");
+    }
+  };
 
   useEffect(() => {
-    if (!token) return;
+    fetchSubCategories();
+  }, [currentPage, itemsPerPage, searchTerm]);
 
-    fetch("http://localhost:8000/api/admin/subcategories", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("res", data.data.data);
-        debugger;
-        setParentCategories(data.data.data || []);
-      })
+  // ================= SELECTION =================
+  const areAllSelected =
+    parentCategories.length > 0 &&
+    parentCategories.every((cat) => selectedParents.includes(cat.id));
 
-      .catch((err) => {
-        console.error("Error fetching parent categories:", err);
-      });
-
-    fetch("http://localhost:8000/api/admin/subcategories", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setHeadCategories(data.data || []);
-      })
-      .catch((err) => {
-        console.error("Error fetching head categories:", err);
-      });
-  }, [token]);
-
-  // Filtesky data
-  const filteskyCategories = parentCategories.filter(
-    (cat) =>
-      cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cat.slug.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cat.parent_category?.name
-        ?.toLowerCase()
-        .includes(searchTerm.toLowerCase())
-  );
-
-  // Pagination logic
-  const indexOfLast = currentPage * itemsPerPage;
-  const indexOfFirst = indexOfLast - itemsPerPage;
-  const paginatedCategories = filteskyCategories.slice(
-    indexOfFirst,
-    indexOfLast
-  );
-  const totalPages = Math.ceil(filteskyCategories.length / itemsPerPage);
-
-  const areAllOnPageSelected =
-    paginatedCategories.length > 0 &&
-    paginatedCategories.every((cat) => selectedParents.includes(cat.id));
-
-  const handleSelectAllCategories = () => {
-    if (areAllOnPageSelected) {
-      setSelectedParents((prev) =>
-        prev.filter((id) => !paginatedCategories.some((cat) => cat.id === id))
-      );
+  const handleSelectAll = () => {
+    if (areAllSelected) {
+      setSelectedParents([]);
     } else {
-      const newIds = paginatedCategories
-        .map((cat) => cat.id)
-        .filter((id) => !selectedParents.includes(id));
-      setSelectedParents((prev) => [...prev, ...newIds]);
+      setSelectedParents(parentCategories.map((cat) => cat.id));
     }
   };
 
   const handleSelectCategory = (id) => {
     setSelectedParents((prev) =>
-      prev.includes(id) ? prev.filter((cid) => cid !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   };
 
+  // ================= DELETE =================
   const deleteCategory = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -115,287 +82,230 @@ const ParentCategories = () => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (!result.isConfirmed) return;
 
-      fetch(
-        `https://tyka.premierwebtechservices.com/backend/api/product-sub-categories/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-        .then(async (res) => {
-          const data = await res.json();
-          if (!res.ok) {
-            throw new Error(data?.message || "Failed to delete");
-          }
+      try {
+        const res = await fetch(
+          `http://localhost:8000/api/admin/subcategories/${id}`,
+          { method: "DELETE" }
+        );
+        const data = await res.json();
 
-          setParentCategories((prev) => prev.filter((cat) => cat.id !== id));
-          setSelectedParents((prev) => prev.filter((cid) => cid !== id));
+        if (!res.ok) throw new Error(data.message);
 
-          Swal.fire("Deleted!", "The category has been deleted.", "success");
-        })
-        .catch((err) => {
-          console.error("Delete error:", err);
-          toast.error(err.message || "Failed to delete the category.");
-        });
+        Swal.fire("Deleted!", "Category deleted successfully", "success");
+        fetchSubCategories();
+        setSelectedParents((prev) => prev.filter((x) => x !== id));
+      } catch (err) {
+        toast.error(err.message);
+      }
     });
   };
 
-  const handleBulkDelete = () => {
-    if (!token) {
-      toast.error("No token found");
-      return;
-    }
-
-    Swal.fire({
+  // ================= BULK DELETE =================
+  const handleBulkDelete = async () => {
+    const confirm = await Swal.fire({
       title: "Are you sure?",
-      text: "You are about to delete selected categories. This action cannot be undone!",
+      text: `Delete ${selectedParents.length} selected categories?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete them!",
-    }).then((result) => {
-      if (!result.isConfirmed) return;
-
-      Promise.all(
-        selectedParents.map((id) =>
-          fetch(
-            `https://tyka.premierwebtechservices.com/backend/api/product-sub-categort/bulk-delete`,
-            {
-              method: "DELETE",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          )
-        )
-      )
-        .then((responses) => {
-          const failed = responses.filter((res) => !res.ok);
-          if (failed.length) {
-            toast.error(`${failed.length} deletion(s) failed`);
-          } else {
-            Swal.fire(
-              "Deleted!",
-              "Selected categories were deleted.",
-              "success"
-            );
-          }
-          setParentCategories((prev) =>
-            prev.filter((cat) => !selectedParents.includes(cat.id))
-          );
-          setSelectedParents([]);
-        })
-        .catch((err) => {
-          console.error("Batch delete error:", err);
-          toast.error("Error deleting selected categories.");
-        });
+      confirmButtonText: "Yes, delete!",
     });
+
+    if (!confirm.isConfirmed) return;
+
+    try {
+      const res = await fetch(
+        "http://localhost:8000/api/admin/subcategories/bulk-delete",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ids: selectedParents }),
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      Swal.fire("Deleted!", data.message, "success");
+      setSelectedParents([]);
+      fetchSubCategories();
+    } catch (err) {
+      Swal.fire("Error", err.message, "error");
+    }
   };
 
+  // ================= UI =================
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      {/* Card Header */}
+    <div className="p-6 max-w-6xl mx-auto border rounded-lg bg-white dark:bg-gray-900 shadow">
       <CardHeader className="space-y-4">
-        <div className="flex flex-col space-y-2">
-          <CardTitle className="text-lg sm:text-xl">Sub Categories</CardTitle>
-        </div>
+        <CardTitle className="text-2xl sm:text-2xl">SubCategories</CardTitle>
+
         <div className="flex flex-col sm:flex-row gap-3 w-full">
-          <div
-            className="flex items-center rounded-md px-3 py-2 flex-1 min-w-0"
-            // width kam kar di yahan
-          ></div>
+          <div className="flex items-center rounded-md px-3 py-2 flex-1 min-w-0"></div>
           {selectedParents.length > 0 && (
             <Button
-              className="flex-shrink-0 w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white"
+              className="bg-red-400 hover:bg-red-600 text-white"
               onClick={handleBulkDelete}
             >
               <Trash2 className="mr-2 h-4 w-4" />
               Bulk Delete ({selectedParents.length})
             </Button>
           )}
-          <Button
-            className="flex-shrink-0 w-full sm:w-auto"
-            onClick={() => navigate("/admin/subcategory/add")}
-          >
+
+          <Button onClick={() => navigate("/admin/subcategory/add")}>
             <Plus className="mr-2 h-4 w-4" />
-            <span className="hidden sm:inline">Add Parent Category</span>
-            <span className="sm:hidden">Add</span>
+            Add SubCategory
           </Button>
         </div>
       </CardHeader>
 
-      {/* Top Controls */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-3 mb-4">
-        <div>
-          Show{" "}
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+        {/* Show entries */}
+        <div className="flex items-center pl-2 font-bold gap-2 text-xl">
+          <label>Show</label>
           <select
             value={itemsPerPage}
             onChange={(e) => {
-              setItemsPerPage(parseInt(e.target.value, 10));
+              setItemsPerPage(Number(e.target.value));
               setCurrentPage(1);
             }}
-            className="border p-1 rounded bg-transparent"
+            className="border rounded p-1 text-sm bg-transparent"
           >
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>{" "}
-          entries
+            {[10, 20, 50, 100].map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))}
+          </select>
+          <label>entries</label>
         </div>
-        <div className="flex items-center rounded-md px-3 py-2 flex-1 max-w-xs sm:max-w-sm">
+
+        {/* Search */}
+        <div className="flex items-center pr-3 py-2 w-max sm:w-72">
           <Input
-            placeholder="Search parent categories..."
+            placeholder="Search here categories..."
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
               setCurrentPage(1);
             }}
-            className="border p-1 rounded bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 w-full min-w-0"
+            className="border-none p-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 w-full"
           />
         </div>
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto w-full">
-        <Table className="min-w-[800px] w-full" id="parent-categories-table">
+      <fieldset className="border border-gray-700 rounded-lg p-4">
+        <Table className="min-w-[800px]">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[50px]">
+              <TableHead className="bg-black text-white">
                 <input
                   type="checkbox"
-                  className="form-checkbox h-4 w-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"
-                  checked={areAllOnPageSelected}
-                  onChange={handleSelectAllCategories}
+                  checked={areAllSelected}
+                  onChange={handleSelectAll}
                 />
               </TableHead>
-              <TableHead className="min-w-[200px] w-[20%]">
-                SubCategory
-              </TableHead>
-              <TableHead className="min-w-[150px] w-[20%]">Slug</TableHead>
-              <TableHead className="min-w-[150px] w-[20%]">
-                Category Name
-              </TableHead>
-              <TableHead className="min-w-[100px] w-[10%] text-right">
+              <TableHead className="bg-black text-white">Name</TableHead>
+              <TableHead className="bg-black text-white">Slug</TableHead>
+              <TableHead className="bg-black text-white">Category</TableHead>
+              <TableHead className="bg-black text-white">Status</TableHead>
+              <TableHead className="bg-black text-white text-right">
                 Actions
               </TableHead>
             </TableRow>
           </TableHeader>
 
           <TableBody>
-            {paginatedCategories.length === 0 ? (
+            {parentCategories.length === 0 ? (
               <TableRow>
-                <TableCell
-                  colSpan={6}
-                  className="text-center py-4 text-muted-foreground"
-                >
-                  No parent categories found.
+                <TableCell colSpan={6} className="text-center">
+                  No data found
                 </TableCell>
               </TableRow>
             ) : (
-              paginatedCategories.map((cat) => (
+              parentCategories.map((cat) => (
                 <TableRow key={cat.id}>
                   <TableCell>
                     <input
                       type="checkbox"
-                      className="form-checkbox h-4 w-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"
                       checked={selectedParents.includes(cat.id)}
                       onChange={() => handleSelectCategory(cat.id)}
                     />
                   </TableCell>
-                  <TableCell className="font-medium">{cat.name}</TableCell>
-                  <TableCell className="font-medium">{cat.slug}</TableCell>
-                  <TableCell className="font-medium">
+                  <TableCell className="text-xl">{cat.name}</TableCell>
+                  <TableCell className="text-xl">{cat.slug}</TableCell>
+                  <TableCell className="text-xl">
                     {cat.category_name || "N/A"}
                   </TableCell>
+                  <TableCell>
+                    <span
+                      className={`px-2 py-1 rounded text-xl font-semibold ${
+                        cat.active === 1
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                    >
+                      {cat.active === 1 ? "Active" : "Inactive"}
+                    </span>
+                  </TableCell>
                   <TableCell className="text-right">
-                    <div className="flex items-center justify-end cursor-pointer ">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() =>
-                          navigate(`/admin/subcategory/${cat.id}/edit`)
-                        }
-                      >
-                        <Edit className="h-4 w-4 cursor-pointer" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => deleteCategory(cat.id)}
-                      >
-                        <Trash2 className="h-4 w-4 text-red-500" />
-                      </Button>
-                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() =>
+                        navigate(`/admin/subcategory/${cat.id}/edit`)
+                      }
+                    >
+                      <Edit />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => deleteCategory(cat.id)}
+                    >
+                      <Trash2 className="text-red-500" />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))
             )}
           </TableBody>
         </Table>
-      </div>
+      </fieldset>
 
-      {/* Bottom Controls */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4 text-sm">
-        <div>
-          Showing {paginatedCategories.length === 0 ? 0 : indexOfFirst + 1} to{" "}
-          {indexOfFirst + paginatedCategories.length} of{" "}
-          {filteskyCategories.length} entries
+      {/* Pagination */}
+      <div className="flex justify-between mt-4 mb-4">
+        <div className="text-xl font-semibold">
+          Showing {from} to {to} of {totalEntries} entries
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
+
+        <div className="flex gap-2">
           <Button
             disabled={currentPage === 1}
-            onClick={() => setCurrentPage(currentPage - 1)}
-            size="sm"
-            className="px-3 py-1 border rounded disabled:opacity-50"
+            onClick={() => setCurrentPage((p) => p - 1)}
           >
             Previous
           </Button>
 
-          {/* Pagination with ellipsis */}
-          {Array.from({ length: totalPages }, (_, i) => i + 1)
-            .filter((pageNum) => {
-              return (
-                pageNum === 1 ||
-                pageNum === totalPages ||
-                (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
-              );
-            })
-            .map((pageNum, idx, arr) => {
-              const prev = arr[idx - 1];
-              return (
-                <React.Fragment key={pageNum}>
-                  {prev && pageNum - prev > 1 && (
-                    <span className="px-2">...</span>
-                  )}
-                  <Button
-                    onClick={() => setCurrentPage(pageNum)}
-                    size="sm"
-                    className={`px-3 py-1 border rounded ${
-                      currentPage === pageNum
-                        ? "bg-sky-600 text-white"
-                        : "bg-transparent dark:text-white"
-                    }`}
-                  >
-                    {pageNum}
-                  </Button>
-                </React.Fragment>
-              );
-            })}
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <Button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={currentPage === page ? "bg-sky-600 text-white" : ""}
+            >
+              {page}
+            </Button>
+          ))}
 
           <Button
             disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(currentPage + 1)}
-            size="sm"
-            className="px-3 py-1 border rounded disabled:opacity-50"
+            onClick={() => setCurrentPage((p) => p + 1)}
           >
             Next
           </Button>

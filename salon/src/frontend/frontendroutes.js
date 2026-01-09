@@ -14,7 +14,7 @@ import NotFound from "./pages/NotFound";
 export const FrontendRoutes = (
   <>
     {/* 🔹 FRONT LAYOUT ROUTES */}
-    <Route path="/" element={<FrontLayout />}>
+    <Route element={<FrontLayout />}>
       <Route index element={<Home />} />
       <Route path="shop" element={<Shop />} />
       <Route path="product" element={<ProductPage />} />
@@ -27,7 +27,7 @@ export const FrontendRoutes = (
     <Route path="productdetails" element={<ProductnewProfile />} />
 
     {/* 🔹 LOGIN / SIGNUP OUTSIDE FRONT LAYOUT */}
-    <Route path="/login" element={<Login />} />
-    <Route path="/signup" element={<Signup />} />
+    <Route path="login" element={<Login />} />
+    <Route path="signup" element={<Signup />} />
   </>
 );

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import PermissionGuard from "../../components/auth/PermissionGuard";
 
 const SizesTable = () => {
   const [sizes, setSizes] = useState([]);
@@ -25,17 +24,21 @@ const SizesTable = () => {
     try {
       setLoading(true);
       const res = await fetch(
-        `https://tyka.premierhostings.com/backend/api/product-sizes?page=${currentPage}&perPage=${perPage}&search=${searchTerm}&sortDir=desc`,
+        `http://127.0.0.1:8000/api/admin/pages?page=${currentPage}&perPage=${perPage}&search=${searchTerm}&sortDir=desc`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       const data = await res.json();
+
       if (data && Array.isArray(data.data)) {
         setSizes(data.data);
-        if (data.meta) {
-          setTotalPages(data.meta.last_page || 1);
-          setTotalItems(data.meta.total || data.data.length);
+        if (data.pagination) {
+          setTotalPages(data.pagination.last_page || 1);
+          setTotalItems(data.pagination.total || data.data.length);
+        } else {
+          setTotalPages(1);
+          setTotalItems(data.data.length);
         }
       } else {
         setSizes([]);
@@ -65,27 +68,27 @@ const SizesTable = () => {
 
     if (result.isConfirmed) {
       try {
-        await fetch(
-          `https://tyka.premierhostings.com/backend/api/product-sizes/${id}`,
-          { method: "DELETE", headers: { Authorization: `Bearer ${token}` } }
-        );
+        await fetch(`http://127.0.0.1:8000/api/admin/pages/${id}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        });
         fetchSizes();
         setSelectedIds(selectedIds.filter((sid) => sid !== id));
-        Swal.fire("Deleted!", "Size has been deleted.", "success");
+        Swal.fire("Deleted!", "Page has been deleted.", "success");
       } catch {
-        Swal.fire("Error!", "Failed to delete size.", "error");
+        Swal.fire("Error!", "Failed to delete page.", "error");
       }
     }
   };
 
   const handleBulkDelete = async () => {
     if (selectedIds.length === 0) {
-      Swal.fire("Info", "No sizes selected.", "info");
+      Swal.fire("Info", "No Pages selected.", "info");
       return;
     }
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: `You want to delete ${selectedIds.length} selected sizes?`,
+      text: `You want to delete ${selectedIds.length} selected pages?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -97,20 +100,17 @@ const SizesTable = () => {
       try {
         await Promise.all(
           selectedIds.map((id) =>
-            fetch(
-              `https://tyka.premierhostings.com/backend/api/product-sizes/${id}`,
-              {
-                method: "DELETE",
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            )
+            fetch(`http://127.0.0.1:8000/api/admin/pages/${id}`, {
+              method: "DELETE",
+              headers: { Authorization: `Bearer ${token}` },
+            })
           )
         );
         fetchSizes();
         setSelectedIds([]);
-        Swal.fire("Deleted!", "Selected sizes have been deleted.", "success");
+        Swal.fire("Deleted!", "Selected pages have been deleted.", "success");
       } catch {
-        Swal.fire("Error!", "Failed to delete selected sizes.", "error");
+        Swal.fire("Error!", "Failed to delete selected pages.", "error");
       }
     }
   };
@@ -130,38 +130,34 @@ const SizesTable = () => {
     );
   };
 
-  const startIndex = (currentPage - 1) * perPage;
-  const endIndex = Math.min(startIndex + perPage, totalItems);
-
   return (
-    <div className="p-6">
+    <div className="p-6 max-w-6xl mx-auto border rounded-lg bg-white dark:bg-gray-900 shadow">
       {/* Header */}
       <div className="flex justify-between mb-4">
-        <h1 className="text-3xl font-bold dark:text-white">Sizes</h1>
-        <div className="flex gap-2">
-          <PermissionGuard permission="bulk_delete_variants_sizes">
-            <button
-              onClick={handleBulkDelete}
-              className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
-            >
-              Delete Selected
-            </button>
-          </PermissionGuard>
-          <PermissionGuard permission="create_variants_sizes">
-            <button
-              onClick={() => navigate("/add-size")}
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-            >
-              <Plus size={18} className="inline mr-2" />
-              Add Size
-            </button>
-          </PermissionGuard>
-        </div>
+        <h1 className="text-3xl font-bold ">Pages</h1>
       </div>
 
-      {/* Top controls */}
-      <div className="flex justify-between items-center mb-3 dark:text-white">
-        <div>
+      {/* Actions */}
+      <div className="flex flex-col sm:flex-row gap-3 w-full mb-4">
+        <div className="flex items-center rounded-md px-3 py-2 flex-1 min-w-0"></div>
+        <button
+          onClick={handleBulkDelete}
+          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+        >
+          Delete Selected
+        </button>
+        <button
+          onClick={() => navigate("/admin/pages/add")}
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+        >
+          <Plus size={18} className="inline mr-2" />
+          Add Pages
+        </button>
+      </div>
+
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row justify-between gap-3 mt-2 mb-4">
+        <div className="flex items-center gap-2 text-xl font-bold">
           Show{" "}
           <select
             value={perPage}
@@ -178,7 +174,10 @@ const SizesTable = () => {
           </select>{" "}
           entries
         </div>
-        <div>
+        <div
+          className="flex items-center px-3 py-2 w-full sm:w-64"
+          style={{ width: "450px", marginRight: "-13px" }}
+        >
           <input
             type="text"
             placeholder="Search..."
@@ -187,105 +186,103 @@ const SizesTable = () => {
               setSearchTerm(e.target.value);
               setCurrentPage(1);
             }}
-            className="border p-1 rounded bg-transparent"
-            style={{ width: "310px" }}
+            className="border-sky-1 p-2 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 w-full"
           />
         </div>
       </div>
 
       {/* Table */}
-      <table className="w-full border border-gray-300">
-        <thead>
-          <tr className="bg-black text-white">
-            <th className="p-2 border">
-              <input
-                type="checkbox"
-                onChange={handleSelectAll}
-                checked={
-                  sizes.length > 0 &&
-                  sizes.every((s) => selectedIds.includes(s.id))
-                }
-              />
-            </th>
-            <th className="p-2 border">ID</th>
-            <th className="p-2 border">Name</th>
-            <th className="p-2 border">Status</th>
-            <th className="p-2 border">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {loading ? (
-            <tr>
-              <td colSpan="5" className="text-center p-4 text-gray-500">
-                Loading sizes...
-              </td>
-            </tr>
-          ) : sizes.length > 0 ? (
-            sizes.map((size) => (
-              <tr key={size.id} className="hover:bg-gray-100">
-                <td className="p-2 border text-center">
+      <div className="overflow-x-auto w-full">
+        <fieldset className="border border-gray-700 rounded-lg p-4 mb-6">
+          <table className="w-full border border-gray-300">
+            <thead>
+              <tr className="bg-black text-white">
+                <th className="p-2 border">
                   <input
                     type="checkbox"
-                    checked={selectedIds.includes(size.id)}
-                    onChange={() => handleSelectRow(size.id)}
-                  />
-                </td>
-                <td className="p-2 border dark:text-white">{size.id}</td>
-                <td className="p-2 border dark:text-white">{size.name}</td>
-                <td className="p-2 border">
-                  <span
-                    className={
-                      size.status === 1 || size.status === true
-                        ? "text-green-600"
-                        : "text-red-600"
+                    onChange={handleSelectAll}
+                    checked={
+                      sizes.length > 0 &&
+                      sizes.every((s) => selectedIds.includes(s.id))
                     }
-                  >
-                    {size.status === 1 || size.status === true
-                      ? "Active"
-                      : "Inactive"}
-                  </span>
-                </td>
-                <td className="p-2 border text-center">
-                  <PermissionGuard permission="edit_variants_sizes">
-                    <button
-                      onClick={() => navigate(`/edit-size/${size.id}`)}
-                      className="text-blue-500 hover:text-blue-700 mr-3"
-                    >
-                      <Pencil size={18} />
-                    </button>
-                  </PermissionGuard>
-                  <PermissionGuard permission="delete_variants_sizes">
-                    <button
-                      onClick={() => handleDelete(size.id)}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </PermissionGuard>
-                </td>
+                  />
+                </th>
+                <th className="p-2 border">Name</th>
+                <th className="p-2 border">Slug</th>
+                <th className="p-2 border">Status</th>
+                <th className="p-2 border">Actions</th>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="5" className="text-center p-4 text-gray-500">
-                No sizes found
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan="5" className="text-center p-4 text-gray-500">
+                    Loading pages...
+                  </td>
+                </tr>
+              ) : sizes.length > 0 ? (
+                sizes.map((size) => (
+                  <tr key={size.id} className="hover:bg-gray-100">
+                    <td className="p-2 border text-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(size.id)}
+                        onChange={() => handleSelectRow(size.id)}
+                      />
+                    </td>
+                    <td className="p-2 border ">{size.title}</td>
+                    <td className="p-2 border ">{size.slug}</td>
+                    <td className="p-2 border">
+                      <span
+                        className={
+                          size.status === 1 || size.status === true
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }
+                      >
+                        {size.status === 1 || size.status === true
+                          ? "Active"
+                          : "Inactive"}
+                      </span>
+                    </td>
+                    <td className="p-2 border text-center">
+                      <button
+                        onClick={() => navigate(`/admin/pages/${size.id}/edit`)}
+                        className="text-blue-500 hover:text-blue-700 mr-3"
+                      >
+                        <Pencil size={18} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(size.id)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center p-4 text-gray-500">
+                    No Pages found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </fieldset>
+      </div>
 
       {/* Pagination */}
-      <div className="flex justify-between items-center mt-4 gap-2 dark:text-white flex-wrap">
+      <div className="flex justify-between items-center mt-4 gap-2 flex-wrap">
         {/* Entries Count */}
-        <div>
-          Showing {totalItems === 0 ? 0 : startIndex + 1} to {endIndex} of{" "}
-          {totalItems} entries
+        <div className="text-gray-600 text-xl ml-3 mb-4 font-semibold">
+          Showing {sizes.length === 0 ? 0 : 1} to {sizes.length} of {totalItems}{" "}
+          entries
         </div>
 
         {/* Pagination */}
         <div className="flex items-center gap-2 flex-wrap">
-          {/* Previous Button */}
           <button
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             disabled={currentPage === 1}
@@ -294,64 +291,21 @@ const SizesTable = () => {
             Previous
           </button>
 
-          {/* First Page Always */}
-          <button
-            className={`px-3 py-1 border rounded ${
-              currentPage === 1
-                ? "bg-red-600 text-white"
-                : "bg-transparent dark:text-white"
-            }`}
-            onClick={() => setCurrentPage(1)}
-          >
-            1
-          </button>
-
-          {/* Left Dots */}
-          {currentPage > 3 && (
-            <span className="px-2 flex items-center">...</span>
-          )}
-
-          {/* Dynamic Middle Pages */}
-          {Array.from({ length: 3 }, (_, i) => {
-            const pageNumber = currentPage - 1 + i;
-            if (pageNumber > 1 && pageNumber < totalPages) {
-              return (
-                <button
-                  key={pageNumber}
-                  onClick={() => setCurrentPage(pageNumber)}
-                  className={`px-3 py-1 border rounded ${
-                    currentPage === pageNumber
-                      ? "bg-red-600 text-white"
-                      : "bg-transparent dark:text-white"
-                  }`}
-                >
-                  {pageNumber}
-                </button>
-              );
-            }
-            return null;
-          })}
-
-          {/* Right Dots */}
-          {currentPage < totalPages - 2 && (
-            <span className="px-2 flex items-center">...</span>
-          )}
-
-          {/* Last Page Always */}
-          {totalPages > 1 && (
+          {/* Page numbers */}
+          {Array.from({ length: totalPages }, (_, i) => (
             <button
+              key={i + 1}
+              onClick={() => setCurrentPage(i + 1)}
               className={`px-3 py-1 border rounded ${
-                currentPage === totalPages
+                currentPage === i + 1
                   ? "bg-red-600 text-white"
-                  : "bg-transparent dark:text-white"
+                  : "bg-transparent"
               }`}
-              onClick={() => setCurrentPage(totalPages)}
             >
-              {totalPages}
+              {i + 1}
             </button>
-          )}
+          ))}
 
-          {/* Next Button */}
           <button
             onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
             disabled={currentPage === totalPages}

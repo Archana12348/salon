@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import StepProgress from "./StepProgress";
 import Calendar from "./Calendar";
@@ -16,7 +16,10 @@ const slideVariants = {
   exitRight: { opacity: 0, x: 80 },
 };
 
-const BookingPage = () => {
+export default function BookingPage() {
+  const { id } = useParams(); // booking id from URL for editing
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     date: null,
     time: "",
@@ -29,50 +32,87 @@ const BookingPage = () => {
     service_id: "",
   });
 
-  const [step, setStep] = useState("calendar"); // calendar | times | form | preview
+  const [step, setStep] = useState("calendar");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [services, setServices] = useState([]);
   const [bookingResponse, setBookingResponse] = useState(null);
+  const [isLoading, setIsLoading] = useState(Boolean(id));
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const isEdit = Boolean(id);
 
-  // step handlers
-  const handleDateSelect = (date) => {
-    setFormData((p) => ({ ...p, date }));
-    setStep("times");
+  // Convert 24-hour "HH:MM:SS" to 12-hour AM/PM
+  const to12HourFormat = (time24) => {
+    if (!time24) return "";
+    const [hourStr, minuteStr] = time24.split(":");
+    let hours = parseInt(hourStr);
+    const minutes = minuteStr;
+    const suffix = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 === 0 ? 12 : hours % 12;
+    return `${hours.toString().padStart(2, "0")}:${minutes} ${suffix}`;
   };
 
-  const handleTimeSelect = (time) => {
-    setFormData((p) => ({ ...p, time }));
-    setStep("form");
-  };
+  // Fetch booking data if editing
+  useEffect(() => {
+    if (!id) return;
 
-  const handleCustomerSubmit = (customerDetails) => {
-    // customerDetails can be the same formData or a partial object
-    setFormData((p) => ({ ...p, ...customerDetails }));
-    setStep("preview");
-  };
+    const fetchBooking = async () => {
+      try {
+        const res = await fetch(`http://localhost:8000/api/booking/${id}`);
+        const result = await res.json();
 
-  const convertToSqlTime = (t) => {
-    const [time, modifier] = t.split(" ");
-    let [hours, minutes] = time.split(":");
+        if (!result.success) throw new Error("Booking not found");
 
-    hours = parseInt(hours);
+        const booking = result.data;
 
-    if (modifier === "PM" && hours !== 12) hours += 12;
-    if (modifier === "AM" && hours === 12) hours = 0;
+        // 1️⃣ Set basic fields first
+        setFormData((p) => ({
+          ...p,
+          date: new Date(booking.date),
+          time: `${to12HourFormat(booking.time_from)} - ${to12HourFormat(
+            booking.time_to
+          )}`,
+          name: booking.name,
+          phone: booking.phone,
+          email: booking.email,
+          category_id: booking.category_id,
+          sub_category_id: booking.subcategory_id,
+        }));
 
-    return `${hours.toString().padStart(2, "0")}:${minutes}:00`;
-  };
+        // 2️⃣ Fetch services first
+        const serviceRes = await fetch(
+          `http://localhost:8000/api/site/all-services/${booking.subcategory_id}`
+        );
+        const serviceData = await serviceRes.json();
+        setServices(serviceData.data ?? serviceData);
 
+        // 3️⃣ Now safely set service_id
+        setFormData((p) => ({
+          ...p,
+          service_id: booking.service_id,
+        }));
+
+        setStep("form");
+      } catch (err) {
+        alert("Failed to fetch booking");
+        navigate("/admin/bookings");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBooking();
+  }, [id]);
+
+  // Fetch categories
   useEffect(() => {
     fetch("http://localhost:8000/api/site/category")
       .then((res) => res.json())
       .then((data) => setCategories(data.data ?? data));
   }, []);
+
+  // Fetch subcategories
   useEffect(() => {
     if (!formData.category_id) return;
 
@@ -82,40 +122,43 @@ const BookingPage = () => {
       .then((res) => res.json())
       .then((data) => setSubCategories(data.data ?? data));
 
-    // reset lower values
-    setFormData((p) => ({
-      ...p,
-      sub_category_id: "",
-      service_id: "",
-    }));
+    setFormData((p) => ({ ...p, sub_category_id: "", service_id: "" }));
     setServices([]);
   }, [formData.category_id]);
+
+  // Fetch services
   useEffect(() => {
     if (!formData.sub_category_id) return;
 
+    console.log(formData.sub_category_id);
+    debugger;
     fetch(
       `http://localhost:8000/api/site/all-services/${formData.sub_category_id}`
     )
       .then((res) => res.json())
       .then((data) => setServices(data.data ?? data));
 
-    setFormData((p) => ({
-      ...p,
-      service_id: "",
-    }));
+    setFormData((p) => ({ ...p, service_id: "" }));
   }, [formData.sub_category_id]);
 
   const selectedCategory = categories.find((c) => c.id == formData.category_id);
-
   const selectedSubCategory = subCategories.find(
     (s) => s.id == formData.sub_category_id
   );
-
   const selectedService = services.find((s) => s.id == formData.service_id);
+
+  const convertToSqlTime = (t) => {
+    if (!t) return "";
+    const [time, modifier] = t.split(" ");
+    let [hours, minutes] = time.split(":");
+    hours = parseInt(hours);
+    if (modifier === "PM" && hours !== 12) hours += 12;
+    if (modifier === "AM" && hours === 12) hours = 0;
+    return `${hours.toString().padStart(2, "0")}:${minutes}:00`;
+  };
+
   const confirmBooking = async () => {
     const [fromRaw, toRaw] = formData.time.split(" - ");
-
-    // convert to 24h format
     const time_from = convertToSqlTime(fromRaw);
     const time_to = convertToSqlTime(toRaw);
 
@@ -127,22 +170,23 @@ const BookingPage = () => {
       name: formData.name,
       phone: formData.phone,
       email: formData.email,
-      // IDs (for DB)
       category_id: formData.category_id,
       sub_category_id: formData.sub_category_id,
       service_id: formData.service_id,
-
-      // Names (for display / notifications)
       category_name: selectedCategory?.name ?? "",
       sub_category_name: selectedSubCategory?.name ?? "",
       service_name: selectedService?.name ?? "",
     };
-    console.log("Booking Payload:", payload);
+    console.log("Booking payload:", payload);
     debugger;
 
     try {
-      const res = await fetch("http://localhost:8000/api/booking/create", {
-        method: "POST",
+      const url = isEdit
+        ? `http://localhost:8000/api/booking/update/${id}`
+        : "http://localhost:8000/api/booking/create";
+
+      const res = await fetch(url, {
+        method: isEdit ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -153,7 +197,7 @@ const BookingPage = () => {
         setBookingResponse(data.data);
         setShowSuccessModal(true);
       } else {
-        alert("Booking failed.");
+        alert("Booking failed");
       }
     } catch (err) {
       alert("Server error");
@@ -162,7 +206,6 @@ const BookingPage = () => {
 
   const closeSuccessModal = () => {
     setShowSuccessModal(false);
-    // reset
     setFormData({
       date: null,
       time: "",
@@ -177,22 +220,19 @@ const BookingPage = () => {
     setCategories([]);
     setSubCategories([]);
     setServices([]);
-    console.log(
-      "dd",
-      location.pathname.startsWith("/admin"),
-      location.pathname
-    );
-    // 👉 if admin URL, navigate
-    if (location.pathname.startsWith("/admin")) {
-      navigate("/admin/bookings");
-    } else {
-      navigate("/");
-    }
+    navigate(isEdit ? "/admin/bookings" : "/admin/bookings");
   };
+
+  if (isLoading)
+    return (
+      <div className="text-center py-20 text-gray-500">Loading booking...</div>
+    );
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center">Book Your Service</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        {isEdit ? "Edit Booking" : "Book Your Service"}
+      </h1>
 
       <StepProgress step={step} />
 
@@ -208,7 +248,10 @@ const BookingPage = () => {
           >
             <Calendar
               selectedDate={formData.date}
-              setSelectedDate={handleDateSelect}
+              setSelectedDate={(d) => {
+                setFormData((p) => ({ ...p, date: d }));
+                setStep("times");
+              }}
             />
           </motion.div>
         )}
@@ -225,8 +268,12 @@ const BookingPage = () => {
             <TimeSlot
               selectedDate={formData.date}
               selectedTime={formData.time}
-              setSelectedTime={handleTimeSelect}
+              setSelectedTime={(t) => {
+                setFormData((p) => ({ ...p, time: t }));
+                setStep("form");
+              }}
               onBack={() => setStep("calendar")}
+              onNext={() => setStep("form")}
             />
           </motion.div>
         )}
@@ -243,7 +290,10 @@ const BookingPage = () => {
             <CustomerForm
               formData={formData}
               setFormData={setFormData}
-              onSubmit={handleCustomerSubmit}
+              onSubmit={(d) => {
+                setFormData((p) => ({ ...p, ...d }));
+                setStep("preview");
+              }}
               categories={categories}
               subCategories={subCategories}
               services={services}
@@ -280,6 +330,4 @@ const BookingPage = () => {
       />
     </div>
   );
-};
-
-export default BookingPage;
+}

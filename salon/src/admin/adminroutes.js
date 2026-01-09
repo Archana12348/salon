@@ -21,7 +21,7 @@ import ServicesAdd from "./pages/services/AddRoles";
 import ServicesEdit from "./pages/services/EditRoles";
 import Booking from "./pages/bookings/SeasonTable";
 import BookingAdd from "./components/features/booking-flow/BookingPage";
-import BookingEdit from "./pages/bookings/EditSeason";
+import BookingEdit from "./components/features/booking-flow/BookingPage";
 import BookingAddss from "./pages/bookings/AddService";
 import BookingAddssedit from "./pages/bookings/EditService";
 
@@ -31,6 +31,9 @@ import BannerEdit from "./components/content/Banner/BannerFormPage";
 import Slider from "./components/content/Slider/SliderManagement";
 import SliderAdd from "./components/content/Slider/AddSliderPage";
 import SliderEdit from "./components/content/Slider/EditSliderPage";
+import Page from "./pages/sizes/SizesTable";
+import PageAdd from "./pages/sizes/AddSize";
+import PageEdit from "./pages/sizes/EditSize";
 
 import PublicRoute from "./routes/PublicRoute";
 import Login from "./pages/auth/LoginPage";
@@ -86,6 +89,9 @@ export const AdminRoutes = (
         <Route path="slider" element={<Slider />} />
         <Route path="slider/add" element={<SliderAdd />} />
         <Route path="slider/:id/edit" element={<SliderEdit />} />
+        <Route path="pages" element={<Page />} />
+        <Route path="pages/add" element={<PageAdd />} />
+        <Route path="pages/:id/edit" element={<PageEdit />} />
         <Route path="bookingadd" element={<BookingAddss />} />
         <Route path="bookingadd/:id/edit" element={<BookingAddssedit />} />
         <Route path="settings" element={<Settings />} />

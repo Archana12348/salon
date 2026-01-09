@@ -136,7 +136,7 @@ const EditUser = () => {
   const handleCancel = () => navigate(-1);
 
   return (
-    <div className="p-4 sm:p-6 md:p-10 max-w-5xl mx-auto dark:bg-transparent">
+    <div className="p-4 sm:p-6 md:p-10 max-w-5xl mx-auto border bg-slate-50 rounded-xl dark:bg-transparent">
       <ToastContainer />
       <h1 className="text-2xl font-bold text-black-600">USER</h1>
       <p className="text-gray-500">Edit User</p>
@@ -283,9 +283,9 @@ const EditUser = () => {
         <div className="md:col-span-2 flex gap-4 mt-4">
           <button
             type="submit"
-            className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
+            className="bg-sky-600 text-white px-6 py-2 rounded hover:bg-sky-700"
           >
-            Submit
+            Update User
           </button>
           <button
             type="button"

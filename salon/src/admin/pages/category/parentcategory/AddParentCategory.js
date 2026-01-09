@@ -25,7 +25,7 @@ const AddParentCategory = () => {
         return res.json();
       })
       .then((data) => {
-        setHeadCategories(data.data.data);
+        setHeadCategories(data.data);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -118,24 +118,21 @@ const AddParentCategory = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 dark:text-white">
+    <div className="max-w-3xl mx-auto rounded-lg border p-6 ">
       {/* Heading */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-black">Add Parent Category</h1>
+      <div className="flex items-center justify-between mb-3">
+        <h1 className="text-2xl font-bold text-black">Add SubCategory</h1>
       </div>
 
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        className="space-y-6 dark:bg-gray-800 rounded-lg p-6"
+        className="space-y-6 border-t rounded-lg p-6"
       >
         {/* Head Category */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <label
-            htmlFor="headCategory"
-            className="sm:w-40 font-medium text-gray-700 dark:text-gray-300"
-          >
-            Category
+          <label htmlFor="headCategory" className="sm:w-40 font-medium ">
+            Category <span className="text-red-500">*</span>
           </label>
           <select
             id="headCategory"
@@ -153,11 +150,8 @@ const AddParentCategory = () => {
 
         {/* Name */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <label
-            htmlFor="parentCategoryName"
-            className="sm:w-40 font-medium text-gray-700 dark:text-gray-300"
-          >
-            Name
+          <label htmlFor="parentCategoryName" className="sm:w-40 font-medium">
+            Name <span className="text-red-500">*</span>
           </label>
           <Input
             id="parentCategoryName"
@@ -171,7 +165,7 @@ const AddParentCategory = () => {
         {/* Slug */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <label htmlFor="slug" className="sm:w-40 font-medium">
-            Slug
+            Slug <span className="text-red-500">*</span>
           </label>
           <Input
             id="slug"
@@ -193,8 +187,16 @@ const AddParentCategory = () => {
         </div>
         {/* Active / Inactive Toggle */}
         <div className="flex items-center gap-3 pb-1">
-          <label className="inline-flex items-center cursor-pointer">
+          <span className="font-medium">
+            Status <span className="text-red-500">*</span>
+          </span>
+
+          <label
+            htmlFor="statusToggle"
+            className="relative inline-flex items-center cursor-pointer"
+          >
             <input
+              id="statusToggle"
               type="checkbox"
               className="sr-only peer"
               checked={active}
@@ -203,30 +205,29 @@ const AddParentCategory = () => {
 
             <div
               className={`
-                relative w-9 h-5 rounded-full transition-colors
-                peer-focus:outline-none peer-focus:ring-4
-                peer-focus:ring-blue-200
-                ${active ? "bg-blue-600" : "bg-red-600"}
-                after:content-['']
-                after:absolute after:top-[2px] after:left-[2px]
-                after:h-4 after:w-4 after:rounded-full
-                after:bg-white after:transition-all
-                ${active ? "after:translate-x-4" : ""}
-              `}
+        w-9 h-5 rounded-full transition-colors
+        peer-focus:ring-4 peer-focus:ring-blue-200
+        ${active ? "bg-blue-600" : "bg-red-600"}
+        after:content-['']
+        after:absolute after:top-[2px] after:left-[2px]
+        after:h-4 after:w-4 after:rounded-full
+        after:bg-white after:transition-all
+        ${active ? "after:translate-x-4" : ""}
+      `}
             />
-
-            <span className="select-none ms-2 text-sm font-medium">
-              {active ? (
-                <span className="text-blue-600">Active</span>
-              ) : (
-                <span className="text-red-600">Inactive</span>
-              )}
-            </span>
           </label>
+
+          <span className="select-none text-sm font-medium">
+            {active ? (
+              <span className="text-blue-600">Active</span>
+            ) : (
+              <span className="text-red-600">Inactive</span>
+            )}
+          </span>
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex justify-end gap-3 pt-4  border-gray-200 dark:border-gray-700">
           <Button
             type="button"
             variant="secondary"

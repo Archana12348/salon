@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/Table";
-import { Plus, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Plus, Edit, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import Swal from "sweetalert2";
 import axios from "axios";
 
@@ -165,84 +165,90 @@ const SeasonsPage = () => {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 px-2 sm:px-4 lg:px-6 py-4">
-      <h1 className="text-3xl font-bold mb-4 dark:text-black">Services</h1>
-
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <div>
-              <CardTitle>Services</CardTitle>
-              <CardDescription>Manage your Services</CardDescription>
-            </div>
-
-            <div className="flex gap-2">
-              {selectedSeasons.length > 0 && (
-                <Button
-                  className="bg-red-500 hover:bg-red-600 text-white"
-                  onClick={handleBulkDelete}
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Bulk Delete ({selectedSeasons.length})
-                </Button>
-              )}
-
-              <Button onClick={() => navigate("/admin/bookingadd")}>
-                <Plus className="mr-2 h-4 w-4" /> Add New Service
-              </Button>
-            </div>
+    <div className="p-6 max-w-6xl mx-auto border rounded-xl bg-white dark:bg-gray-900 shadow">
+      <CardHeader>
+        <div className="flex justify-between items-center">
+          <div>
+            <CardTitle className="text-4xl font-bold">Services</CardTitle>
+            <CardDescription className="text-3xl font-bold">
+              Manage your Services
+            </CardDescription>
           </div>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 w-full">
+          <div className="flex items-center rounded-md px-3 py-2 flex-1 min-w-0"></div>
+          {selectedSeasons.length > 0 && (
+            <Button
+              className="bg-red-500 hover:bg-red-600 text-white"
+              onClick={handleBulkDelete}
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Bulk Delete ({selectedSeasons.length})
+            </Button>
+          )}
 
-          <div className="flex justify-between items-center mt-4">
-            <div className="flex items-center gap-2">
-              <label>Show</label>
-              <select
-                className="mb-2 dark:bg-slate-500 border"
-                value={itemsPerPage}
-                onChange={(e) => {
-                  setItemsPerPage(Number(e.target.value));
-                  setPage(1);
-                }}
-              >
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-              <label>entries</label>
-            </div>
-            <div className="className w-[30rem] pr-2">
-              <Input
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  setPage(1);
-                }}
-                className="border-none ml-2"
-              />
-            </div>
+          <Button onClick={() => navigate("/admin/bookingadd")}>
+            <Plus className="mr-2 h-4 w-4 text-xl" /> Add New Service
+          </Button>
+        </div>
+
+        <div className="flex justify-between items-center mt-4">
+          <div className="flex items-center gap-2 text-xl font-semibold">
+            <label>Show</label>
+            <select
+              className="mb-2 border "
+              value={itemsPerPage}
+              onChange={(e) => {
+                setItemsPerPage(Number(e.target.value));
+                setPage(1);
+              }}
+            >
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+            <label>entries</label>
           </div>
-        </CardHeader>
+          <div className="className w-[30rem] pr-2">
+            <Input
+              placeholder="Search services..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setPage(1);
+              }}
+              className="border-none ml-2"
+            />
+          </div>
+        </div>
+      </CardHeader>
 
-        <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>
+      <CardContent>
+        <div className="overflow-x-auto">
+          <fieldset className="border border-gray-700 rounded-lg p-2 mb-6">
+            <Table className="text-center">
+              <TableHeader className="text-center">
+                <TableRow className="text-center">
+                  <TableHead className=" text-center min-w-[150px] w-[25%] text-xl text-white bg-black">
                     <input
                       type="checkbox"
                       checked={areAllOnPageSelected}
                       onChange={handleSelectAllSeasons}
                     />
                   </TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Slug</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Created At</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className=" text-center min-w-[150px] w-[25%] text-xl text-white bg-black">
+                    Name
+                  </TableHead>
+                  <TableHead className="text-center min-w-[150px] w-[25%] text-xl text-white bg-black">
+                    Slug
+                  </TableHead>
+                  <TableHead className=" text-center min-w-[150px] w-[25%] text-xl text-white bg-black">
+                    Status
+                  </TableHead>
+                  <TableHead className=" text-center min-w-[150px] w-[25%] text-xl text-white bg-black">
+                    Actions
+                  </TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -257,45 +263,41 @@ const SeasonsPage = () => {
                           onChange={() => handleSelectSeason(s.id)}
                         />
                       </TableCell>
-                      <TableCell>{s.service_name}</TableCell>
-                      <TableCell>{s.slug}</TableCell>
-                      <TableCell>
+                      <TableCell className="text-xl">
+                        {s.service_name}
+                      </TableCell>
+                      <TableCell className="text-xl">{s.slug}</TableCell>
+                      <TableCell className="text-xl">
                         {s.status ? (
-                          <span className="text-green-500 font-semibold">
+                          <span className="ml-3 px-3 py-1 rounded-full text-base font-semibold bg-green-100 text-green-700">
                             Active
                           </span>
                         ) : (
-                          <span className="text-red-500 font-semibold">
+                          <span className="ml-3 px-3 py-1 rounded-full text-base font-semibold  bg-red-100 text-red-700">
                             Inactive
                           </span>
                         )}
                       </TableCell>
-                      <TableCell>{s.price}</TableCell>
-                      <TableCell>
-                        {s.created_at
-                          ? new Date(s.created_at).toLocaleString()
-                          : "N/A"}
-                      </TableCell>
-                      <TableCell className="flex">
+                      <TableCell className="flex justify-center items-center">
                         <button
                           onClick={() =>
                             navigate(`/admin/services/${s.id}/edit`)
                           }
                           className="text-blue-500 mr-3"
                         >
-                          <Pencil size={18} />
+                          <Edit className="h-5 w-5" />
                         </button>
                         <button
                           onClick={() => deleteSeason(s.id)}
                           className="text-red-500"
                         >
-                          <Trash2 size={18} />
+                          <Trash2 className="h-5 w-5" />
                         </button>
                       </TableCell>
                     </TableRow>
                   ))
                 ) : (
-                  <TableRow>
+                  <TableRow className="text-xl">
                     <TableCell colSpan={7} className="text-center">
                       No services found
                     </TableCell>
@@ -303,52 +305,52 @@ const SeasonsPage = () => {
                 )}
               </TableBody>
             </Table>
-          </div>
+          </fieldset>
+        </div>
 
-          <div className="flex justify-between items-center mt-4 flex-wrap gap-2">
-            {/* Showing text */}
-            <span className="text-sm text-gray-600">
-              Showing {(page - 1) * itemsPerPage + 1}–
-              {Math.min(page * itemsPerPage, totalEntries)} of {totalEntries}{" "}
-              entries
-            </span>
+        <div className="flex justify-between items-center mt-4 flex-wrap gap-2">
+          {/* Showing text */}
+          <span className="text-xl font-semibold text-gray-600">
+            Showing {(page - 1) * itemsPerPage + 1}–
+            {Math.min(page * itemsPerPage, totalEntries)} of {totalEntries}{" "}
+            entries
+          </span>
 
-            {/* Pagination controls */}
-            <div className="flex items-center gap-1">
-              <Button
-                disabled={page === 1}
-                onClick={() => setPage(page - 1)}
-                className="bg-red-500 text-white px-2"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
+          {/* Pagination controls */}
+          <div className="flex items-center gap-1">
+            <Button
+              disabled={page === 1}
+              onClick={() => setPage(page - 1)}
+              className="bg-red-500 text-white px-2"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
 
-              {getPageNumbers().map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setPage(p)}
-                  className={`px-3 py-1 rounded border text-sm
+            {getPageNumbers().map((p) => (
+              <button
+                key={p}
+                onClick={() => setPage(p)}
+                className={`px-3 py-1 rounded border text-sm
           ${
             p === page
               ? "bg-red-500 text-white border-red-500"
               : "bg-white text-gray-700 hover:bg-gray-100"
           }`}
-                >
-                  {p}
-                </button>
-              ))}
-
-              <Button
-                disabled={page === totalPages}
-                onClick={() => setPage(page + 1)}
-                className="bg-red-500 text-white px-2"
               >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
+                {p}
+              </button>
+            ))}
+
+            <Button
+              disabled={page === totalPages}
+              onClick={() => setPage(page + 1)}
+              className="bg-red-500 text-white px-2"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </CardContent>
     </div>
   );
 };

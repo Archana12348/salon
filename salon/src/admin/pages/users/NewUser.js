@@ -185,11 +185,11 @@ const NewUser = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 md:p-10 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-6 md:p-10 border bg-white-600 rounded-xl max-w-5xl mx-auto">
       <ToastContainer />
       <h1 className="text-2xl font-bold text-black-600">USER</h1>
       <p className="text-gray-500">New User</p>
-      <hr className="my-2 border-gray-300" />
+      <hr className="my-2 border-gray-300 mb-4" />
 
       <form
         onSubmit={handleSubmit}
@@ -330,7 +330,7 @@ const NewUser = () => {
         <div className="md:col-span-2 flex gap-4 mt-4">
           <button
             type="submit"
-            className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
+            className="bg-sky-600 text-white px-6 py-2 rounded hover:bg-sky-700"
           >
             Submit
           </button>

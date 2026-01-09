@@ -8,32 +8,49 @@ import "summernote/dist/summernote-bs4.css";
 import "summernote/dist/summernote-bs4.js";
 
 window.$ = window.jQuery = $;
+
 const RichTextEditor = ({ value = "", onChange }) => {
   const editorRef = useRef(null);
+  const isReady = useRef(false);
 
+  // INIT once
   useEffect(() => {
     const $editor = $(editorRef.current);
 
-    $editor.summernote({
-      height: 200,
-      placeholder: "Enter description...",
-      toolbar: [
-        ["style", ["bold", "italic", "underline"]],
-        ["para", ["ul", "ol"]],
-        ["insert", ["link"]],
-        ["view", ["codeview"]],
-      ],
-      callbacks: {
-        onChange: (contents) => onChange?.(contents),
-      },
-    });
+    if (!isReady.current) {
+      $editor.summernote({
+        height: 200,
+        placeholder: "Enter description...",
+        toolbar: [
+          ["style", ["bold", "italic", "underline"]],
+          ["para", ["ul", "ol"]],
+          ["insert", ["link"]],
+          ["view", ["codeview"]],
+        ],
+        callbacks: {
+          onChange: function (contents) {
+            onChange?.(contents);
+          },
+        },
+      });
 
-    $editor.summernote("code", value);
-
-    return () => {
-      $editor.summernote("destroy");
-    };
+      isReady.current = true;
+    }
   }, []);
+
+  // SET VALUE when API data arrives
+  useEffect(() => {
+    if (!isReady.current) return;
+
+    const $editor = $(editorRef.current);
+
+    // Delay ensures Summernote DOM is fully ready
+    setTimeout(() => {
+      if ($editor.summernote("code") !== value) {
+        $editor.summernote("code", value || "");
+      }
+    }, 0);
+  }, [value]);
 
   return <textarea ref={editorRef} />;
 };

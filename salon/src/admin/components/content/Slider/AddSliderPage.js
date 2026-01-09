@@ -61,16 +61,6 @@ const AddSliderPage = () => {
       return false;
     }
 
-    // URL validation (supports localhost, IP, ports)
-    if (formData.target_url) {
-      try {
-        new URL(formData.target_url);
-      } catch {
-        toast.error("❌ Please enter a valid URL.");
-        return false;
-      }
-    }
-
     return true;
   };
 
@@ -112,13 +102,15 @@ const AddSliderPage = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="max-w-3xl mx-auto bg-slate-50 rounded-xl p-4 sm:p-6 lg:p-8">
       <h1 className="text-2xl font-bold mb-6">Add Slider</h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Background Image */}
         <div>
-          <label className="text-sm font-medium">Background Image</label>
+          <label className="text-sm font-medium">
+            Background Image <span className="text-red-600">*</span>
+          </label>
           <div className="space-y-2">
             <Input
               type="file"
@@ -170,16 +162,46 @@ const AddSliderPage = () => {
           />
         </div>
 
-        {/* Is Active */}
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            name="is_active"
-            checked={formData.is_active}
-            onChange={handleInputChange}
-            className="h-4 w-4"
-          />
-          <label className="text-sm font-medium">Active</label>
+        {/* Active / Inactive Toggle */}
+        <div className="flex items-start gap-3 pb-1">
+          <span className="font-medium">
+            Status <span className="text-red-500">*</span>
+          </span>
+
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="sr-only peer"
+              checked={formData.is_active}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  is_active: e.target.checked,
+                }))
+              }
+            />
+
+            <div
+              className={`
+        w-9 h-5 rounded-full transition-colors
+        peer-focus:ring-4 peer-focus:ring-blue-200
+        ${formData.is_active ? "bg-blue-600" : "bg-red-600"}
+        after:content-['']
+        after:absolute after:top-[2px] after:left-[2px]
+        after:h-4 after:w-4 after:rounded-full
+        after:bg-white after:transition-all
+        ${formData.is_active ? "after:translate-x-4" : ""}
+      `}
+            />
+          </label>
+
+          <span className="select-none text-sm font-medium">
+            {formData.is_active ? (
+              <span className="text-blue-600">Active</span>
+            ) : (
+              <span className="text-red-600">Inactive</span>
+            )}
+          </span>
         </div>
 
         {/* Buttons */}

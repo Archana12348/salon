@@ -1,26 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Users, CalendarCheck } from "lucide-react";
 import StatsCard from "../components/common/StatsCard";
-import OrderStatusCard from "../components/common/OrderStatusCard";
-import ProductCard from "../components/common/ProductCard";
-import {
-  DollarSign,
-  IndianRupee,
-  Package,
-  ShoppingCart,
-  Users,
-} from "lucide-react";
 
 const Dashboard = () => {
-  const [data, setData] = useState(null);
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://tyka.premierhostings.com/backend/api/dashboard")
+    fetch("http://localhost:8000/api/admin/dashboard")
       .then((res) => res.json())
       .then((json) => {
-        setData(json);
+        setStats(json.data); // IMPORTANT
         setLoading(false);
       })
       .catch((err) => {
@@ -33,88 +24,45 @@ const Dashboard = () => {
     return <div className="p-4">Loading dashboard...</div>;
   }
 
-  if (!data) {
+  if (!stats) {
     return (
       <div className="p-4 text-red-500">Failed to load dashboard data.</div>
     );
   }
 
-  const {
-    total_revenue,
-    total_orders,
-    products,
-    active_customers,
-    growth,
-    order_status,
-    top_products,
-  } = data;
-
-  const stats = [
+  const dashboardStats = [
     {
-      title: "Total Revenue",
-      value: `₹ ${total_revenue.toLocaleString()}`,
-      // change: `${growth.revenue >= 0 ? "+" : ""}${growth.revenue}%`,
-      // trend: growth.revenue >= 0 ? "up" : "down",
-      icon: IndianRupee,
-    },
-    {
-      title: "Total Orders",
-      value: total_orders.toString(),
-      change: `${growth.orders >= 0 ? "+" : ""}${growth.orders}%`,
-      trend: growth.orders >= 0 ? "up" : "down",
-      icon: ShoppingCart,
-      link: "/orders",
-    },
-    {
-      title: "Products",
-      value: products.toString(),
-      change: `${growth.products >= 0 ? "+" : ""}${growth.products}%`,
-      trend: growth.products >= 0 ? "up" : "down",
-      icon: Package,
-      link: "/products",
-    },
-    {
-      title: "Active Customers",
-      value: active_customers.toString(),
-      change: `${growth.customers >= 0 ? "+" : ""}${growth.customers}`,
-      trend: growth.customers >= 0 ? "up" : "down",
+      title: "Total Users",
+      value: stats.total_users.toString(),
       icon: Users,
-      link: "/customers",
+    },
+    {
+      title: "Total Bookings",
+      value: stats.total_bookings.toString(),
+      icon: CalendarCheck,
     },
   ];
-
-  const orderStatus = [
-    { status: "Pending", count: order_status.pending, color: "bg-yellow-500" },
-    {
-      status: "Processing",
-      count: order_status.processing,
-      color: "bg-blue-500",
-    },
-    { status: "Shipped", count: order_status.shipped, color: "bg-purple-500" },
-    {
-      status: "Delivered",
-      count: order_status.delivered,
-      color: "bg-green-500",
-    },
-    { status: "Cancelled", count: order_status.returned, color: "bg-red-500" },
-  ];
-
-  const maxCount = Math.max(...orderStatus.map((o) => o.count));
-
-  const topProducts = top_products.map((product) => ({
-    name: product.product_name,
-    sales: parseInt(product.sales),
-    revenue: `₹${Number(product.revenue).toLocaleString()}`,
-  }));
 
   return (
     <div className="space-y-6 px-4 py-4">
       {/* Heading */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground" style={{ marginTop: "5px" }}>
-          Welcome back! Here's what's happening with your salon today.
+        <p className="text-muted-foreground mt-1">
+          Welcome back! Here’s what’s happening today.
         </p>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {dashboardStats.map((item, index) => (
+          <StatsCard
+            key={index}
+            title={item.title}
+            value={item.value}
+            icon={item.icon}
+          />
+        ))}
       </div>
     </div>
   );

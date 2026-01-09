@@ -103,9 +103,6 @@ export default function EditHeadCategoryPage() {
         }
       );
 
-      console.log(response);
-      debugger;
-
       Swal.close(); // ✅ Close loader
 
       toast.success("Category updated successfully!");
@@ -122,18 +119,13 @@ export default function EditHeadCategoryPage() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="max-w-2xl mx-auto bg-gray dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-5 text-white">
-          Edit Main Category
-        </h1>
+      <div className="max-w-2xl mx-auto  border p-6 rounded-lg bg-white dark:bg-gray-900 shadow">
+        <h1 className="text-2xl font-bold mb-5">Edit Main Category</h1>
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Name */}
           <div>
-            <label
-              htmlFor="name"
-              className="block mb-1 font-medium dark:text-gray-300"
-            >
-              Name
+            <label htmlFor="name" className="block mb-1 font-medium">
+              Name<span className="text-red-500 font-semibold">*</span>
             </label>
             <Input
               id="name"
@@ -145,11 +137,8 @@ export default function EditHeadCategoryPage() {
 
           {/* Slug */}
           <div>
-            <label
-              htmlFor="slug"
-              className="block mb-1 font-medium dark:text-gray-300"
-            >
-              Slug
+            <label htmlFor="slug" className="block mb-1 font-medium">
+              Slug<span className="text-red-500 font-semibold">*</span>
             </label>
             <Input
               id="slug"
@@ -162,30 +151,24 @@ export default function EditHeadCategoryPage() {
 
           {/* Description */}
           <div>
-            <label
-              htmlFor="description"
-              className="block mb-1 font-medium dark:text-gray-300"
-            >
-              Description
-            </label>
-            <RichTextEditor
-              value={description}
-              initialContent={description}
-              onChange={setDescription}
-            />
+            <label className="block mb-1 font-medium">Description</label>
+            <RichTextEditor value={description} onChange={setDescription} />
           </div>
+
           {/* Active / Inactive Toggle */}
           <div className="flex items-center gap-3 pb-1">
             <label className="inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                className="sr-only peer"
-                checked={active}
-                onChange={(e) => setActive(e.target.checked)}
-              />
+              status
+            </label>
+            <input
+              type="checkbox"
+              className="sr-only peer"
+              checked={active}
+              onChange={(e) => setActive(e.target.checked)}
+            />
 
-              <div
-                className={`
+            <div
+              className={`
                   relative w-9 h-5 rounded-full transition-colors
                   peer-focus:outline-none peer-focus:ring-4
                   peer-focus:ring-blue-200
@@ -196,16 +179,15 @@ export default function EditHeadCategoryPage() {
                   after:bg-white after:transition-all
                   ${active ? "after:translate-x-4" : ""}
                 `}
-              />
+            />
 
-              <span className="select-none ms-2 text-sm font-medium">
-                {active ? (
-                  <span className="text-blue-600">Active</span>
-                ) : (
-                  <span className="text-red-600">Inactive</span>
-                )}
-              </span>
-            </label>
+            <span className="select-none ms-2 text-sm font-medium">
+              {active ? (
+                <span className="text-blue-600">Active</span>
+              ) : (
+                <span className="text-red-600">Inactive</span>
+              )}
+            </span>
           </div>
 
           {/* Buttons */}
