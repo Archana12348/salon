@@ -73,9 +73,7 @@ const UserTable = ({
     if (!window.confirm("Are you sure you want to delete this user?")) return;
 
     try {
-      await axios.delete(
-        `https://tyka.premierhostings.com/backend/api/users/${userId}`
-      );
+      await axios.delete(`http://localhost:8000/api/admin/users/${userId}`);
       toast.success("User deleted successfully.");
 
       // Remove the user from UI
@@ -101,13 +99,27 @@ const UserTable = ({
                 onChange={onSelectAll}
               />
             </TableHead>
-            <TableHead className="min-w-[150px]">Customer Name</TableHead>
-            <TableHead className="min-w-[100px]">Status</TableHead>
-            <TableHead className="min-w-[100px]">Role</TableHead>
-            <TableHead className="min-w-[130px]">Phone Number</TableHead>
-            <TableHead className="min-w-[200px]">Email</TableHead>
-            <TableHead className="min-w-[120px]">Country</TableHead>
-            <TableHead className="min-w-[80px] text-right">Actions</TableHead>
+            <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black ">
+              Customer Name
+            </TableHead>
+            <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+              Status
+            </TableHead>
+            <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+              Role
+            </TableHead>
+            <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+              Phone Number
+            </TableHead>
+            <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+              Email
+            </TableHead>
+            <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+              Country
+            </TableHead>
+            <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black text-right">
+              Actions
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

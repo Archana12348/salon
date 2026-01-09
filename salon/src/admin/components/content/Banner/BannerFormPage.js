@@ -148,7 +148,7 @@ const BannerFormPage = () => {
 
   /* ================= UI ================= */
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-3xl mx-auto border rounded-xl bg-slate-50 p-4 sm:p-6 lg:p-8">
       <h1 className="text-2xl font-bold mb-6">
         {isEditing ? "Edit Banner" : "Add Banner"}
       </h1>
@@ -156,7 +156,9 @@ const BannerFormPage = () => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Position */}
         <div>
-          <label className="text-sm font-medium">Banner Position</label>
+          <label className="text-sm font-medium">
+            Banner Position <span className="text-red-600">*</span>
+          </label>
           <select
             name="banner_type"
             value={formData.banner_type}
@@ -173,13 +175,15 @@ const BannerFormPage = () => {
 
         {/* Image */}
         <div>
-          <label className="text-sm font-medium">Banner Image</label>
+          <label className="text-sm font-medium">
+            Banner Image <span className="text-red-600">*</span>
+          </label>
           <Input type="file" accept="image/*" onChange={handleImageUpload} />
 
           {formData.banner_image && (
             <div className="relative mt-2">
               <img
-                src={formData.background_image}
+                src={formData.banner_image}
                 className="w-full h-72 object-cover rounded"
                 alt="Preview"
               />

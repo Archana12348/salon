@@ -1,4 +1,4 @@
-const SuccessModal = ({ open, setOpen, booking }) => {
+const SuccessModal = ({ open, setOpen }) => {
   if (!open) return null;
 
   return (
@@ -6,7 +6,6 @@ const SuccessModal = ({ open, setOpen, booking }) => {
       <div className="bg-white p-6 rounded-xl shadow-xl text-center w-80">
         <h2 className="text-xl font-bold mb-3">🎉 Booking Successful!</h2>
         <p>Your booking has been confirmed.</p>
-        <p>Booking Code: {booking.booking_code}</p>
 
         <button
           onClick={setOpen} // ← FIXED

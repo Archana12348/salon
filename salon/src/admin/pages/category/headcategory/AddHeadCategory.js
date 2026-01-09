@@ -45,8 +45,8 @@ export default function AddHeadCategoryPage() {
     try {
       setLoading(true); // ✅ Fix: Loader state use
       Swal.fire({
-        title: "Saving Product...",
-        text: "Please wait while we save your product.",
+        title: "Saving category...",
+        text: "Please wait while we save your category.",
         allowOutsideClick: false,
         background: "#ffff", // 🖤 Black background
         color: "#dc2626", // ❤️ Red text
@@ -78,19 +78,14 @@ export default function AddHeadCategoryPage() {
   };
 
   return (
-    <div className="min-h-screen p-2">
-      <div className="max-w-2xl mx-auto  dark:bg-gray-500 p-6 rounded-lg ">
-        <h1 className="text-2xl font-bold mb-5 dark:text-white">
-          Main Head Category
-        </h1>
+    <div className="min-h-screen p-2 ">
+      <div className="max-w-2xl mx-auto  border p-6 rounded-lg bg-white dark:bg-gray-900 shadow">
+        <h1 className="text-2xl font-bold mb-5 ">Add Category</h1>
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Name */}
           <div>
-            <label
-              htmlFor="name"
-              className="block mb-1 font-medium dark:text-white"
-            >
-              Name
+            <label htmlFor="name" className="block mb-1 font-medium ">
+              Name<span className="text-red-500 font-semibold">*</span>
             </label>
             <Input
               id="name"
@@ -104,11 +99,8 @@ export default function AddHeadCategoryPage() {
 
           {/* Slug */}
           <div>
-            <label
-              htmlFor="slug"
-              className="block mb-1 font-medium dark:text-white"
-            >
-              Slug
+            <label htmlFor="slug" className="block mb-1 font-medium ">
+              Slug<span className="text-red-500 font-semibold">*</span>
             </label>
             <Input
               id="slug"
@@ -122,10 +114,7 @@ export default function AddHeadCategoryPage() {
 
           {/* Description */}
           <div>
-            <label
-              htmlFor="description"
-              className="block mb-1 font-medium dark:text-gray-300"
-            >
+            <label htmlFor="description" className="block mb-1 font-medium">
               Description
             </label>
             <RichTextEditor
@@ -136,7 +125,11 @@ export default function AddHeadCategoryPage() {
 
           {/* Active / Inactive Toggle */}
           <div className="flex items-center gap-3 mt-4">
-            <label className="inline-flex items-center cursor-pointer">
+            <label className="font-medium">
+              Status<span className="text-red-500 font-semibold">*</span>
+            </label>
+
+            <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 className="sr-only peer"
@@ -145,36 +138,34 @@ export default function AddHeadCategoryPage() {
               />
 
               <div
-                className={`
-                  relative w-9 h-5 rounded-full transition-colors
-                  peer-focus:outline-none peer-focus:ring-4
-                  peer-focus:ring-blue-200
-                  ${active ? "bg-blue-600" : "bg-red-600"}
-                  after:content-['']
-                  after:absolute after:top-[2px] after:start-[2px]
-                  after:h-4 after:w-4 after:rounded-full
-                  after:bg-white after:transition-all
-                  ${active ? "after:translate-x-4" : ""}
-                `}
-              />
-
-              <span className="select-none ms-3 text-sm font-medium">
-                {active ? (
-                  <span className="text-blue-600">Active</span>
-                ) : (
-                  <span className="text-red-600">Inactive</span>
-                )}
-              </span>
+                className="
+        w-11 h-6 rounded-full transition-colors
+        bg-red-600 peer-checked:bg-blue-600
+        after:content-['']
+        after:absolute after:top-[2px] after:left-[2px]
+        after:h-5 after:w-5 after:bg-white after:rounded-full
+        after:transition-transform
+        peer-checked:after:translate-x-5
+      "
+              ></div>
             </label>
+
+            <span className="text-sm font-medium">
+              {active ? (
+                <span className="text-blue-600">Active</span>
+              ) : (
+                <span className="text-red-600">Inactive</span>
+              )}
+            </span>
           </div>
 
           {/* Buttons */}
           <div className="flex justify-end gap-3">
             <Button
-              className="dark:text-white"
+              className=""
               type="button"
               variant="outline"
-              onClick={() => navigate("/headcategory")}
+              onClick={() => navigate(-1)}
             >
               Cancel
             </Button>

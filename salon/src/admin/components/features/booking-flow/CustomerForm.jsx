@@ -30,7 +30,7 @@ const CustomerForm = ({
 
       <div className="mb-4">
         <label className="block mb-1 font-medium">
-          Full Name <span className="alert alert-red">*</span>
+          Full Name <span className="text-red-700 font-semibold">*</span>
         </label>
         <input
           value={formData.name}
@@ -43,7 +43,7 @@ const CustomerForm = ({
       </div>
 
       <div className="mb-4">
-        <label className="block mb-1 font-medium">Phone Number</label>
+        <label className="block mb-1 font-medium">Phone Number </label>
         <input
           value={formData.phone}
           onChange={handleChange}
@@ -67,7 +67,10 @@ const CustomerForm = ({
       </div>
 
       <div className="mb-4">
-        <label className="block mb-1 font-medium">Select Categories</label>
+        <label className="block mb-1 font-medium">
+          Select Categories{" "}
+          <span className="text-red-700 font-semibold">*</span>
+        </label>
         <select
           name="category_id"
           value={formData.category_id}
@@ -85,7 +88,10 @@ const CustomerForm = ({
       </div>
 
       <div className="mb-4">
-        <label className="block mb-1 font-medium">Select Sub Categories</label>
+        <label className="block mb-1 font-medium">
+          Select Sub Categories{" "}
+          <span className="text-red-700 font-semibold">*</span>
+        </label>
         <select
           name="sub_category_id"
           value={formData.sub_category_id}
@@ -103,7 +109,9 @@ const CustomerForm = ({
         </select>
       </div>
       <div className="mb-4">
-        <label className="block mb-1 font-medium">Select Services</label>
+        <label className="block mb-1 font-medium">
+          Select Services <span className="text-red-700 font-semibold">*</span>
+        </label>
         <select
           name="service_id"
           value={formData.service_id}

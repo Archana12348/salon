@@ -184,11 +184,12 @@ export default function RoleTable() {
 
   /* -------------------- RENDER -------------------- */
   return (
-    <div className="max-w-7xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Bookings</h2>
+    <div className="p-6 max-w-6xl mx-auto border rounded-lg bg-white dark:bg-gray-900 shadow">
+      <h2 className="text-3xl font-bold mb-4 ">Bookings</h2>
 
       {/* Top Controls */}
-      <div className="flex flex-col md:flex-row justify-between gap-3 mb-3">
+      <div className="flex flex-col md:flex-row justify-between gap-3">
+        <div className="flex items-center rounded-md px-3 py-2 flex-1 min-w-0"></div>
         <div className="flex gap-2">
           <button
             onClick={() => navigate("/admin/bookings/add")}
@@ -203,21 +204,49 @@ export default function RoleTable() {
             Bulk Delete
           </button>
         </div>
-
-        <input
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search..."
-          className="border p-2 rounded w-full md:w-80"
-        />
+      </div>
+      {/* Show per page + Search */}
+      <div className="flex flex-col sm:flex-row justify-between gap-3 mb-3 mt-3">
+        <div className="flex items-center gap-2 text-xl font-semibold">
+          <label>Show</label>
+          <select
+            value={perPage}
+            onChange={(e) => {
+              setPerPage(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+            className="border rounded p-1 text-sm mb-1"
+          >
+            {[10, 25, 50, 100].map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))}
+          </select>
+          <label>entries</label>
+        </div>
+        <div
+          className="flex items-center px-3 py-2 w-full sm:w-64"
+          style={{ width: "450px", marginRight: "-13px" }}
+        >
+          <input
+            placeholder="Search here bookings..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="border-none p-2 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 w-full"
+          />
+        </div>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="min-w-full border bg-white">
+        <table className="min-w-full border bg-white text-center">
           <thead className="bg-gray-200">
             <tr>
-              <th className="p-2">
+              <th className="p-2 text-white text-xl bg-black">
                 <input
                   type="checkbox"
                   checked={
@@ -226,11 +255,13 @@ export default function RoleTable() {
                   onChange={toggleSelectAll}
                 />
               </th>
-              <th className="p-2">Code</th>
-              <th className="p-2">Name</th>
-              <th className="p-2">Email</th>
-              <th className="p-2">Status</th>
-              <th className="p-2">Actions</th>
+              <th className="p-2 text-white text-xl bg-black">
+                Booking Number
+              </th>
+              <th className="p-2 text-white text-xl bg-black">Name</th>
+              <th className="p-2 text-white text-xl bg-black">Email</th>
+              <th className="p-2 text-white text-xl bg-black">Status</th>
+              <th className="p-2 text-white text-xl bg-black ">Actions</th>
             </tr>
           </thead>
 
@@ -244,11 +275,11 @@ export default function RoleTable() {
                     onChange={() => toggleSelectRole(r.id)}
                   />
                 </td>
-                <td className="p-2">{r.booking_code || "N/A"}</td>
-                <td className="p-2">{r.name || "-"}</td>
-                <td className="p-2">{r.email || "-"}</td>
+                <td className="p-2 text-xl">{r.booking_code || "N/A"}</td>
+                <td className="p-2 text-xl">{r.name || "-"}</td>
+                <td className="p-2 text-xl">{r.email || "-"}</td>
 
-                <td className="p-2">
+                <td className="p-2 text-xl">
                   <div className="relative">
                     <select
                       disabled={updatingStatusId === r.id}
@@ -271,16 +302,16 @@ export default function RoleTable() {
                   </div>
                 </td>
 
-                <td className="p-2 flex gap-2">
+                <td className="p-2 flex gap-2 justify-center">
                   <button
                     onClick={() => navigate(`/admin/bookings/${r.id}/edit`)}
-                    className="bg-blue-600 text-white px-3 py-1 rounded"
+                    className="bg-blue-600 text-white px-3 text-xl py-1 rounded"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(r.id)}
-                    className="bg-red-600 text-white px-3 py-1 rounded"
+                    className="bg-red-600 text-white px-3 text-xl py-1 rounded"
                   >
                     Delete
                   </button>
@@ -292,8 +323,8 @@ export default function RoleTable() {
       </div>
 
       {/* Pagination Info */}
-      <div className="flex flex-col md:flex-row justify-between items-center mt-4 gap-2">
-        <div>
+      <div className="flex flex-col md:flex-row justify-between items-center mt-4 mb-4 gap-2">
+        <div className="font-semibold text-xl">
           Showing {from} to {to} of {totalItems} entries
         </div>
 

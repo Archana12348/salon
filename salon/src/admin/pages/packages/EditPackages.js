@@ -90,14 +90,14 @@ export default function EditFabric() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto dark:bg-gray-900 shadow-md rounded-lg p-6 mt-6">
-      <h2 className="text-2xl font-bold mb-6 dark:text-white">Edit packages</h2>
+    <div className="max-w-2xl mx-auto bg-slate-50 shadow-md rounded-lg p-6 mt-6">
+      <h2 className="text-2xl font-bold mb-6 ">Edit packages</h2>
 
       <form onSubmit={handleUpdate} className="space-y-5">
         {/* Fabric Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-white mb-1">
-            Packages Name
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Packages Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -110,8 +110,8 @@ export default function EditFabric() {
 
         {/* Slug */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-white mb-1">
-            Slug
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Slug <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -125,8 +125,8 @@ export default function EditFabric() {
 
         {/* Status (is_active) */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Status
+          <label className="block text-sm font-medium mb-1">
+            Status <span className="text-red-500">*</span>
           </label>
           <select
             value={is_active} // Use is_active here

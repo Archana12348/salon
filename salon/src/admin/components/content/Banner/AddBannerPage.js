@@ -69,15 +69,6 @@ const AddBannerPage = () => {
       return false;
     }
 
-    if (formData.target_url) {
-      try {
-        new URL(formData.target_url);
-      } catch {
-        toast.error("❌ The target URL must be a valid URL.");
-        return false;
-      }
-    }
-
     return true;
   };
 
@@ -103,7 +94,7 @@ const AddBannerPage = () => {
         title: "Success!",
         text: "✅ Banner created successfully!",
         confirmButtonColor: "#d33",
-      }).then(() => navigate("/content"));
+      }).then(() => navigate("/admin/banner"));
     } catch (error) {
       const errors = error.response?.data?.errors;
 
@@ -118,13 +109,15 @@ const AddBannerPage = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="max-w-3xl mx-auto border rounded-xl bg-slate-50 p-4 sm:p-6 lg:p-8">
       <h1 className="text-2xl font-bold mb-6">Add Banner</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6 border-t pt-4">
         {/* Banner Position */}
         <div>
-          <label className="text-sm font-medium">Banner Position</label>
+          <label className="text-xl font-medium">
+            Banner Position <span className="text-red-500">*</span>
+          </label>
           <select
             name="position"
             value={formData.position}
@@ -141,7 +134,9 @@ const AddBannerPage = () => {
 
         {/* Banner Image */}
         <div>
-          <label className="text-sm font-medium">Banner Image</label>
+          <label className="text-xl font-medium">
+            Banner Image <span className="text-red-500">*</span>
+          </label>
           <Input
             type="file"
             accept="image/*"
@@ -169,7 +164,7 @@ const AddBannerPage = () => {
 
         {/* Target URL */}
         <div>
-          <label className="text-sm font-medium">Target URL</label>
+          <label className="text-xl font-medium">Target URL</label>
           <Input
             name="target_url"
             value={formData.target_url}
@@ -181,7 +176,9 @@ const AddBannerPage = () => {
 
         {/* Is Active Toggle */}
         <div className="flex items-center gap-3">
-          <label className="text-sm font-medium">Active</label>
+          <label className="text-xl font-medium">
+            Status<span className="text-red-500">*</span>
+          </label>
 
           <button
             type="button"

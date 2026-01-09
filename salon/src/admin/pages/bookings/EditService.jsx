@@ -1,31 +1,64 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ServiceForm from "./ServiceForm";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 export default function EditService() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [data, setData] = useState({});
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/admin/services/${id}`)
+    fetch(`http://127.0.0.1:8000/api/admin/services/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
       .then((res) => res.json())
       .then((res) => setData(res.data));
   }, [id]);
 
   const submit = async (formData) => {
-    const res = await fetch(`http://127.0.0.1:8000/api/admin/services/${id}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: formData,
-    });
+    try {
+      const res = await fetch(
+        `http://127.0.0.1:8000/api/admin/services/${id}`,
+        {
+          method: "POST", // keep POST if backend expects it
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: formData,
+        }
+      );
 
-    const d = await res.json();
-    console.log("d", d);
-    debugger;
-    res.ok ? toast.success("Updated") : toast.error(d.message);
+      const d = await res.json();
+
+      if (res.ok) {
+        // ✅ SUCCESS ALERT
+        await Swal.fire({
+          icon: "success",
+          title: "Updated!",
+          text: d.message || "Service updated successfully",
+          confirmButtonText: "OK",
+        });
+
+        // ✅ REDIRECT AFTER SUCCESS
+        navigate("/admin/services");
+      } else {
+        // ❌ ERROR ALERT
+        Swal.fire({
+          icon: "error",
+          title: "Update Failed",
+          text: d.message || "Something went wrong",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Server Error",
+        text: "Unable to update service",
+      });
+    }
   };
 
   return <ServiceForm initialData={data} onSubmit={submit} />;

@@ -205,7 +205,7 @@ const BannerManagement = () => {
   };
 
   return (
-    <div className="space-y-4 px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <div className="p-6 max-w-6xl mx-auto border rounded-lg bg-white dark:bg-gray-900 shadow">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-0">
         <div>
@@ -216,25 +216,26 @@ const BannerManagement = () => {
             Manage homepage banners and promotional graphics
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button
-            onClick={handleBulkDelete}
-            className="bg-gray-600 hover:bg-gray-700"
-          >
-            <Trash2 className="h-4 w-4 mr-2" /> Bulk Delete
-          </Button>
+      </div>
+      <div className="flex flex-col sm:flex-row gap-3 w-full">
+        <div className="flex items-center rounded-md px-3 py-2 flex-1 min-w-0"></div>
+        <Button
+          onClick={handleBulkDelete}
+          className="bg-gray-600 hover:bg-gray-700"
+        >
+          <Trash2 className="h-4 w-4 mr-2" /> Bulk Delete
+        </Button>
 
-          <Button
-            onClick={() => navigate("/admin/banner/add")}
-            className="bg-red-600 hover:bg-red-700"
-          >
-            <Plus className="h-4 w-4 mr-2" /> Add Banner
-          </Button>
-        </div>
+        <Button
+          onClick={() => navigate("/admin/banner/add")}
+          className="bg-red-600 hover:bg-red-700"
+        >
+          <Plus className="h-4 w-4 mr-2" /> Add Banner
+        </Button>
       </div>
 
       {/* Top controls */}
-      <div className="flex justify-between items-center mt-4 w-full max-w-full dark:text-black">
+      <div className="flex justify-between items-center mt-4 w-full max-w-full dark:text-black text-xl">
         <div>
           Show{" "}
           <select
@@ -252,8 +253,10 @@ const BannerManagement = () => {
           </select>{" "}
           entries
         </div>
-        <div className="flex items-center gap-2">
-          <Search className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+        <div
+          className="flex items-center px-3 py-2 w-full sm:w-64"
+          style={{ width: "450px", marginRight: "-13px" }}
+        >
           <Input
             placeholder="Search banners..."
             value={searchTerm}
@@ -261,107 +264,106 @@ const BannerManagement = () => {
               setSearchTerm(e.target.value);
               setPage(1);
             }}
-            className="text-sm"
+            className="border-none p-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 w-full"
           />
         </div>
       </div>
 
       {/* Table */}
-      <div className="hidden md:block w-full overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>
-                <input
-                  type="checkbox"
-                  checked={
-                    selectedIds.length === banners.length && banners.length > 0
-                  }
-                  onChange={toggleSelectAll}
-                />
-              </TableHead>
-              <TableHead>Banner Image</TableHead>
-              <TableHead>Position</TableHead>
-              <TableHead>Target URL</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {banners.length > 0 ? (
-              banners.map((banner) => (
-                <TableRow key={banner.id}>
-                  <TableCell>
-                    <input
-                      type="checkbox"
-                      checked={selectedIds.includes(banner.id)}
-                      onChange={() => toggleSelect(banner.id)}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <img
-                      src={`${banner.background_image}`}
-                      alt="banner"
-                      className="w-20 h-12 object-cover rounded"
-                      onError={(e) => (e.target.src = "/placeholder.jpg")}
-                    />
-                  </TableCell>
-                  <TableCell>{banner.banner_type || "-"}</TableCell>
-                  <TableCell className="truncate max-w-[200px]">
-                    {banner.link_url ? (
-                      <a
-                        href={banner.link_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-blue-600 underline"
-                      >
-                        {banner.link_url}
-                      </a>
-                    ) : (
-                      "-"
-                    )}
-                  </TableCell>
-                  <TableCell>{getStatusBadge(banner.is_active)}</TableCell>
-                  <TableCell>
-                    <div className="flex gap-2 justify-end">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleView(banner)}
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleEdit(banner)}
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleDelete(banner.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
+      <div className="hidden md:block w-full overflow-x-auto mt-4">
+        <fieldset className="border border-gray-700 rounded-lg p-4 mb-6">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[50px] text-white text-xl bg-black">
+                  <input
+                    type="checkbox"
+                    checked={
+                      selectedIds.length === banners.length &&
+                      banners.length > 0
+                    }
+                    onChange={toggleSelectAll}
+                  />
+                </TableHead>
+                <TableHead className="w-[50px] text-white text-xl bg-black">
+                  Banner Image
+                </TableHead>
+                <TableHead className="w-[50px] text-white text-xl bg-black">
+                  Position
+                </TableHead>
+                <TableHead className="w-[50px] text-white text-xl bg-black">
+                  Status
+                </TableHead>
+                <TableHead className="w-[50px] text-white text-xl bg-black">
+                  Actions
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {banners.length > 0 ? (
+                banners.map((banner) => (
+                  <TableRow key={banner.id}>
+                    <TableCell>
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(banner.id)}
+                        onChange={() => toggleSelect(banner.id)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <img
+                        src={`${banner.background_image}`}
+                        alt="banner"
+                        className="w-20 h-12 object-cover rounded"
+                      />
+                    </TableCell>
+                    <TableCell className="text-xl">
+                      {banner.banner_type || "-"}
+                    </TableCell>
+                    <TableCell className="text-xl">
+                      {getStatusBadge(banner.is_active)}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex gap-2 justify-start">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleView(banner)}
+                        >
+                          <Eye className="h-5 w-5" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleEdit(banner)}
+                        >
+                          <Edit className="h-5 w-5" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleDelete(banner.id)}
+                        >
+                          <Trash2 className="h-5 w-5 text-red-600" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-4">
+                    No banners found.
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center py-4">
-                  No banners found.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              )}
+            </TableBody>
+          </Table>
+        </fieldset>
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-between items-center mt-4 dark:text-white">
+      <div className="flex justify-between items-center mt-2 font-semibold text-xl mb-4">
         <div>
           Showing {totalItems === 0 ? 0 : startIndex + 1} to {endIndex} of{" "}
           {totalItems} entries

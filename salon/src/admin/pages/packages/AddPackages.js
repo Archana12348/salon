@@ -71,14 +71,14 @@ export default function AddFabric() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto dark:bg-gray-500 shadow-md rounded-lg p-6 mt-6">
-      <h2 className="text-2xl font-bold mb-6 dark:text-white">Add Packages</h2>
+    <div className="max-w-2xl mx-auto bg-slate-50 shadow-md rounded-lg p-6 mt-6">
+      <h2 className="text-2xl font-bold mb-6 ">Add Packages</h2>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* packages Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-white mb-1">
-            Packages Name
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Packages Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -91,8 +91,8 @@ export default function AddFabric() {
 
         {/* Slug */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-white mb-1">
-            Slug
+          <label className="block text-sm font-medium  mb-1">
+            Slug <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -106,8 +106,8 @@ export default function AddFabric() {
 
         {/* Status */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Status
+          <label className="block text-sm font-medium mb-1">
+            Status <span className="text-red-500">*</span>
           </label>
           <select
             value={is_active}
