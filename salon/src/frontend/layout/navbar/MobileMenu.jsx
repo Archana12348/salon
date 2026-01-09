@@ -1,65 +1,101 @@
 import { X, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function MobileMenu({ isOpen, onClose }) {
-  const [openSub, setOpenSub] = useState(null);
+  const [openSubMenu, setOpenSubMenu] = useState(null);
 
-  const toggleSub = (menu) => {
-    setOpenSub(openSub === menu ? null : menu);
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  const toggleSubMenu = (menu) => {
+    setOpenSubMenu(openSubMenu === menu ? null : menu);
   };
 
   return (
-    <>
-      {/* OVERLAY */}
-      <div
-        className={`fixed inset-0 bg-black/50 z-40 transition-opacity ${
-          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        }`}
-        onClick={onClose}
-      />
+    <div className="fixed inset-0 z-[9999] pointer-events-auto">
+      {/* BACKDROP */}
+      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
 
-      {/* SLIDE MENU */}
+      {/* MENU PANEL */}
       <div
-        className={`fixed top-0 left-0 h-full w-[280px] bg-white z-50 transform transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        className="
+          absolute top-0 left-0
+          h-full w-[85vw] max-w-sm
+          bg-white text-black
+          shadow-2xl
+          flex flex-col
+        "
       >
         {/* HEADER */}
-        <div className="flex items-center justify-between px-4 py-4 border-b">
+        <div className="flex items-center justify-between px-5 py-4 border-b">
           <h2
-            className="text-lg tracking-wide"
+            className="text-lg tracking-widest"
             style={{ fontFamily: "var(--font-heading--family)" }}
           >
             MENU
           </h2>
-          <X className="cursor-pointer" onClick={onClose} />
+          <X size={22} className="cursor-pointer" onClick={onClose} />
         </div>
 
-        {/* NAV ITEMS */}
-        <nav className="flex flex-col px-4 py-4 gap-4 uppercase text-sm tracking-widest">
-          <Link to="#">Home</Link>
-          <Link to="#">About Us</Link>
+        {/* MENU ITEMS */}
+        <nav
+          className="
+            flex-1 overflow-y-auto
+            px-5 py-4
+            space-y-4
+            text-sm uppercase tracking-widest
+          "
+          style={{ fontFamily: "var(--font-heading--family)" }}
+        >
+          <Link to="/" onClick={onClose} className="block">
+            Home
+          </Link>
+
+          <Link to="/about" onClick={onClose} className="block">
+            About Us
+          </Link>
 
           {/* SERVICES */}
           <div>
             <button
-              onClick={() => toggleSub("services")}
-              className="flex justify-between items-center w-full"
+              onClick={() => toggleSubMenu("services")}
+              className="flex w-full items-center justify-between"
             >
-              Services
+              <span>Services</span>
               <ChevronDown
-                className={`transition ${
-                  openSub === "services" ? "rotate-180" : ""
+                size={16}
+                className={`transition-transform ${
+                  openSubMenu === "services" ? "rotate-180" : ""
                 }`}
               />
             </button>
 
-            {openSub === "services" && (
-              <div className="pl-4 mt-2 flex flex-col gap-2 text-xs">
-                <Link to="#">Hair</Link>
-                <Link to="#">Spa</Link>
-                <Link to="#">Makeup</Link>
+            {openSubMenu === "services" && (
+              <div className="mt-3 ml-3 space-y-2 text-xs">
+                <Link to="/services/hair" onClick={onClose} className="block">
+                  Hair
+                </Link>
+                <Link to="/services/skin" onClick={onClose} className="block">
+                  Skin
+                </Link>
+                <Link to="/services/makeup" onClick={onClose} className="block">
+                  Makeup
+                </Link>
+                <Link to="/services/spa" onClick={onClose} className="block">
+                  Spa
+                </Link>
               </div>
             )}
           </div>
@@ -67,34 +103,46 @@ export default function MobileMenu({ isOpen, onClose }) {
           {/* PRODUCTS */}
           <div>
             <button
-              onClick={() => toggleSub("products")}
-              className="flex justify-between items-center w-full"
+              onClick={() => toggleSubMenu("products")}
+              className="flex w-full items-center justify-between"
             >
-              Products
+              <span>Products</span>
               <ChevronDown
-                className={`transition ${
-                  openSub === "products" ? "rotate-180" : ""
+                size={16}
+                className={`transition-transform ${
+                  openSubMenu === "products" ? "rotate-180" : ""
                 }`}
               />
             </button>
 
-            {openSub === "products" && (
-              <div className="pl-4 mt-2 flex flex-col gap-2 text-xs">
-                <Link to="#">Skin Care</Link>
-                <Link to="#">Hair Care</Link>
-                <Link to="#">Spa</Link>
-                <Link to="#">Nail Extension</Link>
-                <Link to="#">Hair Accessories</Link>
-                <Link to="#">Gel Nail Extension</Link>
-                <Link to="#">Hair Oil</Link>
-                <Link to="#">Cosmetics</Link>
+            {openSubMenu === "products" && (
+              <div className="mt-3 ml-3 space-y-2 text-xs">
+                <Link
+                  to="/products/hair-care"
+                  onClick={onClose}
+                  className="block"
+                >
+                  Hair Care
+                </Link>
+                <Link
+                  to="/products/skin-care"
+                  onClick={onClose}
+                  className="block"
+                >
+                  Skin Care
+                </Link>
+                <Link to="/products/makeup" onClick={onClose} className="block">
+                  Makeup
+                </Link>
               </div>
             )}
           </div>
 
-          <Link to="#">Contact Us</Link>
+          <Link to="/contact" onClick={onClose} className="block">
+            Contact Us
+          </Link>
         </nav>
       </div>
-    </>
+    </div>
   );
 }
