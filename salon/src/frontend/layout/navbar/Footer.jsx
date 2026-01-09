@@ -182,7 +182,7 @@ export default function FooterPage() {
         <div className="transition-transform hover:scale-105 duration-300">
           <h2
             className="text-2xl font-semibold mb-4 
-      text-white bg-clip-text"
+           text-white bg-clip-text"
           >
             Working Hours
           </h2>

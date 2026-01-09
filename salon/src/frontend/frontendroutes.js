@@ -22,13 +22,13 @@ export const FrontendRoutes = (
       <Route path="shop" element={<Shop />} />
       <Route path="product" element={<ProductPage />} />
       <Route path="userprofile" element={<UserProfile />} />
-      <Route path="contact" element={<Contact />} />
+      <Route path="service/:slug" element={<Contact />} />
       <Route path="aboutus" element={<AboutUs />} />
       <Route path="team" element={<Team />} />
       <Route path="userprofile/:slug" element={<UserProfile />} />
       <Route path="contactUs" element={<ContactUs />} />
     </Route>
-    <Route path="contact" element={<Contact />} />
+
     <Route path="productdetails" element={<ProductnewProfile />} />
     <Route path="contactUs" element={<ContactUs />} />
 

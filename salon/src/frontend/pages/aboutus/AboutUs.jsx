@@ -11,7 +11,6 @@ const AboutUs = () => {
         >
           About Our Salon
         </h1>
-
         <p
           className="text-lg leading-8 mb-5 text-black"
           style={{ fontFamily: "var(--font-heading--family)" }}

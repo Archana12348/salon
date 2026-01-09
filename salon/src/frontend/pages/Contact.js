@@ -203,16 +203,19 @@
 //     </div>
 //   );
 // }
-
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export default function ServicesPage() {
+  const { slug } = useParams();
+
   const [categories, setCategories] = useState([]);
   const [services, setServices] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -221,10 +224,10 @@ export default function ServicesPage() {
     try {
       setError(null);
       const res = await fetch(
-        "https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories/4",
+        `https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories/${slug}`,
         { headers: { Accept: "application/json" } }
       );
-      if (!res.ok) throw new Error();
+      if (!res.ok) throw new Error("Category fetch failed");
       const json = await res.json();
       setCategories(json.data || []);
     } catch {
@@ -237,15 +240,19 @@ export default function ServicesPage() {
     try {
       setLoading(true);
       setError(null);
+
       const res = await fetch(
-        `https://jumeirah.premierwebtechservices.com/backend/api/site/all-services/4?page=${page}`,
+        `https://jumeirah.premierwebtechservices.com/backend/api/site/all-services/${slug}?page=${page}`,
         { headers: { Accept: "application/json" } }
       );
-      if (!res.ok) throw new Error();
+
+      if (!res.ok) throw new Error("Service fetch failed");
+
       const json = await res.json();
+
       setServices(json.data || []);
-      setCurrentPage(page);
-      setLastPage(1);
+      setCurrentPage(json.meta?.current_page || page);
+      setLastPage(json.meta?.last_page || 1);
     } catch {
       setServices([]);
       setError("Failed to load services");
@@ -254,25 +261,25 @@ export default function ServicesPage() {
     }
   };
 
-  // ---------------- INITIAL LOAD ----------------
+  // ---------------- INITIAL / SLUG CHANGE LOAD ----------------
   useEffect(() => {
+    if (!slug) return;
+
+    setSelectedCategory(null);
     fetchCategories();
     fetchServices(1);
-  }, []);
+  }, [slug]);
 
+  // ---------------- DURATION FORMAT ----------------
   const formatDuration = (minutes) => {
     if (!minutes) return "-";
 
-    if (minutes < 60) {
-      return `${minutes} mins`;
-    }
+    if (minutes < 60) return `${minutes} mins`;
 
     const hrs = Math.floor(minutes / 60);
     const mins = minutes % 60;
 
-    if (mins === 0) {
-      return hrs === 1 ? "1 hr" : `${hrs} hrs`;
-    }
+    if (mins === 0) return hrs === 1 ? "1 hr" : `${hrs} hrs`;
 
     return `${hrs} hr ${mins} mins`;
   };
@@ -297,7 +304,6 @@ export default function ServicesPage() {
         }}
       >
         <div className="absolute inset-0 bg-black/30" />
-
         <div className="relative z-10 px-6">
           <h1 className="text-4xl sm:text-6xl font-bold text-white">
             Our Services
@@ -310,69 +316,58 @@ export default function ServicesPage() {
 
       {/* ================= MAIN CONTENT ================= */}
       <section className="sm:px-10 lg:px-24 py-14">
-        {/* ERROR */}
         {error && <p className="text-center text-red-600 mb-6">{error}</p>}
 
-        {/* FILTER BUTTONS */}
+        {/* ================= FILTER BUTTONS ================= */}
         <div className="flex flex-wrap justify-center gap-3 mb-14">
-          {/* ALL */}
           <button
-            onClick={() => {
-              setSelectedCategory(null);
-              fetchServices(1);
-            }}
+            onClick={() => setSelectedCategory(null)}
             className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300
-            ${
-              selectedCategory === null
-                ? "bg-gradient-to-r from-[#00CED1] to-slate-500 text-white shadow-[0_0_15px_rgba(0,206,209,0.6)]"
-                : "bg-[#00CED1]/20 text-black hover:text-[#00CED1]"
-            }`}
+              ${
+                selectedCategory === null
+                  ? "bg-gradient-to-r from-[#00CED1] to-slate-500 text-white shadow-[0_0_15px_rgba(0,206,209,0.6)]"
+                  : "bg-[#00CED1]/20 text-black hover:text-[#00CED1]"
+              }`}
           >
             All
           </button>
 
-          {/* CATEGORIES */}
           {categories.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => {
-                setSelectedCategory(cat.slug);
-                fetchServices(1);
-              }}
+              onClick={() => setSelectedCategory(cat.slug)}
               className={`px-6 py-2 rounded-full text-sm font-semibold capitalize transition-all duration-300
-      ${
-        selectedCategory === cat.slug
-          ? "bg-gradient-to-r from-[#00CED1] to-slate-500 text-white shadow-[0_0_15px_rgba(0,206,209,0.6)]"
-          : "bg-[#00CED1]/20 text-black hover:text-[#00CED1]"
-      }`}
+                ${
+                  selectedCategory === cat.slug
+                    ? "bg-gradient-to-r from-[#00CED1] to-slate-500 text-white shadow-[0_0_15px_rgba(0,206,209,0.6)]"
+                    : "bg-[#00CED1]/20 text-black hover:text-[#00CED1]"
+                }`}
             >
               {cat.name}
             </button>
           ))}
         </div>
 
-        {/* SERVICES GRID */}
+        {/* ================= SERVICES GRID ================= */}
         {loading ? (
           <p className="text-center py-20">Loading...</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {filteredServices.length > 0 ? (
               filteredServices.map((service) => (
                 <div
                   key={service.id}
-                  className="relative  border rounded-xl overflow-hidden
-                    group hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow duration-300 bg-white"
+                  className="relative border rounded-xl overflow-hidden
+                  group hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow duration-300 bg-white"
                 >
-                  {/* SHIMMER OVERLAY */}
                   <div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100
-                     pointer-events-none
-                     bg-gradient-to-r from-transparent via-[#00CED1] to-transparent
-                     -translate-x-full group-hover:translate-x-full
-                     transition-all duration-700 ease-in-out"
+                    pointer-events-none
+                    bg-gradient-to-r from-transparent via-[#00CED1] to-transparent
+                    -translate-x-full group-hover:translate-x-full
+                    transition-all duration-700 ease-in-out"
                   />
 
-                  {/* IMAGE */}
                   <div className="relative h-96 bg-gray-50 overflow-hidden z-10">
                     {service.main_image && (
                       <img
@@ -383,9 +378,8 @@ export default function ServicesPage() {
                     )}
                   </div>
 
-                  {/* CONTENT */}
-                  <div className="relative z-10 p-3 flex flex-col items-center text-center">
-                    <h2 className="text-lg font-semibold text-gray-800 leading-tight">
+                  <div className="relative z-10 p-3 text-center">
+                    <h2 className="text-lg font-semibold text-gray-800">
                       {service.name}
                     </h2>
 
@@ -394,22 +388,12 @@ export default function ServicesPage() {
                       {service.subcategory?.name ?? "-"}
                     </p>
 
-                    {/* BUTTONS */}
-                    <div className="w-full flex flex-col gap-3 mt-3">
-                      <button
-                        className="w-full  border border-[#00CED1]
-                        text-[#00CED1]hover:text-black
-                         px-4 py-2 rounded-full
-                         transition"
-                      >
+                    <div className="flex flex-col gap-3 mt-3">
+                      <button className="w-full border border-[#00CED1] text-[#00CED1] px-4 py-2 rounded-full hover:bg-[#00CED1] hover:text-black transition">
                         View Detail
                       </button>
 
-                      <button
-                        className="w-full bg-[#00CED1] text-black
-                         px-4 py-2 rounded-full
-                         hover:bg-gradient-to-r from-[#00CED1] to-black hover:text-white"
-                      >
+                      <button className="w-full bg-[#00CED1] text-black px-4 py-2 rounded-full hover:bg-gradient-to-r from-[#00CED1] to-black hover:text-white transition">
                         Book Appointment
                       </button>
                     </div>
@@ -424,23 +408,25 @@ export default function ServicesPage() {
           </div>
         )}
 
-        {/* PAGINATION */}
-        <div className="flex justify-center mt-16 gap-3">
-          {Array.from({ length: lastPage }, (_, i) => i + 1).map((page) => (
-            <button
-              key={page}
-              onClick={() => fetchServices(page)}
-              className={`w-12 h-12 flex items-center justify-center rounded-full font-semibold transition-all duration-300
-              ${
-                page === currentPage
-                  ? "bg-gradient-to-r from-[#00CED1] to-slate-500 text-white shadow-[0_0_15px_rgba(0,206,209,0.6)]"
-                  : "bg-[#00CED1]/20 text-black hover:text-[#00CED1]"
-              }`}
-            >
-              {page}
-            </button>
-          ))}
-        </div>
+        {/* ================= PAGINATION ================= */}
+        {lastPage > 1 && (
+          <div className="flex justify-center mt-16 gap-3">
+            {Array.from({ length: lastPage }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => fetchServices(page)}
+                className={`w-12 h-12 flex items-center justify-center rounded-full font-semibold transition-all duration-300
+                  ${
+                    page === currentPage
+                      ? "bg-gradient-to-r from-[#00CED1] to-slate-500 text-white shadow-[0_0_15px_rgba(0,206,209,0.6)]"
+                      : "bg-[#00CED1]/20 text-black hover:text-[#00CED1]"
+                  }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+        )}
       </section>
     </>
   );

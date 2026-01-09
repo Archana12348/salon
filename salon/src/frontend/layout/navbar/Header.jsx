@@ -216,7 +216,7 @@ export default function HeaderWithVideo() {
   const closeMenuWithDelay = () => {
     closeTimerRef.current = setTimeout(() => {
       setActiveMenu(null);
-    }, 1000); // 👉 1.5 sec delay (chaaho to 2000)
+    }, 300); // 👉 1.5 sec delay (chaaho to 2000)
   };
 
   const cancelClose = () => {
@@ -280,7 +280,7 @@ export default function HeaderWithVideo() {
             <div className=" ml-14 flex items-center justify-between px-4 mt-[18px] md:hidden absolute top-0 left-0 w-full z-20 text-black">
               <Menu
                 className="cursor-pointer mt-2"
-                size={16}
+                size={20}
                 onClick={() => setMobileMenuOpen(true)}
               />
 
@@ -312,13 +312,13 @@ export default function HeaderWithVideo() {
         {/* NAV LINKS */}
         <nav
           className=" hidden md:flex text-black
-      ' flex-wrap justify-center
-      gap-x-4 gap-y-2
-      px-3 pb-3
-      text-[10px] sm:text-xs md:text-sm
-      uppercase tracking-widest
-      text-center
-    "
+          ' flex-wrap justify-center
+            gap-x-4 gap-y-2
+            px-3 pb-3
+            text-[10px] sm:text-xs md:text-sm
+            uppercase tracking-widest
+            text-center
+         "
           style={{ fontFamily: "var(--font-heading--family)" }}
         >
           <Link to="/" className="text-black">
@@ -356,16 +356,16 @@ export default function HeaderWithVideo() {
               Products
             </Link>
 
-            {activeMenu === "products" && (
+            {/* {activeMenu === "products" && (
               <MegaMenu
                 type="products"
                 onMouseEnter={cancelClose}
                 onMouseLeave={closeMenuWithDelay}
-              />
-            )}
+              />.
+            )} */}
           </div>
 
-          <Link to="contact" className="text-black">
+          <Link to="service/:slug" className="text-black">
             Contact Us
           </Link>
         </nav>
@@ -462,13 +462,13 @@ export default function HeaderWithVideo() {
                   Products
                 </Link>
 
-                {activeMenu === "products" && (
-                  <MegaMenu
-                    type="products"
-                    onMouseEnter={cancelClose}
-                    onMouseLeave={closeMenuWithDelay}
-                  />
-                )}
+                {/* {activeMenu === "products" && (
+                  // <MegaMenu
+                  //   type="products"
+                  //   onMouseEnter={cancelClose}
+                  //   onMouseLeave={closeMenuWithDelay}
+                  // />
+                )} */}
               </div>
 
               <Link to="contact" className="text-white">
@@ -484,16 +484,16 @@ export default function HeaderWithVideo() {
               {/* Shop Now */}
               <button
                 className="
-      relative overflow-hidden
-      px-8 sm:px-10 py-3
-      text-xs sm:text-sm uppercase tracking-wider font-semibold
-      rounded-full
-      bg-gradient-to-r from-[#00CED1] via-[#20B2AA] to-[#00CED1]
-      text-black
-      shadow-[0_0_20px_rgba(0,206,209,0.5)]
-      transition-all duration-300
-      hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
-    "
+                 relative overflow-hidden
+                 px-8 sm:px-10 py-3
+                 text-xs sm:text-sm uppercase tracking-wider font-semibold
+                 rounded-full
+                 bg-gradient-to-r from-[#00CED1] via-[#20B2AA] to-[#00CED1]
+               text-black
+                 shadow-[0_0_20px_rgba(0,206,209,0.5)]
+                 transition-all duration-300
+                 hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
+                 "
               >
                 <span className="relative z-10">Shop Now</span>
                 <span className="absolute inset-0 bg-white opacity-0 hover:opacity-20 transition" />
@@ -502,18 +502,18 @@ export default function HeaderWithVideo() {
               {/* Book Appointment */}
               <button
                 className="
-      relative overflow-hidden
-      px-8 sm:px-10 py-3
-      text-xs sm:text-sm uppercase tracking-wider font-semibold
-      rounded-full
-      border border-[#00CED1]
-      text-[#00CED1]
-      bg-transparent
-      shadow-[0_0_15px_rgba(0,206,209,0.4)]
-      transition-all duration-300
-      hover:bg-[#00CED1] hover:text-white
-      hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
-    "
+               relative overflow-hidden
+               px-8 sm:px-10 py-3
+               text-xs sm:text-sm uppercase tracking-wider font-semibold
+               rounded-full
+               border border-[#00CED1]
+              text-[#00CED1]
+               bg-transparent
+               shadow-[0_0_15px_rgba(0,206,209,0.4)]
+               transition-all duration-300
+               hover:bg-[#00CED1] hover:text-white
+              hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
+              "
               >
                 Book Appointment
               </button>
