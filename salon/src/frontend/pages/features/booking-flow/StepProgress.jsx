@@ -27,7 +27,7 @@ const StepProgress = ({ step }) => {
 
       {/* Progress line */}
       <motion.div
-        className="absolute top-5 left-0 h-1 bg-blue-600 rounded-full pl-1"
+        className="absolute top-5 left-0 h-1 bg-gradient-to-r from-[#00CED1] to-slate-500 rounded-full pl-1"
         initial={{ width: 0 }}
         animate={{ width: `${(currentIndex / (steps.length - 1)) * 100}%` }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
@@ -48,7 +48,7 @@ const StepProgress = ({ step }) => {
                   isCompleted
                     ? "bg-green-600 text-white"
                     : isActive
-                    ? "bg-blue-600 text-white"
+                    ? "bg-[#00CED1] text-white"
                     : "bg-gray-300 text-gray-700"
                 }`}
               >

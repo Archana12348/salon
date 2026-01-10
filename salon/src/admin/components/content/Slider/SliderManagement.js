@@ -37,7 +37,7 @@ const SliderManagement = ({ onStatsUpdate }) => {
       });
 
       const res = await fetch(
-        `http://127.0.0.1:8000/api/admin/sliders?${params}`
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/sliders?${params}`
       );
       const data = await res.json();
       console.log(data);
@@ -99,7 +99,7 @@ const SliderManagement = ({ onStatsUpdate }) => {
     // ✅ Ensure we handle full URL correctly even if backend doesn't send full path
     const imageUrl = item.background_image_url
       ? item.background_image_url
-      : `http://127.0.0.1:8000/api/admin/storage/${item.background_image}`;
+      : `https://jumeirah.premierwebtechservices.com/backend/api/admin/storage/${item.background_image}`;
 
     const statusText = item.is_active ? "✅ Active" : "❌ Inactive";
     const createdDate = new Date(item.created_at).toLocaleString();
@@ -168,9 +168,12 @@ const SliderManagement = ({ onStatsUpdate }) => {
 
     if (confirm.isConfirmed) {
       try {
-        await fetch(`http://127.0.0.1:8000/api/admin/sliders/${id}`, {
-          method: "DELETE",
-        });
+        await fetch(
+          `https://jumeirah.premierwebtechservices.com/backend/api/admin/sliders/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         setSliders((prev) => prev.filter((s) => s.id !== id));
         setTotalItems((prev) => prev - 1);
         Swal.fire("Deleted!", "Slider has been deleted.", "success");
@@ -197,11 +200,14 @@ const SliderManagement = ({ onStatsUpdate }) => {
 
     if (confirm.isConfirmed) {
       try {
-        await fetch("http://127.0.0.1:8000/api/admin/slider/bulk-delete", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ids: selectedIds }),
-        });
+        await fetch(
+          "https://jumeirah.premierwebtechservices.com/backend/api/admin/slider/bulk-delete",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ids: selectedIds }),
+          }
+        );
         setSliders((prev) => prev.filter((s) => !selectedIds.includes(s.id)));
         setSelectedIds([]);
         setTotalItems((prev) => prev - selectedIds.length);

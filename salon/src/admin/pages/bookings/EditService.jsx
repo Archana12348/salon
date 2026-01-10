@@ -9,11 +9,14 @@ export default function EditService() {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/admin/services/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
+    fetch(
+      `https://jumeirah.premierwebtechservices.com/backend/api/admin/services/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((res) => setData(res.data));
   }, [id]);
@@ -21,7 +24,7 @@ export default function EditService() {
   const submit = async (formData) => {
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/api/admin/services/${id}`,
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/services/${id}`,
         {
           method: "POST", // keep POST if backend expects it
           headers: {

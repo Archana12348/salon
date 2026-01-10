@@ -80,25 +80,7 @@
 // }
 
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-
-export default function MegaMenu({ onMouseEnter, onMouseLeave }) {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    fetch(
-      "https://jumeirah.premierwebtechservices.com/backend/api/site/category"
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.success) {
-          console.log(data.dat);
-          setCategories(data.data || []);
-        }
-      })
-      .catch((err) => console.error("Category API error", err));
-  }, []);
-
+export default function MegaMenu({ onMouseEnter, onMouseLeave, categories }) {
   if (!categories.length) return null;
 
   return (
@@ -140,7 +122,7 @@ function MenuColumn({ category }) {
     <div className="relative">
       {/* CATEGORY TITLE */}
       <Link
-        to={`/category/${slug}`}
+        to={`/service/${slug}`}
         className="
           block mb-4
           text-sm font-semibold uppercase tracking-wider
@@ -156,9 +138,9 @@ function MenuColumn({ category }) {
           sub_categories.map((sub) => (
             <li key={sub.id}>
               <Link
-                to={`/category/${slug}/${sub.slug}`}
+                to={`/service/${slug}?subcategory=${sub.slug}`}
                 className="
-                  text-sm text-gray-600
+                  text-sm text-gray-600 
                   transition-colors duration-200
                   hover:text-[#00CED1]
                 "
@@ -168,7 +150,7 @@ function MenuColumn({ category }) {
             </li>
           ))
         ) : (
-          <li className="text-xs text-gray-400">Coming soon</li>
+          <li className="text-xs  text-gray-400">Coming soon</li>
         )}
       </ul>
     </div>

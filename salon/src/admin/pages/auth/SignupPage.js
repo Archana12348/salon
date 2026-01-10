@@ -64,21 +64,24 @@ const SignupPage = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/admin/register", {
-        withCblueentials: true,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          password: formData.password,
-          confirm_password: formData.confirm_password,
-          login_type: "email",
-        }),
-      });
+      const response = await fetch(
+        "https://jumeirah.premierwebtechservices.com/backend/api/admin/register",
+        {
+          withCblueentials: true,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            password: formData.password,
+            confirm_password: formData.confirm_password,
+            login_type: "email",
+          }),
+        }
+      );
 
       const data = await response.json();
 

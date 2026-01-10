@@ -204,20 +204,21 @@
 //   );
 // }
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 
 export default function ServicesPage() {
   const { slug } = useParams();
-
+  const [searchParams] = useSearchParams();
   const [categories, setCategories] = useState([]);
   const [services, setServices] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const subcategoryFromQuery = searchParams.get("subcategory");
 
   // ---------------- FETCH CATEGORIES ----------------
   const fetchCategories = async () => {
@@ -265,10 +266,12 @@ export default function ServicesPage() {
   useEffect(() => {
     if (!slug) return;
 
-    setSelectedCategory(null);
     fetchCategories();
     fetchServices(1);
-  }, [slug]);
+
+    // ✅ AUTO SELECT SUBCATEGORY FROM URL
+    setSelectedCategory(subcategoryFromQuery || null);
+  }, [slug, subcategoryFromQuery]);
 
   // ---------------- DURATION FORMAT ----------------
   const formatDuration = (minutes) => {
@@ -393,7 +396,10 @@ export default function ServicesPage() {
                         View Detail
                       </button>
 
-                      <button className="w-full bg-[#00CED1] text-black px-4 py-2 rounded-full hover:bg-gradient-to-r from-[#00CED1] to-black hover:text-white transition">
+                      <button
+                        onClick={() => navigate("/appointment")}
+                        className="w-full bg-[#00CED1] text-black px-4 py-2 rounded-full hover:bg-gradient-to-r from-[#00CED1] to-black hover:text-white transition"
+                      >
                         Book Appointment
                       </button>
                     </div>

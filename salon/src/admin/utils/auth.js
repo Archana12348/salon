@@ -13,7 +13,7 @@
 
 // export const isAuthenticated = async () => {
 //   try {
-//     const res = await fetch("http://127.0.0.1:8000/api/auth/check", {
+//     const res = await fetch("https://jumeirah.premierwebtechservices.com/backend/api/auth/check", {
 //       credentials: "include",
 //     });
 
@@ -28,10 +28,13 @@
 
 export const isAuthenticated = async () => {
   try {
-    const res = await fetch("http://127.0.0.1:8000/api/auth/check", {
-      method: "GET",
-      credentials: "include",
-    });
+    const res = await fetch(
+      "https://jumeirah.premierwebtechservices.com/backend/api/auth/check",
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
 
     // Backend reachable but user not authenticated
     if (res.status === 401 || res.status === 403) {

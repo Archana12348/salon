@@ -87,7 +87,10 @@ const AddBannerPage = () => {
     data.append("background_image", formData.rawImage);
 
     try {
-      await axios.post("http://127.0.0.1:8000/api/admin/banners", data);
+      await axios.post(
+        "https://jumeirah.premierwebtechservices.com/backend/api/admin/banners",
+        data
+      );
 
       Swal.fire({
         icon: "success",
