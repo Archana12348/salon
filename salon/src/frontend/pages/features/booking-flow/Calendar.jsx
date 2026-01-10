@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-export default function CustomCalendar({ selectedDate, setSelectedDate }) {
+export default function CustomCalendar({
+  selectedDate,
+  setSelectedDate,
+  minDate,
+}) {
+  console.log("Rendering CustomCalendar with selectedDate:", selectedDate);
+  debugger;
+  // default minDate = today
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  const effectiveMinDate = minDate ? new Date(minDate) : today;
 
   // Always keep the month state separate
   const [currentMonth, setCurrentMonth] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1)
+    selectedDate
+      ? new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
+      : new Date(today.getFullYear(), today.getMonth(), 1)
   );
 
   // Move between months
@@ -40,16 +50,11 @@ export default function CustomCalendar({ selectedDate, setSelectedDate }) {
   ).getDay();
 
   // Check today
-  const isToday = (dateObj) => {
-    return dateObj.toDateString() === today.toDateString();
-  };
+  const isToday = (dateObj) => dateObj.toDateString() === today.toDateString();
 
   // Check selected date
-  const isSelected = (dateObj) => {
-    return (
-      selectedDate && dateObj.toDateString() === selectedDate.toDateString()
-    );
-  };
+  const isSelected = (dateObj) =>
+    selectedDate && dateObj.toDateString() === selectedDate.toDateString();
 
   return (
     <div className="w-full max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow-2xl border border-gray-200">
@@ -101,14 +106,14 @@ export default function CustomCalendar({ selectedDate, setSelectedDate }) {
             day
           );
 
-          const disabled = dateObj < today;
+          const disabled = dateObj < effectiveMinDate;
 
           return (
             <button
               key={day}
               onClick={() => !disabled && setSelectedDate(dateObj)}
               className={`
-                h-12 w-12 mx-auto flex items-center justify-center rounded-xl
+                h-9 w-9  md:h-12 md:w-12 mx-auto flex items-center justify-center rounded-xl
                 border transition-all select-none
 
                 ${

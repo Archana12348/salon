@@ -89,12 +89,16 @@ export default function ServiceForm({ initialData = {}, onSubmit }) {
 
   // Fetch categories & packages
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/site/category")
+    fetch(
+      "https://jumeirah.premierwebtechservices.com/backend/api/site/category"
+    )
       .then((res) => res.json())
       .then((res) => setCategories(res.data || []))
       .catch(console.log);
 
-    fetch("http://127.0.0.1:8000/api/site/all-packages")
+    fetch(
+      "https://jumeirah.premierwebtechservices.com/backend/api/site/all-packages"
+    )
       .then((res) => res.json())
       .then((res) => setPackages(res.data || []))
       .catch(console.log);
@@ -103,7 +107,9 @@ export default function ServiceForm({ initialData = {}, onSubmit }) {
   // Fetch subcategories on category change
   useEffect(() => {
     if (!categoryId) return setSubcategories([]);
-    fetch(`http://127.0.0.1:8000/api/site/sub-categories/${categoryId}`)
+    fetch(
+      `https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories/${categoryId}`
+    )
       .then((res) => res.json())
       .then((res) => setSubcategories(res.data || []))
       .catch(console.log);

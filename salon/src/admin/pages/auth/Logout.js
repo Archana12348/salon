@@ -7,10 +7,13 @@ export default function Logout() {
   useEffect(() => {
     const logout = async () => {
       try {
-        await fetch("http://127.0.0.1:8000/api/logout", {
-          method: "POST",
-          credentials: "include", // 🔑 IMPORTANT
-        });
+        await fetch(
+          "https://jumeirah.premierwebtechservices.com/backend/api/logout",
+          {
+            method: "POST",
+            credentials: "include", // 🔑 IMPORTANT
+          }
+        );
       } catch (e) {
         console.error("Logout error", e);
       } finally {

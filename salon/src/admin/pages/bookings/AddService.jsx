@@ -7,13 +7,16 @@ export default function AddService() {
 
   const submit = async (formData) => {
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/admin/services", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: formData,
-      });
+      const res = await fetch(
+        "https://jumeirah.premierwebtechservices.com/backend/api/admin/services",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: formData,
+        }
+      );
 
       const data = await res.json();
 

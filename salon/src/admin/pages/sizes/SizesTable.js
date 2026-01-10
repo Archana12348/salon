@@ -24,7 +24,7 @@ const SizesTable = () => {
     try {
       setLoading(true);
       const res = await fetch(
-        `http://127.0.0.1:8000/api/admin/pages?page=${currentPage}&perPage=${perPage}&search=${searchTerm}&sortDir=desc`,
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/pages?page=${currentPage}&perPage=${perPage}&search=${searchTerm}&sortDir=desc`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -68,10 +68,13 @@ const SizesTable = () => {
 
     if (result.isConfirmed) {
       try {
-        await fetch(`http://127.0.0.1:8000/api/admin/pages/${id}`, {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await fetch(
+          `https://jumeirah.premierwebtechservices.com/backend/api/admin/pages/${id}`,
+          {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         fetchSizes();
         setSelectedIds(selectedIds.filter((sid) => sid !== id));
         Swal.fire("Deleted!", "Page has been deleted.", "success");
@@ -100,10 +103,13 @@ const SizesTable = () => {
       try {
         await Promise.all(
           selectedIds.map((id) =>
-            fetch(`http://127.0.0.1:8000/api/admin/pages/${id}`, {
-              method: "DELETE",
-              headers: { Authorization: `Bearer ${token}` },
-            })
+            fetch(
+              `https://jumeirah.premierwebtechservices.com/backend/api/admin/pages/${id}`,
+              {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            )
           )
         );
         fetchSizes();

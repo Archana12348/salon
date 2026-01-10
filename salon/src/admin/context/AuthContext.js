@@ -43,7 +43,7 @@
 //   const login = async (email, password) => {
 //     try {
 //       const response23 = await fetch(
-//         "http://127.0.0.1:8000/sanctum/csrf-cookie",
+//         "https://jumeirah.premierwebtechservices.com/backend/sanctum/csrf-cookie",
 //         {
 //           credentials: "include",
 //         }
@@ -51,7 +51,7 @@
 
 //       console.log("response", response23);
 //       debugger;
-//       const response = await fetch("http://127.0.0.1:8000/api/login", {
+//       const response = await fetch("https://jumeirah.premierwebtechservices.com/backend/api/login", {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -96,7 +96,7 @@
 
 //   const signup = async (formData) => {
 //     try {
-//       const response = await fetch("http://127.0.0.1:8000/api/admin/register", {
+//       const response = await fetch("https://jumeirah.premierwebtechservices.com/backend/api/admin/register", {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -174,10 +174,13 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       console.log("Checking auth...");
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/auth/check", {
-          method: "GET",
-          credentials: "include", // 🔑 REQUIRED FOR cookies
-        });
+        const res = await fetch(
+          "https://jumeirah.premierwebtechservices.com/backend/api/auth/check",
+          {
+            method: "GET",
+            credentials: "include", // 🔑 REQUIRED FOR cookies
+          }
+        );
 
         const data = await res.json(); // parse JSON first
         console.log(data);
@@ -211,22 +214,28 @@ export const AuthProvider = ({ children }) => {
       setError("");
 
       // 1️⃣ Get CSRF cookie (Sanctum requirement)
-      await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
-        credentials: "include",
-      });
+      await fetch(
+        "https://jumeirah.premierwebtechservices.com/backend/sanctum/csrf-cookie",
+        {
+          credentials: "include",
+        }
+      );
 
       // 2️⃣ Login request
-      const res = await fetch("http://127.0.0.1:8000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          email,
-          password,
-          user_type: "admin",
-          login_type: "email",
-        }),
-      });
+      const res = await fetch(
+        "https://jumeirah.premierwebtechservices.com/backend/api/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            email,
+            password,
+            user_type: "admin",
+            login_type: "email",
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -262,10 +271,13 @@ export const AuthProvider = ({ children }) => {
    */
   const logout = async () => {
     try {
-      await fetch("http://127.0.0.1:8000/api/logout", {
-        method: "POST",
-        credentials: "include",
-      });
+      await fetch(
+        "https://jumeirah.premierwebtechservices.com/backend/api/logout",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
     } catch (_) {
       // ignore
     }

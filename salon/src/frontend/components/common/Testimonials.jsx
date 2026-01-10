@@ -9,7 +9,7 @@ const Testimonials = () => {
     const fetchTestimonials = async () => {
       try {
         const res = await axios.get(
-          "http://127.0.0.1:8000/api/site/testimonials"
+          "https://jumeirah.premierwebtechservices.com/backend/api/site/testimonials"
         );
         if (res.data.success) {
           setTestimonials(res.data.data);

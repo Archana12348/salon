@@ -49,7 +49,7 @@ export default function RoleTable() {
       setLoading(true);
       try {
         const res = await fetch(
-          `http://127.0.0.1:8000/api/admin/bookings?page=${page}&perPage=${perPage}&search=${debouncedSearch}`,
+          `https://jumeirah.premierwebtechservices.com/backend/api/admin/bookings?page=${page}&perPage=${perPage}&search=${debouncedSearch}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -89,7 +89,7 @@ export default function RoleTable() {
 
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/api/admin/bookings/${id}/status`,
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/bookings/${id}/status`,
         {
           method: "PATCH",
           headers: {
@@ -121,7 +121,7 @@ export default function RoleTable() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/admin/bookings/${id}`,
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/bookings/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -156,14 +156,17 @@ export default function RoleTable() {
 
     if (!confirm.isConfirmed) return;
 
-    await fetch("http://127.0.0.1:8000/api/admin/bookings/bulk-delete", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({ ids: selectedRoles }),
-    });
+    await fetch(
+      "https://jumeirah.premierwebtechservices.com/backend/api/admin/bookings/bulk-delete",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ ids: selectedRoles }),
+      }
+    );
 
     setSelectedRoles([]);
     fetchRoles(1);

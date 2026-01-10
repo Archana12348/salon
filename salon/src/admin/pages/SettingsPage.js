@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-const API_URL = "http://127.0.0.1:8000/api/admin/settings";
+const API_URL =
+  "https://jumeirah.premierwebtechservices.com/backend/api/admin/settings";
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState([]);

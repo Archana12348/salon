@@ -52,16 +52,19 @@ const SeasonsPage = () => {
   /* -------------------- Fetch Services -------------------- */
   const fetchSeasons = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/admin/services", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          page,
-          perPage: itemsPerPage,
-          search: debouncedSearch || undefined,
-        },
-      });
+      const res = await axios.get(
+        "https://jumeirah.premierwebtechservices.com/backend/api/admin/services",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            page,
+            perPage: itemsPerPage,
+            search: debouncedSearch || undefined,
+          },
+        }
+      );
 
       setSeasons(res.data.data || []);
       setTotalPages(res.data.meta?.last_page || 1);
@@ -105,9 +108,12 @@ const SeasonsPage = () => {
     if (!confirm.isConfirmed) return;
 
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/admin/services/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/services/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       Swal.fire("Deleted!", "Service deleted successfully.", "success");
       fetchSeasons();
@@ -132,7 +138,7 @@ const SeasonsPage = () => {
 
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/admin/services/bulk-delete",
+        "https://jumeirah.premierwebtechservices.com/backend/api/admin/services/bulk-delete",
         { ids: selectedSeasons },
         {
           headers: { Authorization: `Bearer ${token}` },

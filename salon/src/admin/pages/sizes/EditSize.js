@@ -17,7 +17,9 @@ export default function EditPage() {
 
   // Fetch page data on mount
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/admin/pages/${id}`)
+    fetch(
+      `https://jumeirah.premierwebtechservices.com/backend/api/admin/pages/${id}`
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -30,7 +32,7 @@ export default function EditPage() {
           setStatus(page.status === 1);
           if (page.background_image) {
             setImagePreview(
-              `http://127.0.0.1:8000/storage/${page.background_image}`
+              `https://jumeirah.premierwebtechservices.com/backend/storage/${page.background_image}`
             );
           }
         } else {
@@ -75,10 +77,13 @@ export default function EditPage() {
     }
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/admin/pages/${id}`, {
-        method: "POST", // or PUT/PATCH depending on your backend
-        body: formData,
-      });
+      const res = await fetch(
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/pages/${id}`,
+        {
+          method: "POST", // or PUT/PATCH depending on your backend
+          body: formData,
+        }
+      );
 
       const data = await res.json();
 

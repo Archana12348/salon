@@ -2,7 +2,15 @@ import React, { useEffect, useRef } from "react";
 
 const AboutUs = () => {
   return (
-    <div className="relative min-h-screen overflow-hidden font-[Poppins]">
+    <div
+      className="relative min-h-screen overflow-hidden font-[Poppins]"
+      style={{
+        backgroundImage:
+          "url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Content */}
       <div className="relative z-20 max-w-4xl mx-auto px-5 py-24 text-center">
         <h1
