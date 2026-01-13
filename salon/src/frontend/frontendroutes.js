@@ -13,6 +13,8 @@ import ProductnewProfile from "./pages/ProductDetails";
 import ForgetPassword from "./pages/auth/Forget";
 import ContactUs from "./pages/contactus/ContactUs";
 import BookingPage from "./pages/features/booking-flow/BookingPage";
+import ServicesPage from "./pages/servicedata/ServiceFetch";
+import ServiceView from "./pages/servicedata/ServiceView";
 // import NotFound from "./pages/NotFound";
 
 export const FrontendRoutes = (
@@ -23,8 +25,9 @@ export const FrontendRoutes = (
       <Route path="shop" element={<Shop />} />
       <Route path="product" element={<ProductPage />} />
       <Route path="userprofile" element={<UserProfile />} />
-      <Route path="service/:slug" element={<Contact />} />
-      <Route path="service/:slug/:slug" element={<Contact />} />
+      <Route path="service/:slug" element={<ServicesPage />} />
+      <Route path="service/:slug/:slug" element={<ServicesPage />} />
+      <Route path="/:slug" element={<ServiceView />} />
       <Route path="aboutus" element={<AboutUs />} />
       <Route path="team" element={<Team />} />
       <Route path="userprofile/:slug" element={<UserProfile />} />

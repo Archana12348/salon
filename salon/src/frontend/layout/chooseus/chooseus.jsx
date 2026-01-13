@@ -29,10 +29,8 @@ export default function WhyTrustUs() {
     <section
       className="py-10 text-white  bg-center bg-cover bg-no-repeat"
       style={{
-        // backgroundIma:
-        //   "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('/gallery/treee.jpg')",
         backgroundImage:
-          "linear-gradient(135deg, rgba(0,206,209,0.85), rgba(0,206,209,0.6))",
+          "linear-gradient(120deg, rgba(0,206,209,0.5), rgba(255,255,255,0.95))",
         fontFamily: "var(--font-heading--family)",
       }}
     >

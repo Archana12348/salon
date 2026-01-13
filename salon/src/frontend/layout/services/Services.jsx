@@ -96,63 +96,71 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    //     <div
-    //   className="w-full py-16 sm:py-20 md:py-24 "
-    //   style={{
-    //     backgroundImage:
-    //       "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('/gallery/bbbbb.jpg')",
-    //     fontFamily: "var(--font-heading--family)",
-    //   }}
-    // ></div>
-    <div className="max-w-7xl mx-auto py-7 sm:px-6 md:py-12">
-      {/* Heading */}
-      <h2
-        className="text-3xl sm:text-3xl md:text-4xl text-center mb-10 text-black"
-        style={{ fontFamily: "var(--font-heading--family)" }}
+    <div
+      className="w-full py-16 sm:py-20 md:py-12 "
+      style={{
+        backgroundImage:
+          "linear-gradient(120deg, rgba(0,206,209,0.5), rgba(255,255,255,0.95))",
+        fontFamily: "var(--font-heading--family)",
+      }}
+    >
+      <div
+        className=""
+        style={{
+          // backgroundImage:
+          //   "linear-gradient(to bottom, rgba(0,206,209,0.85), rgba(255,255,255,0.95))",
+          fontFamily: "var(--font-heading--family)",
+        }}
       >
-        Our Premium Services
-      </h2>
+        {/* Heading */}
+        <h2
+          className="text-3xl sm:text-3xl md:text-4xl text-center mb-10 text-black"
+          style={{ fontFamily: "var(--font-heading--family)" }}
+        >
+          Our Premium Services
+        </h2>
 
-      {/* Slider */}
-      <Swiper
-        modules={[Autoplay, Pagination]}
-        spaceBetween={30}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        pagination={{ clickable: true }}
-        breakpoints={{
-          0: { slidesPerView: 1 },
-          640: { slidesPerView: 2 },
-          768: { slidesPerView: 3 },
-          1024: { slidesPerView: 4 },
-        }}
-        className="pb-12"
-      >
-        {services.map((item, index) => (
-          <SwiperSlide key={index}>
-            <div className="flex flex-col items-center text-center group">
-              {/* Image Box */}
-              <div className="relative  flex items-center justify-cente overflow-hidde transition-transform duration-500 group-hover:scale-105 ">
-                <img
-                  src={item.img}
-                  alt={item.name}
-                  className="object-contain w-full h-full"
-                />
+        {/* Slider */}
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          spaceBetween={30}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          pagination={{ clickable: true }}
+          breakpoints={{
+            0: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            768: { slidesPerView: 3 },
+            1024: { slidesPerView: 4 },
+          }}
+          className="pb-12"
+        >
+          {services.map((item, index) => (
+            <SwiperSlide key={index}>
+              <div className="flex flex-col items-center text-center group">
+                {/* Image Box */}
+                <div className="relative  flex items-center justify-cente overflow-hidde transition-transform duration-500 group-hover:scale-105 ">
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    className="object-contain w-full h-full"
+                  />
+                </div>
+
+                {/* Name */}
+                <p
+                  className="mt-4 text-lg md:text-xl text-black"
+                  style={{ fontFamily: "var(--font-heading--family)" }}
+                >
+                  {item.name}
+                </p>
               </div>
-
-              {/* Name */}
-              <p
-                className="mt-4 text-lg md:text-xl text-black"
-                style={{ fontFamily: "var(--font-heading--family)" }}
-              >
-                {item.name}
-              </p>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </div>
   );
 }
