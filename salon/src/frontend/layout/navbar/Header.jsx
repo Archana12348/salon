@@ -643,12 +643,19 @@ export default function HeaderWithVideo() {
             uppercase tracking-widest
             text-center
          "
-            style={{ fontFamily: "var(--font-heading--family)" }}
           >
-            <Link to="/" className="text-black">
+            <Link
+              to="/"
+              className="text-black"
+              style={{ fontFamily: "var(--font-heading--family)" }}
+            >
               Home
             </Link>
-            <Link to="#" className="text-black">
+            <Link
+              to="#"
+              className="text-black"
+              style={{ fontFamily: "var(--font-heading--family)" }}
+            >
               About Us
             </Link>
 
@@ -657,7 +664,10 @@ export default function HeaderWithVideo() {
               onMouseEnter={() => openMenu("services")}
               onMouseLeave={closeMenuWithDelay}
             >
-              <span className="cursor-pointer hover:underline text-black">
+              <span
+                className="cursor-pointer hover:underline text-black"
+                style={{ fontFamily: "var(--font-heading--family)" }}
+              >
                 Services
               </span>
               {activeMenu === "services" && (
@@ -669,10 +679,18 @@ export default function HeaderWithVideo() {
               )}
             </div>
 
-            <Link to="/products" className="text-black">
+            <Link
+              to="/products"
+              className="text-black"
+              style={{ fontFamily: "var(--font-heading--family)" }}
+            >
               Products
             </Link>
-            <Link to="/contact" className="text-black">
+            <Link
+              to="/contact"
+              className="text-black"
+              style={{ fontFamily: "var(--font-heading--family)" }}
+            >
               Contact Us
             </Link>
           </nav>
@@ -726,12 +744,20 @@ export default function HeaderWithVideo() {
 
             <nav
               className="hidden md:flex mt-7 md:mt-11 lg:mt-7  flex-wrap justify-center gap-4 sm:gap-6 text-[10px] sm:text-xs md:text-sm uppercase tracking-widest px-4 text-center text-white"
-              style={{ fontFamily: "var(--font-heading--family)" }}
+              // style={{ fontFamily: "var(--font-heading--family)" }}
             >
-              <Link to="/" className="text-white">
+              <Link
+                to="/"
+                className="text-white"
+                style={{ fontFamily: "var(--font-heading--family)" }}
+              >
                 Home
               </Link>
-              <Link to="/about" className="text-white">
+              <Link
+                to="/about"
+                className="text-white"
+                style={{ fontFamily: "var(--font-heading--family)" }}
+              >
                 About Us
               </Link>
 
@@ -739,7 +765,10 @@ export default function HeaderWithVideo() {
                 className="relative"
                 onMouseEnter={() => openMenu("services")}
               >
-                <span className="cursor-pointer hover:underline text-white">
+                <span
+                  className="cursor-pointer hover:underline text-white"
+                  style={{ fontFamily: "var(--font-heading--family)" }}
+                >
                   Services
                 </span>
                 {activeMenu === "services" && (
@@ -751,7 +780,11 @@ export default function HeaderWithVideo() {
                 )}
               </div>
 
-              <Link to="/products" className="hover:underline text-white">
+              <Link
+                to="/products"
+                className="hover:underline text-white"
+                style={{ fontFamily: "var(--font-heading--family)" }}
+              >
                 Products
               </Link>
               <Link to="/contact" className="text-white">

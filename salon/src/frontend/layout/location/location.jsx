@@ -108,7 +108,14 @@ const locations = [
 
 export default function LocationsSection() {
   return (
-    <section className="w-full py-12 px-4 font-[var(--font-heading--family)]">
+    <section
+      className="w-full py-12 px-4 font-[var(--font-heading--family)]"
+      style={{
+        // backgroundImage:
+        //   "linear-gradient(to bottom, rgba(0,206,209,0.85), rgba(255,255,255,0.95))",
+        fontFamily: "var(--font-heading--family)",
+      }}
+    >
       <div className="max-w-7xl mx-auto">
         {/* Heading */}
         <h2
