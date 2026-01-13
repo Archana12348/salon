@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import StepProgress from "./StepProgress";
 import Calendar from "./Calendar";
@@ -16,10 +16,12 @@ const slideVariants = {
   exitRight: { opacity: 0, x: 80 },
 };
 
-export default function BookingPage() {
+export default function BookingPage({ props }) {
+  console.log(props);
+  debugger;
   const { id } = useParams(); // booking id from URL for editing
   const navigate = useNavigate();
-
+  const { state } = useLocation();
   const [formData, setFormData] = useState({
     date: null,
     time: "",
@@ -144,6 +146,20 @@ export default function BookingPage() {
 
     setFormData((p) => ({ ...p, service_id: "" }));
   }, [formData.sub_category_id]);
+
+  // 🔥 PREFILL FROM SERVICE PAGE (NEW BOOKING)
+  useEffect(() => {
+    if (!state || isEdit) return;
+
+    setFormData((p) => ({
+      ...p,
+      category_id: state.category_id || "",
+      sub_category_id: state.sub_category_id || "",
+      service_id: state.service_id || "",
+    }));
+
+    setStep("form");
+  }, [state, isEdit]);
 
   const selectedCategory = categories.find((c) => c.id == formData.category_id);
   const selectedSubCategory = subCategories.find(

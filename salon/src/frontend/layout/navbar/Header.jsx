@@ -530,7 +530,7 @@
 // }
 
 import { useEffect, useState, useRef } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { User, Calendar, Search, MapPin, Menu } from "lucide-react";
 import MegaMenu from "./MegaMenu";
 import MobileMenu from "./MobileMenu";
@@ -540,7 +540,7 @@ export default function HeaderWithVideo() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
   const [categories, setCategories] = useState([]);
-
+  const navigate = useNavigate();
   const closeTimerRef = useRef(null);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -829,6 +829,7 @@ export default function HeaderWithVideo() {
                hover:bg-[#00CED1] hover:text-white
               hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
               "
+                onClick={() => navigate("/appointment")}
               >
                 Book Appointment
               </button>
