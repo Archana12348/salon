@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { Edit, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -308,15 +309,18 @@ export default function RoleTable() {
                 <td className="p-2 flex gap-2 justify-center">
                   <button
                     onClick={() => navigate(`/admin/bookings/${r.id}/edit`)}
-                    className="bg-blue-600 text-white px-3 text-xl py-1 rounded"
+                    className="text-blue-600  p-2 rounded hover:text-blue-700"
+                    title="Edit"
                   >
-                    Edit
+                    <Edit size={20} />
                   </button>
+
                   <button
                     onClick={() => handleDelete(r.id)}
-                    className="bg-red-600 text-white px-3 text-xl py-1 rounded"
+                    className="text-red-600 p-2 rounded hover:text-red-700"
+                    title="Delete"
                   >
-                    Delete
+                    <Trash2 size={20} />
                   </button>
                 </td>
               </tr>

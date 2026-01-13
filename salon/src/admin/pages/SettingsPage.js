@@ -7,15 +7,26 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch settings from backend
   const fetchSettings = async () => {
     try {
       const res = await fetch(API_URL);
       const json = await res.json();
 
-      const data = json.data.map((s) => ({
-        ...s,
-        file: null,
-      }));
+      const data = json.data.map((s) => {
+        let val = s.val;
+
+        // 🔹 For file type, prepend full URL to show image
+        if (s.type === "file" && s.val) {
+          val = `${s.val}`;
+        }
+
+        return {
+          ...s,
+          val,
+          file: null, // local file preview
+        };
+      });
 
       setSettings(data);
       setLoading(false);
@@ -29,23 +40,18 @@ export default function SettingsPage() {
     fetchSettings();
   }, []);
 
+  // Handle value changes
   const handleChange = (id, value, isFile = false) => {
     setSettings((prev) =>
       prev.map((s) => {
         if (s.id !== id) return s;
-
-        if (isFile) {
-          return {
-            ...s,
-            file: value, // preview will auto work
-          };
-        }
-
+        if (isFile) return { ...s, file: value }; // preview file
         return { ...s, val: value };
       })
     );
   };
 
+  // Save settings to backend
   const saveSettings = async () => {
     const formData = new FormData();
 
@@ -57,46 +63,43 @@ export default function SettingsPage() {
       }
     });
 
-    // 🔥 PRINT FORMDATA
-    console.log("🟦 FINAL FORMDATA VALUES:");
-    console.log("🟦 FINAL FORMDATA:");
-    for (const [key, value] of formData.entries()) {
-      if (value instanceof File) {
-        console.log(`${key} : FILE`, value.name, value.type, value.size);
-      } else {
-        console.log(`${key} :`, value);
-      }
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        body: formData,
+      });
+
+      const json = await response.json();
+      alert(json.message);
+      fetchSettings(); // refresh after save
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save settings");
     }
-
-    debugger;
-    const response = await fetch(API_URL, {
-      method: "POST",
-      body: formData,
-    });
-
-    const json = await response.json();
-    console.log("json", json);
-    alert(json.message);
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="text-gray-500 text-lg">Loading...</p>;
 
   return (
-    <div style={styles.wrapper}>
-      <h2 style={styles.heading}>System Settings</h2>
+    <div className="p-10 bg-gray-100 min-h-screen font-sans">
+      <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
+        General Settings
+      </h2>
 
-      <div style={styles.card}>
+      <div className="bg-white p-6 rounded-xl shadow-lg">
         {settings.map((s) => (
-          <div key={s.id} style={styles.item}>
-            <label style={styles.label}>{s.key.replace(/_/g, " ")}</label>
+          <div key={s.id} className="flex flex-col mb-6">
+            <label className="mb-2 text-gray-600 font-semibold capitalize">
+              {s.key.replace(/_/g, " ")}
+            </label>
 
-            {/* STRING */}
+            {/* STRING / TEXT */}
             {(s.type === "string" || s.type === "text") && (
               <input
                 type="text"
                 value={s.val}
                 onChange={(e) => handleChange(s.id, e.target.value)}
-                style={styles.input}
+                className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               />
             )}
 
@@ -106,135 +109,76 @@ export default function SettingsPage() {
                 type="number"
                 value={s.val}
                 onChange={(e) => handleChange(s.id, e.target.value)}
-                style={styles.input}
+                className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
               />
             )}
 
             {/* BOOLEAN */}
             {s.type === "boolean" && (
-              <label style={styles.switch}>
+              <label className="inline-flex relative items-center cursor-pointer mt-2">
                 <input
                   type="checkbox"
                   checked={Number(s.val) === 1}
                   onChange={(e) => handleChange(s.id, e.target.checked ? 1 : 0)}
+                  className="sr-only"
                 />
-                <span className="slider"></span>
+                <div className="w-12 h-6 bg-gray-300 rounded-full peer peer-checked:bg-blue-500 transition-all"></div>
+                <span className="ml-3 text-gray-700"> </span>
               </label>
             )}
 
-            {/* FILE */}
-            {s.type === "file" && (
-              <div style={{ display: "flex", alignItems: "center" }}>
+            {/* FILE INPUTS */}
+            {(s.key === "logo" ||
+              s.key === "favicon" ||
+              s.key === "store_image") && (
+              <div className="flex items-center gap-4 mt-2">
                 <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => {
                     const file = e.target.files[0];
                     if (!file) return;
-
                     handleChange(s.id, file, true);
                   }}
-                  style={styles.fileInput}
+                  className="file:border file:border-gray-300 file:p-2 file:rounded-lg file:bg-white file:cursor-pointer"
                 />
-
-                {/* NEW IMAGE PREVIEW (LOCAL FILE) */}
-                {s.file && (
+                {/* Preview */}
+                {s.file ? (
                   <img
                     src={URL.createObjectURL(s.file)}
                     alt="preview"
-                    style={styles.imagePreview}
+                    className="w-16 h-16 object-cover rounded-lg border border-gray-200"
                   />
-                )}
-
-                {/* EXISTING IMAGE FROM DATABASE */}
-                {!s.file && s.val && (
+                ) : s.val ? (
                   <img
-                    src={`${s.val}`}
+                    src={s.val}
                     alt="existing"
-                    style={styles.imagePreview}
+                    className="w-16 h-16 object-cover rounded-lg border border-gray-200"
                   />
-                )}
+                ) : null}
               </div>
             )}
+
+            {/* Fallback text input for any other type */}
+            {!["string", "text", "int", "boolean"].includes(s.type) &&
+              !["logo", "favicon", "store_image"].includes(s.key) && (
+                <input
+                  type="text"
+                  value={s.val}
+                  onChange={(e) => handleChange(s.id, e.target.value)}
+                  className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition mt-2"
+                />
+              )}
           </div>
         ))}
       </div>
 
-      <button style={styles.saveBtn} onClick={saveSettings}>
+      <button
+        onClick={saveSettings}
+        className="mt-6 px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl shadow-md hover:bg-blue-700 transition"
+      >
         Save Settings
       </button>
     </div>
   );
 }
-
-/* ---------- Modern UI Styles ---------- */
-const styles = {
-  wrapper: {
-    padding: "40px",
-    background: "#f5f7fa",
-    minHeight: "100vh",
-    fontFamily: "sans-serif",
-  },
-  heading: {
-    fontSize: "28px",
-    fontWeight: "800",
-    marginBottom: "25px",
-    color: "#2d3748",
-  },
-  card: {
-    background: "#fff",
-    padding: "25px",
-    borderRadius: "14px",
-    boxShadow: "0 5px 25px rgba(0,0,0,0.05)",
-  },
-  item: {
-    display: "flex",
-    flexDirection: "column",
-    marginBottom: "20px",
-  },
-  label: {
-    marginBottom: "6px",
-    fontSize: "14px",
-    fontWeight: "600",
-    textTransform: "capitalize",
-    color: "#4a5568",
-  },
-  input: {
-    padding: "10px 12px",
-    borderRadius: "8px",
-    border: "1px solid #cbd5e0",
-    fontSize: "15px",
-    outline: "none",
-    transition: "0.2s",
-  },
-  fileInput: {
-    marginTop: "5px",
-  },
-  imagePreview: {
-    marginLeft: "15px",
-    width: "70px",
-    height: "70px",
-    objectFit: "cover",
-    borderRadius: "8px",
-    border: "2px solid #e2e8f0",
-  },
-  switch: {
-    display: "inline-block",
-    position: "relative",
-    width: "50px",
-    height: "24px",
-  },
-  saveBtn: {
-    marginTop: "25px",
-    padding: "12px 25px",
-    background: "#4C6EF5",
-    border: "none",
-    color: "#fff",
-    borderRadius: "10px",
-    fontSize: "16px",
-    cursor: "pointer",
-    fontWeight: "600",
-    boxShadow: "0 4px 12px rgba(76,110,245,0.3)",
-    transition: "0.2s",
-  },
-};

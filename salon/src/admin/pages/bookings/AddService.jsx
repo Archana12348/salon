@@ -19,6 +19,7 @@ export default function AddService() {
       );
 
       const data = await res.json();
+      console.log(data);
 
       if (res.ok) {
         // ✅ SUCCESS ALERT

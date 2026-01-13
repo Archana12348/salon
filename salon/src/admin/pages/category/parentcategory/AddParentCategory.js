@@ -17,7 +17,9 @@ const AddParentCategory = () => {
 
   // ✅ Fetch head categories from API on mount
   useEffect(() => {
-    fetch("http://localhost:8000/api/admin/categories")
+    fetch(
+      "https://jumeirah.premierwebtechservices.com/backend/api/admin/categories"
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to fetch head categories");
@@ -80,14 +82,17 @@ const AddParentCategory = () => {
       },
     });
 
-    fetch("http://localhost:8000/api/admin/subcategories", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(token && { Authorization: `Bearer ${token}` }), // ✅ Add token if available
-      },
-      body: JSON.stringify(payload),
-    })
+    fetch(
+      "https://jumeirah.premierwebtechservices.com/backend/api/admin/subcategories",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }), // ✅ Add token if available
+        },
+        body: JSON.stringify(payload),
+      }
+    )
       .then((res) => {
         if (!res.ok) {
           return res.json().then((data) => {

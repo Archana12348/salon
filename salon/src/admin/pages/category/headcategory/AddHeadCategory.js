@@ -8,7 +8,8 @@ import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import "react-toastify/dist/ReactToastify.css";
 
-const API_BASE = "http://localhost:8000/api/admin/categories";
+const API_BASE =
+  "https://jumeirah.premierwebtechservices.com/backend/api/admin/categories";
 
 export default function AddHeadCategoryPage() {
   const [name, setName] = useState("");

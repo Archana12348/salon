@@ -24,8 +24,12 @@ const EditParentCategory = () => {
     const fetchData = async () => {
       try {
         const [catRes, subRes] = await Promise.all([
-          fetch("http://localhost:8000/api/admin/categories"),
-          fetch(`http://localhost:8000/api/admin/subcategories/${id}`),
+          fetch(
+            "https://jumeirah.premierwebtechservices.com/backend/api/admin/categories"
+          ),
+          fetch(
+            `https://jumeirah.premierwebtechservices.com/backend/api/admin/subcategories/${id}`
+          ),
         ]);
 
         const catData = await catRes.json();
@@ -92,7 +96,7 @@ const EditParentCategory = () => {
       });
 
       const res = await fetch(
-        `http://localhost:8000/api/admin/subcategories/${id}`,
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/subcategories/${id}`,
         {
           method: "PUT",
           headers: {

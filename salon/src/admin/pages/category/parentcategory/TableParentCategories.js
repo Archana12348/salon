@@ -36,7 +36,7 @@ const ParentCategories = () => {
   const fetchSubCategories = async () => {
     try {
       const res = await fetch(
-        `http://localhost:8000/api/admin/subcategories?page=${currentPage}&perPage=${itemsPerPage}&search=${searchTerm}`
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/subcategories?page=${currentPage}&perPage=${itemsPerPage}&search=${searchTerm}`
       );
       const result = await res.json();
 
@@ -88,7 +88,7 @@ const ParentCategories = () => {
 
       try {
         const res = await fetch(
-          `http://localhost:8000/api/admin/subcategories/${id}`,
+          `https://jumeirah.premierwebtechservices.com/backend/api/admin/subcategories/${id}`,
           { method: "DELETE" }
         );
         const data = await res.json();
@@ -119,7 +119,7 @@ const ParentCategories = () => {
 
     try {
       const res = await fetch(
-        "http://localhost:8000/api/admin/subcategories/bulk-delete",
+        "https://jumeirah.premierwebtechservices.com/backend/api/admin/subcategories/bulk-delete",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -108,7 +108,11 @@ export default function ServiceForm({ initialData = {}, onSubmit }) {
   useEffect(() => {
     if (!categoryId) return setSubcategories([]);
     fetch(
+<<<<<<< HEAD
       `https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories/${categoryId}`
+=======
+      `https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories-book/${categoryId}`
+>>>>>>> sachin
     )
       .then((res) => res.json())
       .then((res) => setSubcategories(res.data || []))

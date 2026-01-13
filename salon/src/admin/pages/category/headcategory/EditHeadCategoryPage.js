@@ -8,7 +8,8 @@ import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import { ToastContainer } from "react-toastify";
 
-const API_BASE = "http://localhost:8000/api/admin/categories";
+const API_BASE =
+  "https://jumeirah.premierwebtechservices.com/backend/api/admin/categories";
 
 export default function EditHeadCategoryPage() {
   const { id } = useParams();
