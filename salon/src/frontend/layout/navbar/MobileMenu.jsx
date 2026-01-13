@@ -2,7 +2,6 @@ import { X, ChevronDown, User, Calendar } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-<<<<<<< HEAD
 export default function MobileMenu({
   isOpen,
   onClose,
@@ -10,9 +9,6 @@ export default function MobileMenu({
   slug,
   categories = [],
 }) {
-=======
-export default function MobileMenu({ isOpen, onClose, categories = [] }) {
->>>>>>> sachin
   console.log("MobileMenu categories:", categories);
 
   const [openMenu, setOpenMenu] = useState(null); // services / products
@@ -91,7 +87,6 @@ export default function MobileMenu({ isOpen, onClose, categories = [] }) {
 
                 {categories.map((cat) => (
                   <div key={cat.id}>
-<<<<<<< HEAD
                     {/* CATEGORY ROW */}
                     <div className="flex items-center justify-between py-1">
                       {/* CATEGORY LINK */}
@@ -118,24 +113,6 @@ export default function MobileMenu({ isOpen, onClose, categories = [] }) {
                         </button>
                       )}
                     </div>
-=======
-                    {/* CATEGORY */}
-                    <button
-                      onClick={() => toggleCategory(cat.id)}
-                      className="flex w-full items-center justify-between py-1"
-                    >
-                      <span>{cat.name}</span>
-
-                      {cat.sub_categories?.length > 0 && (
-                        <ChevronDown
-                          size={14}
-                          className={`transition-transform ${
-                            openCategory === cat.id ? "rotate-180" : ""
-                          }`}
-                        />
-                      )}
-                    </button>
->>>>>>> sachin
 
                     {/* SUB CATEGORIES */}
                     {openCategory === cat.id &&
@@ -144,15 +121,9 @@ export default function MobileMenu({ isOpen, onClose, categories = [] }) {
                           {cat.sub_categories.map((sub) => (
                             <Link
                               key={sub.id}
-<<<<<<< HEAD
                               to={`/service/${cat.slug}?subcategory=${sub.slug}`}
                               onClick={onClose}
                               className="block text-gray-700 uppercase hover:text-black"
-=======
-                              to={`/service/${cat.slug}/${sub.slug}`}
-                              onClick={onClose}
-                              className="block text-gray-700 hover:text-black"
->>>>>>> sachin
                             >
                               {sub.name}
                             </Link>
@@ -180,11 +151,7 @@ export default function MobileMenu({ isOpen, onClose, categories = [] }) {
               />
             </button>
 
-<<<<<<< HEAD
             {/* {openMenu === "products" && (
-=======
-            {openMenu === "products" && (
->>>>>>> sachin
               <div className="mt-3 ml-3 space-y-2 text-xs">
                 <Link
                   to="/products/hair-care"

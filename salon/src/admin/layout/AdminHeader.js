@@ -43,10 +43,6 @@ const AdminHeader = () => {
 
         {/* Right */}
         <div className="ml-auto flex items-center gap-4">
-          <Button variant="outline" size="icon">
-            <Bell className="h-5 w-5 text-black" />
-          </Button>
-
           {/* User Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <Button
@@ -56,7 +52,6 @@ const AdminHeader = () => {
             >
               <User className="h-5 w-5 text-black" />
             </Button>
-
             {open && (
               <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border z-50">
                 {isLoggedIn ? (
