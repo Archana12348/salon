@@ -205,10 +205,16 @@ export default function ServicesPage() {
                           View Detail
                         </button>
                       </Link>
-
                       <button
-                        onClick={() => navigate("/appointment")}
-                        className="w-full bg-[#00CED1] text-black px-4 py-2 rounded-full hover:bg-gradient-to-r from-[#00CED1] to-black hover:text-white transition"
+                        onClick={() =>
+                          navigate("/appointment", {
+                            state: {
+                              category_id: service.category?.id,
+                              sub_category_id: service.subcategory?.id,
+                              service_id: service.id,
+                            },
+                          })
+                        }
                       >
                         Book Appointment
                       </button>
