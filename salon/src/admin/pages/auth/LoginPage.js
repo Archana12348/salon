@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Package, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, AlertCircle } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import {
   Card,
@@ -106,17 +106,6 @@ const LoginPage = () => {
                     <Eye className="h-4 w-4 text-muted-foreground" />
                   )}
                 </Button>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="text-sm">
-                <Link
-                  to="/auth/forgotpassword"
-                  className="text-blue-600 hover:text-blue-500"
-                >
-                  Forgot password?
-                </Link>
               </div>
             </div>
           </CardContent>

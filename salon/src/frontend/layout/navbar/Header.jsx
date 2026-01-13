@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import { useEffect, useState, useRef } from "react";
 // import { User, Calendar, Search, MapPin } from "lucide-react";
 // import { Link } from "react-router-dom";
@@ -529,6 +530,8 @@
 //   );
 // }
 
+=======
+>>>>>>> sachin
 import { useEffect, useState, useRef } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { User, Calendar, Search, MapPin, Menu } from "lucide-react";
@@ -603,6 +606,7 @@ export default function HeaderWithVideo() {
     <>
       {/* ================= FIXED NAVBAR ================= */}
       {showNavbar && (
+<<<<<<< HEAD
         <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-md text-black transition-all duration-500">
           <div className="flex items-center justify-between px-3 sm:px-6 md:px-10 py-3 sm:py-4">
             <div className="flex gap-3 sm:gap-4">
@@ -651,15 +655,41 @@ export default function HeaderWithVideo() {
             <Link to="#" className="text-black">
               About Us
             </Link>
+=======
+        <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
+          <div className="flex items-center justify-between px-6 py-4">
+            <div className="flex gap-4">
+              <Search size={18} />
+              <MapPin size={18} />
+            </div>
+
+            <h2 className="text-2xl font-semibold">LA VIE JUMERIAH</h2>
+
+            <div className="flex gap-4">
+              <Link to="/login">
+                <User size={18} />
+              </Link>
+              <Calendar size={18} />
+            </div>
+          </div>
+
+          <nav className="hidden md:flex justify-center gap-6 pb-3 uppercase text-sm">
+            <Link to="/">Home</Link>
+            <Link to="/about">About Us</Link>
+>>>>>>> sachin
 
             <div
               className="relative"
               onMouseEnter={() => openMenu("services")}
               onMouseLeave={closeMenuWithDelay}
             >
+<<<<<<< HEAD
               <span className="cursor-pointer hover:underline text-black">
                 Services
               </span>
+=======
+              <span className="cursor-pointer">Services</span>
+>>>>>>> sachin
               {activeMenu === "services" && (
                 <MegaMenu
                   categories={categories}
@@ -669,12 +699,17 @@ export default function HeaderWithVideo() {
               )}
             </div>
 
+<<<<<<< HEAD
             <Link to="/products" className="text-black">
               Products
             </Link>
             <Link to="/contact" className="text-black">
               Contact Us
             </Link>
+=======
+            <Link to="/products">Products</Link>
+            <Link to="/contact">Contact Us</Link>
+>>>>>>> sachin
           </nav>
         </div>
       )}
@@ -682,22 +717,27 @@ export default function HeaderWithVideo() {
       {/* ================= HOME VIDEO HEADER ================= */}
       {isHomePage && (
         <header className="relative w-full h-screen overflow-hidden">
+<<<<<<< HEAD
           <div className=" ml-16 flex items-center justify-between px-4 mt-[16px] md:hidden absolute top-0 left-0 w-full z-20 text-white">
             <Menu
               className="cursor-pointer mt-2"
               size={20}
               onClick={() => setMobileMenuOpen(true)}
             />
+=======
+          <div className="md:hidden absolute top-4 left-4 z-20 text-white">
+            <Menu size={22} onClick={() => setMobileMenuOpen(true)} />
+>>>>>>> sachin
           </div>
-          {/* Background Video */}
+
           <video
-            className="absolute top-0 left-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
             src="/gallery/videobg.mp4"
             autoPlay
             muted
             loop
-            playsInline
           />
+<<<<<<< HEAD
           {/* Overlay */}
           {/* <div className="absolute inset-0 " /> */}
           {/* Content */}
@@ -706,16 +746,21 @@ export default function HeaderWithVideo() {
               <div className="flex gap-3 sm:gap-4">
                 <Search size={20} className="cursor-pointer" />
                 <MapPin size={20} className="cursor-pointer" />
+=======
+
+          <div className="relative z-10 text-white h-full flex flex-col">
+            <div className="flex justify-between px-6 py-6">
+              <div className="flex gap-4">
+                <Search size={20} />
+                <MapPin size={20} />
+>>>>>>> sachin
               </div>
 
-              {/* Center Title */}
-              <h1
-                className="absolute left-1/2 -translate-x-1/2 text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wide text-center mt-4 md:mt-11 lg:mt-4"
-                style={{ fontFamily: "var(--font-heading--family)" }}
-              >
+              <h1 className="text-4xl font-bold absolute left-1/2 -translate-x-1/2">
                 LA VIE JUMERIAH
               </h1>
 
+<<<<<<< HEAD
               <div className="flex gap-3 sm:gap-4">
                 <Link to="/login">
                   <User size={20} className="cursor-pointer text-white" />
@@ -734,14 +779,29 @@ export default function HeaderWithVideo() {
               <Link to="/about" className="text-white">
                 About Us
               </Link>
+=======
+              <div className="flex gap-4">
+                <User size={20} />
+                <Calendar size={20} />
+              </div>
+            </div>
+
+            <nav className="hidden md:flex justify-center gap-6 mt-8 uppercase">
+              <Link to="/">Home</Link>
+              <Link to="/about">About Us</Link>
+>>>>>>> sachin
 
               <div
                 className="relative"
                 onMouseEnter={() => openMenu("services")}
               >
+<<<<<<< HEAD
                 <span className="cursor-pointer hover:underline text-white">
                   Services
                 </span>
+=======
+                <span className="cursor-pointer">Services</span>
+>>>>>>> sachin
                 {activeMenu === "services" && (
                   <MegaMenu
                     categories={categories}
@@ -751,36 +811,24 @@ export default function HeaderWithVideo() {
                 )}
               </div>
 
+<<<<<<< HEAD
               <Link to="/products" className="hover:underline text-white">
                 Products
               </Link>
               <Link to="/contact" className="text-white">
                 Contact Us
               </Link>
+=======
+              <Link to="/products">Products</Link>
+              <Link to="/contact">Contact Us</Link>
+>>>>>>> sachin
             </nav>
 
-            {/* BUTTONS */}
-            <div
-              className="mt-auto mb-16 sm:mb-24 flex flex-col sm:flex-row gap-6 justify-center px-4"
-              style={{ fontFamily: "var(--font-heading--family)" }}
-            >
-              {/* Shop Now */}
-              <button
-                className="
-                 relative overflow-hidden
-                 px-8 sm:px-10 py-3
-                 text-xs sm:text-sm uppercase tracking-wider font-semibold
-                 rounded-full
-                 bg-gradient-to-r from-[#00CED1] via-[#20B2AA] to-[#00CED1]
-               text-black
-                 shadow-[0_0_20px_rgba(0,206,209,0.5)]
-                 transition-all duration-300
-                 hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
-                 "
-              >
-                <span className="relative z-10">Shop Now</span>
-                <span className="absolute inset-0 bg-white opacity-0 hover:opacity-20 transition" />
+            <div className="mt-auto mb-20 flex gap-6 justify-center">
+              <button className="px-10 py-3 rounded-full bg-cyan-400 text-white">
+                Shop Now
               </button>
+<<<<<<< HEAD
               {/* Book Appointment */}
               <button
                 className="
@@ -797,10 +845,22 @@ export default function HeaderWithVideo() {
               hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
               "
               >
+=======
+              <button className="px-10 py-3 rounded-full bg-cyan-400 text-white">
+>>>>>>> sachin
                 Book Appointment
               </button>
             </div>
           </div>
+<<<<<<< HEAD
+=======
+
+          <MobileMenu
+            isOpen={mobileMenuOpen}
+            onClose={() => setMobileMenuOpen(false)}
+            categories={categories}
+          />
+>>>>>>> sachin
         </header>
       )}
       <MobileMenu

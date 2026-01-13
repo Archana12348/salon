@@ -63,16 +63,19 @@ const FabricsPage = () => {
   // Fetch fabrics from API
   const fetchFabrics = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/admin/packages", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          perPage: itemsPerPage,
-          page,
-          search: searchTerm || undefined,
-        },
-      });
+      const res = await axios.get(
+        "https://jumeirah.premierwebtechservices.com/backend/api/admin/packages",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            perPage: itemsPerPage,
+            page,
+            search: searchTerm || undefined,
+          },
+        }
+      );
       console.log(res.data.data[0].active);
       debugger;
 
@@ -106,9 +109,12 @@ const FabricsPage = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:8000/api/admin/packages/${id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          await axios.delete(
+            `https://jumeirah.premierwebtechservices.com/backend/api/admin/packages/${id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
           Swal.fire("Deleted!", "The fabric has been deleted.", "success");
           fetchFabrics();
         } catch (error) {
@@ -136,9 +142,12 @@ const FabricsPage = () => {
         try {
           await Promise.all(
             selectedFabrics.map((id) =>
-              axios.delete(`http://localhost:8000/api/admin/packages/${id}`, {
-                headers: { Authorization: `Bearer ${token}` },
-              })
+              axios.delete(
+                `https://jumeirah.premierwebtechservices.com/backend/api/admin/packages/${id}`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              )
             )
           );
           Swal.fire(

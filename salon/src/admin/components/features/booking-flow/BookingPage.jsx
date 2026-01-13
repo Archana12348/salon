@@ -59,7 +59,9 @@ export default function BookingPage() {
 
     const fetchBooking = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/booking/${id}`);
+        const res = await fetch(
+          `https://jumeirah.premierwebtechservices.com/backend/api/booking/${id}`
+        );
         const result = await res.json();
 
         if (!result.success) throw new Error("Booking not found");
@@ -82,7 +84,7 @@ export default function BookingPage() {
 
         // 2️⃣ Fetch services first
         const serviceRes = await fetch(
-          `http://localhost:8000/api/site/all-services/${booking.subcategory_id}`
+          `https://jumeirah.premierwebtechservices.com/backend/api/site/all-services/${booking.subcategory_id}`
         );
         const serviceData = await serviceRes.json();
         setServices(serviceData.data ?? serviceData);
@@ -107,7 +109,9 @@ export default function BookingPage() {
 
   // Fetch categories
   useEffect(() => {
-    fetch("http://localhost:8000/api/site/category")
+    fetch(
+      "https://jumeirah.premierwebtechservices.com/backend/api/site/category"
+    )
       .then((res) => res.json())
       .then((data) => setCategories(data.data ?? data));
   }, []);
@@ -117,7 +121,7 @@ export default function BookingPage() {
     if (!formData.category_id) return;
 
     fetch(
-      `http://localhost:8000/api/site/sub-categories/${formData.category_id}`
+      `https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories/${formData.category_id}`
     )
       .then((res) => res.json())
       .then((data) => setSubCategories(data.data ?? data));
@@ -133,7 +137,7 @@ export default function BookingPage() {
     console.log(formData.sub_category_id);
     debugger;
     fetch(
-      `http://localhost:8000/api/site/all-services/${formData.sub_category_id}`
+      `https://jumeirah.premierwebtechservices.com/backend/api/site/all-services/${formData.sub_category_id}`
     )
       .then((res) => res.json())
       .then((data) => setServices(data.data ?? data));
@@ -182,8 +186,8 @@ export default function BookingPage() {
 
     try {
       const url = isEdit
-        ? `http://localhost:8000/api/booking/update/${id}`
-        : "http://localhost:8000/api/booking/create";
+        ? `https://jumeirah.premierwebtechservices.com/backend/api/booking/update/${id}`
+        : "https://jumeirah.premierwebtechservices.com/backend/api/booking/create";
 
       const res = await fetch(url, {
         method: isEdit ? "PUT" : "POST",
