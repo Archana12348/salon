@@ -33,13 +33,7 @@ export const FrontendRoutes = (
     <Route path="contactUs" element={<ContactUs />} />
 
     {/* 🔹 LOGIN / SIGNUP OUTSIDE FRONT LAYOUT */}
-<<<<<<< HEAD
-    <Route path="/login" element={<Login />} />
-    <Route path="/signup" element={<Signup />} />
-    <Route path="/forget-password" element={<ForgetPassword />} />
-=======
     <Route path="login" element={<Login />} />
     <Route path="signup" element={<Signup />} />
->>>>>>> sachin
   </>
 );

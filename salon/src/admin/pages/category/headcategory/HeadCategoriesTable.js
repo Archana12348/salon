@@ -38,7 +38,7 @@ const HeadCategoriesTable = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:8000/api/admin/categories?page=${currentPage}&perPage=${perPage}&search=${searchTerm}&sortDir=${sortDir}`
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/categories?page=${currentPage}&perPage=${perPage}&search=${searchTerm}&sortDir=${sortDir}`
       );
       const result = await response.json();
       console.log(result);
@@ -97,7 +97,7 @@ const HeadCategoriesTable = () => {
     if (confirmed.isConfirmed) {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/admin/categories/${cat.id}`,
+          `https://jumeirah.premierwebtechservices.com/backend/api/admin/categories/${cat.id}`,
           { method: "DELETE" }
         );
         if (!response.ok) throw new Error("Failed to delete category.");
@@ -124,7 +124,7 @@ const HeadCategoriesTable = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/admin/categories/bulk-delete`,
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/categories/bulk-delete`,
         {
           method: "POST",
           headers: {

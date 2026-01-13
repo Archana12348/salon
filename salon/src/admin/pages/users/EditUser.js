@@ -31,9 +31,12 @@ const EditUser = () => {
 
     const fetchUser = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/admin/users/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await fetch(
+          `https://jumeirah.premierwebtechservices.com/backend/api/admin/users/${id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         const data = await res.json();
         console.log(data);
         debugger;
@@ -109,14 +112,17 @@ const EditUser = () => {
         updatedData.avatar = base64Image;
       }
 
-      const res = await fetch(`http://localhost:8000/api/admin/users/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedData),
-      });
+      const res = await fetch(
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/users/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedData),
+        }
+      );
 
       const result = await res.json();
       console.log("result", result);
@@ -237,7 +243,7 @@ const EditUser = () => {
           />
           {imagePreview && (
             <img
-              src={`http://localhost:8000/api${imagePreview}`}
+              src={`https://jumeirah.premierwebtechservices.com/backend/api${imagePreview}`}
               alt="Preview"
               className="mt-2 w-20 h-20 object-cover rounded-full"
             />

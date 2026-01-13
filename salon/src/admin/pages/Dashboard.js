@@ -8,7 +8,9 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/admin/dashboard")
+    fetch(
+      "https://jumeirah.premierwebtechservices.com/backend/api/admin/dashboard"
+    )
       .then((res) => res.json())
       .then((json) => {
         setStats(json.data); // IMPORTANT

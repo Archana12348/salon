@@ -73,7 +73,9 @@ const UserTable = ({
     if (!window.confirm("Are you sure you want to delete this user?")) return;
 
     try {
-      await axios.delete(`http://localhost:8000/api/admin/users/${userId}`);
+      await axios.delete(
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/users/${userId}`
+      );
       toast.success("User deleted successfully.");
 
       // Remove the user from UI

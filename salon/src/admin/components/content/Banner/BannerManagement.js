@@ -37,7 +37,7 @@ const BannerManagement = () => {
       });
 
       const res = await fetch(
-        `http://127.0.0.1:8000/api/admin/banners?${params}`
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/banners?${params}`
       );
       const data = await res.json();
       console.log("Fetched Banners:", data);

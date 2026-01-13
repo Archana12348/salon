@@ -31,7 +31,9 @@ const BannerFormPage = () => {
 
     setLoading(true);
     axios
-      .get(`http://127.0.0.1:8000/api/admin/banners/${id}`)
+      .get(
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/banners/${id}`
+      )
       .then((res) => {
         const b = res.data.data;
 
@@ -122,8 +124,8 @@ const BannerFormPage = () => {
 
     try {
       const url = isEditing
-        ? `http://127.0.0.1:8000/api/admin/banners/${id}?_method=PUT`
-        : "http://127.0.0.1:8000/api/admin/banners";
+        ? `https://jumeirah.premierwebtechservices.com/backend/api/admin/banners/${id}?_method=PUT`
+        : "https://jumeirah.premierwebtechservices.com/backend/api/admin/banners";
 
       await axios.post(url, data);
 

@@ -25,7 +25,7 @@ const UsersListPage = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:8000/api/admin/users?page=${currentPage}&perPage=${usersPerPage}&search=${encodeURIComponent(
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/users?page=${currentPage}&perPage=${usersPerPage}&search=${encodeURIComponent(
           searchTerm
         )}&sort=${sortOrder}`
       );
@@ -67,7 +67,9 @@ const UsersListPage = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:8000/api/admin/users/${id}`);
+        await axios.delete(
+          `https://jumeirah.premierwebtechservices.com/backend/api/admin/users/${id}`
+        );
         toast.success("User deleted successfully");
         fetchUsers();
       } catch (error) {
@@ -96,9 +98,12 @@ const UsersListPage = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await axios.post("http://localhost:8000/api/admin/users/bulk-delete", {
-        ids: selectedUsers,
-      });
+      await axios.post(
+        "https://jumeirah.premierwebtechservices.com/backend/api/admin/users/bulk-delete",
+        {
+          ids: selectedUsers,
+        }
+      );
 
       setSelectedUsers([]);
       fetchUsers();

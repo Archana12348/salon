@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { Edit, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -49,7 +50,7 @@ export default function RoleTable() {
       setLoading(true);
       try {
         const res = await fetch(
-          `http://127.0.0.1:8000/api/admin/bookings?page=${page}&perPage=${perPage}&search=${debouncedSearch}`,
+          `https://jumeirah.premierwebtechservices.com/backend/api/admin/bookings?page=${page}&perPage=${perPage}&search=${debouncedSearch}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -89,7 +90,7 @@ export default function RoleTable() {
 
     try {
       const res = await fetch(
-        `http://127.0.0.1:8000/api/admin/bookings/${id}/status`,
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/bookings/${id}/status`,
         {
           method: "PATCH",
           headers: {
@@ -121,7 +122,7 @@ export default function RoleTable() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/admin/bookings/${id}`,
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/bookings/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -156,14 +157,17 @@ export default function RoleTable() {
 
     if (!confirm.isConfirmed) return;
 
-    await fetch("http://127.0.0.1:8000/api/admin/bookings/bulk-delete", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify({ ids: selectedRoles }),
-    });
+    await fetch(
+      "https://jumeirah.premierwebtechservices.com/backend/api/admin/bookings/bulk-delete",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ ids: selectedRoles }),
+      }
+    );
 
     setSelectedRoles([]);
     fetchRoles(1);
@@ -305,15 +309,18 @@ export default function RoleTable() {
                 <td className="p-2 flex gap-2 justify-center">
                   <button
                     onClick={() => navigate(`/admin/bookings/${r.id}/edit`)}
-                    className="bg-blue-600 text-white px-3 text-xl py-1 rounded"
+                    className="text-blue-600  p-2 rounded hover:text-blue-700"
+                    title="Edit"
                   >
-                    Edit
+                    <Edit size={20} />
                   </button>
+
                   <button
                     onClick={() => handleDelete(r.id)}
-                    className="bg-red-600 text-white px-3 text-xl py-1 rounded"
+                    className="text-red-600 p-2 rounded hover:text-red-700"
+                    title="Delete"
                   >
-                    Delete
+                    <Trash2 size={20} />
                   </button>
                 </td>
               </tr>

@@ -79,7 +79,7 @@ const AddSliderPage = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/admin/sliders",
+        "https://jumeirah.premierwebtechservices.com/backend/api/admin/sliders",
         data,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

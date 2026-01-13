@@ -32,14 +32,17 @@ export default function AddFabric() {
       active: is_active === "true" ? 1 : 0,
     };
 
-    fetch("http://localhost:8000/api/admin/packages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(newFabric),
-    })
+    fetch(
+      "https://jumeirah.premierwebtechservices.com/backend/api/admin/packages",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(newFabric),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

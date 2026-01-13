@@ -51,10 +51,13 @@ export default function AddPage() {
     }
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/admin/pages", {
-        method: "POST",
-        body: formData, // ❗ no Content-Type
-      });
+      const res = await fetch(
+        "https://jumeirah.premierwebtechservices.com/backend/api/admin/pages",
+        {
+          method: "POST",
+          body: formData, // ❗ no Content-Type
+        }
+      );
 
       const data = await res.json();
 
