@@ -17,8 +17,6 @@ const slideVariants = {
 };
 
 export default function BookingPage({ props }) {
-  console.log(props);
-  debugger;
   const { id } = useParams(); // booking id from URL for editing
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -97,7 +95,7 @@ export default function BookingPage({ props }) {
           service_id: booking.service_id,
         }));
 
-        setStep("form");
+        setStep("calendar");
       } catch (err) {
         alert("Failed to fetch booking");
         navigate("/admin/bookings");
@@ -111,6 +109,32 @@ export default function BookingPage({ props }) {
 
   // Fetch categories
   useEffect(() => {
+    // 🧑 USER AUTO FILL
+    const authUser = JSON.parse(localStorage.getItem("user_auth"));
+    if (authUser) {
+      setFormData((p) => ({
+        ...p,
+        name: p.name || authUser.user.name || "",
+        email: p.email || authUser.user.email || "",
+        phone: p.phone || authUser.user.phone || "",
+      }));
+    }
+
+    // 📦 BOOKING AUTO FILL
+    const bookingData = JSON.parse(localStorage.getItem("booking_data"));
+
+    if (bookingData) {
+      setFormData((p) => ({
+        ...p,
+        category_id: p.category_id || bookingData.category.id || "",
+        sub_category_id: p.sub_category_id || bookingData.subcategory.id || "",
+        service_id: p.service_id || bookingData.service.id || "",
+      }));
+
+      setStep("calendar");
+    }
+    console.log(authUser, bookingData, formData);
+    debugger;
     fetch(
       "https://jumeirah.premierwebtechservices.com/backend/api/site/category"
     )
@@ -128,23 +152,24 @@ export default function BookingPage({ props }) {
       .then((res) => res.json())
       .then((data) => setSubCategories(data.data ?? data));
 
-    setFormData((p) => ({ ...p, sub_category_id: "", service_id: "" }));
+    setFormData((p) => ({
+      ...p,
+      sub_category_id: formData.sub_category_id || "",
+      service_id: formData.service_id || "",
+    }));
     setServices([]);
   }, [formData.category_id]);
 
   // Fetch services
   useEffect(() => {
     if (!formData.sub_category_id) return;
-
-    console.log(formData.sub_category_id);
-    debugger;
     fetch(
       `https://jumeirah.premierwebtechservices.com/backend/api/site/all-services-book/${formData.sub_category_id}`
     )
       .then((res) => res.json())
       .then((data) => setServices(data.data ?? data));
 
-    setFormData((p) => ({ ...p, service_id: "" }));
+    setFormData((p) => ({ ...p, service_id: formData.service_id || "" }));
   }, [formData.sub_category_id]);
 
   // 🔥 PREFILL FROM SERVICE PAGE (NEW BOOKING)
@@ -158,7 +183,7 @@ export default function BookingPage({ props }) {
       service_id: state.service_id || "",
     }));
 
-    setStep("form");
+    setStep("calendar");
   }, [state, isEdit]);
 
   const selectedCategory = categories.find((c) => c.id == formData.category_id);
@@ -240,6 +265,8 @@ export default function BookingPage({ props }) {
     setCategories([]);
     setSubCategories([]);
     setServices([]);
+    // To remove the 'username' item
+    localStorage.removeItem("booking_data");
     navigate(isEdit ? "/" : "/");
   };
 

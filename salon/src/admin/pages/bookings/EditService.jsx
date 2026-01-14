@@ -23,6 +23,8 @@ export default function EditService() {
 
   const submit = async (formData) => {
     try {
+      console.log("form data", formData);
+      debugger;
       const res = await fetch(
         `https://jumeirah.premierwebtechservices.com/backend/api/admin/services/${id}`,
         {

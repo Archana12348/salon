@@ -108,7 +108,7 @@ export default function ServiceForm({ initialData = {}, onSubmit }) {
   useEffect(() => {
     if (!categoryId) return setSubcategories([]);
     fetch(
-      `https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories/${categoryId}`
+      `https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories-book/${categoryId}`
     )
       .then((res) => res.json())
       .then((res) => setSubcategories(res.data || []))
@@ -221,6 +221,8 @@ export default function ServiceForm({ initialData = {}, onSubmit }) {
       formData.append(`faq[${i}][question]`, f.question);
       formData.append(`faq[${i}][answer]`, f.answer);
     });
+    console.log("from data", formData);
+    debugger;
 
     onSubmit(formData);
   };

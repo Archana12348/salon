@@ -9,6 +9,7 @@ const CustomerForm = ({
   onSubmit,
   onBack,
 }) => {
+  console.log("CustomerForm Rendered", formData);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((p) => ({ ...p, [name]: value }));

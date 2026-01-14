@@ -8,8 +8,6 @@ export default function CustomCalendar({
   setSelectedDate,
   minDate,
 }) {
-  console.log("Rendering CustomCalendar with selectedDate:", selectedDate);
-  debugger;
   // default minDate = today
   const today = new Date();
   today.setHours(0, 0, 0, 0);
