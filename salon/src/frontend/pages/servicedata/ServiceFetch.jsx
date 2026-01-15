@@ -215,6 +215,7 @@ export default function ServicesPage() {
                             },
                           })
                         }
+                        className="w-full bg-[#00CED1] text-black px-4 py-2 rounded-full hover:bg-gradient-to-r from-[#00CED1] to-black hover:text-white transition"
                       >
                         Book Appointment
                       </button>

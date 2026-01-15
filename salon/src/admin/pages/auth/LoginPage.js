@@ -45,11 +45,11 @@ const LoginPage = () => {
       <div className="absolute top-4 right-4"></div>
 
       <Card className="w-full max-w-md border-[10px]  py-10">
-        <CardHeader className="space-y-1 text-center">
-          <div className="flex items-center justify-center text-white mb-4">
-            <span className="text-2xl font-bold text-white-600">Salon</span>
+        <CardHeader className=" text-center">
+          <div className="flex items-center justify-center text-[#00CED1]">
+            <span className="text-2xl font-bold ">Salon</span>
           </div>
-          <CardTitle className="text-2xl text-white">Welcome back</CardTitle>
+          <CardTitle className="text-2xl text-black">Welcome Back</CardTitle>
         </CardHeader>
 
         <form onSubmit={handleSubmit}>
@@ -62,7 +62,7 @@ const LoginPage = () => {
             )}
 
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-white">
+              <label htmlFor="email" className="text-sm font-medium text-black">
                 Email <span className="text-red-500 font-bold">*</span>
               </label>
               <Input
@@ -79,7 +79,7 @@ const LoginPage = () => {
             <div className="space-y-2">
               <label
                 htmlFor="password"
-                className="text-sm font-medium text-white"
+                className="text-sm font-medium text-black"
               >
                 Password <span className="text-red-500 font-bold">*</span>
               </label>
@@ -113,7 +113,7 @@ const LoginPage = () => {
           <CardFooter className="flex flex-col space-y-4">
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              className="w-full bg-[#00CED1] text-black px-4 py-2 rounded-full hover:bg-gradient-to-r from-[#00CED1] to-black hover:text-white transition"
               disabled={isLoading}
             >
               {isLoading ? "Signing in..." : "Sign in"}
