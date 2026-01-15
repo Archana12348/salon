@@ -1,20 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { useUserAuth } from "../../context/UserAuthContext";
 
 export default function LoginForm({ goSignup, goForgetPassword }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const { login, loading } = useUserAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     if (!email.includes("@")) {
       Swal.fire({
@@ -24,64 +26,32 @@ export default function LoginForm({ goSignup, goForgetPassword }) {
         title: "Enter a valid email",
         showConfirmButton: false,
         timer: 3000,
-        timerProgressBar: true,
       });
-      setLoading(false);
       return;
     }
 
     try {
-      const res = await fetch(
-        "https://jumeirah.premierwebtechservices.com/backend/api/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
-      console.log("gff", res);
+      const response = await login(email, password);
+
+      console.log("Login successful:", response); // ✅ success log
       debugger;
 
-      const data = await res.json();
-      console.log("DATA", data.status);
-      debugger;
+      Swal.fire({
+        icon: "success",
+        title: "Welcome!",
+        text: "Login Successful",
+      });
 
-      // 🔥🔥 IMPORTANT FIX 🔥🔥
-      if (data.status !== true) {
-        console.log("data value", data.success !== "true");
-        debugger;
-        Swal.fire({
-          icon: "error",
-          title: "Login Failed",
-          text: data.message || "Invalid credentials",
-        });
-        setLoading(false);
-        return;
-      } else {
-        // SUCCESS MESSAGE
-        Swal.fire({
-          icon: "success",
-          title: `Welcome ${data.data?.name || data.name}!`,
-          text: data.message || "Login Successful",
-        });
-      }
-
-      // Save token if exists
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-      }
+      navigate("/");
     } catch (err) {
+      console.error("Login failed:", err); // ✅ failure log
+
       Swal.fire({
         icon: "error",
-        title: "Error",
-        text: "Something went wrong!",
+        title: "Login Failed",
+        text: err.message || "Invalid credentials",
       });
     }
-
-    setLoading(false);
   };
 
   return (
@@ -90,18 +60,12 @@ export default function LoginForm({ goSignup, goForgetPassword }) {
         className="border-[#00CED1]-2 p-6 sm:p-12 pb-16 sm:pb-24 pt-8 sm:pt-10 w-full sm:w-3/4 md:w-1/2 lg:w-1/3 rounded-2xl shadow-[0_25px_50px_rgba(0,206,209,0.4)] hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow duration-300 bg-white"
         style={{ fontFamily: "var(--font-heading--family)" }}
       >
-        <h2
-          className="text-center mb-6"
-          style={{ fontFamily: "var(--font-heading--family)" }}
-        >
-          <span
-            className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-[#00CED1] via-white-400 to-gray-800 text-transparent bg-clip-text"
-            style={{ fontFamily: "var(--font-heading--family)" }}
-          >
+        <h2 className="text-center mb-6">
+          <span className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-[#00CED1] via-white-400 to-gray-800 text-transparent bg-clip-text">
             Welcome Back!
           </span>
           <br />
-          <span className="text-2xl sm:text-2xl font-medium text-gray-800">
+          <span className="text-2xl font-medium text-gray-800">
             Login to Continue
           </span>
         </h2>
@@ -111,7 +75,7 @@ export default function LoginForm({ goSignup, goForgetPassword }) {
           className="flex flex-col gap-2 w-full max-w-md mx-auto"
         >
           {/* Email */}
-          <label className="text-sm  font-semibold text-gray-700">
+          <label className="text-sm font-semibold text-gray-700">
             Email <span className="text-red-600">*</span>
           </label>
           <input
@@ -123,7 +87,7 @@ export default function LoginForm({ goSignup, goForgetPassword }) {
           />
 
           {/* Password */}
-          <label className="text-sm  font-semibold text-gray-700">
+          <label className="text-sm font-semibold text-gray-700">
             Password <span className="text-red-600">*</span>
           </label>
           <div className="relative">
@@ -143,31 +107,30 @@ export default function LoginForm({ goSignup, goForgetPassword }) {
           </div>
 
           {/* Forgot Password */}
-
-          <p className="text-sm  text-right text-[#00CED1] cursor-pointer hover:underline mt-[6px]">
+          <p className="text-sm text-right text-[#00CED1] mt-[6px]">
             <Link
               to="/forget-password"
-              className="text-[#00CED1] cursor-pointer font-semibold hover:underline"
+              className="font-semibold hover:underline"
             >
               Forgot Password
             </Link>
           </p>
 
-          {/* Login button */}
+          {/* Login Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-[#00CED1] to-black text-white scale-[1.03] font-semibold py-2 sm:py-3 rounded-xl transition hover:opacity-90 mt-2 cursor-pointer"
+            className="w-full bg-gradient-to-r from-[#00CED1] to-black text-white scale-[1.03] font-semibold py-2 sm:py-3 rounded-xl transition hover:opacity-90 mt-2"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
 
-          {/* Signup switch */}
-          <p className="text-center text-base sm:text-md font-medium mt-4 text-black">
+          {/* Signup */}
+          <p className="text-center text-base font-medium mt-4">
             Don't have an account?{" "}
             <Link
               to="/signup"
-              className="text-[#00CED1] cursor-pointer font-semibold hover:underline"
+              className="text-[#00CED1] font-semibold hover:underline"
             >
               Sign Up
             </Link>

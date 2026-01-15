@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./admin/context/AuthContext";
+import { UserAuthProvider } from "./frontend/context/UserAuthContext";
 
 // Redux
 import { Provider } from "react-redux";
@@ -15,7 +16,9 @@ root.render(
   <Provider store={store}>
     <React.StrictMode>
       <AuthProvider>
-        <App />
+        <UserAuthProvider>
+          <App />
+        </UserAuthProvider>
       </AuthProvider>
     </React.StrictMode>
   </Provider>

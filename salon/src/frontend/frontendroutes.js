@@ -2,11 +2,12 @@ import { Route } from "react-router-dom";
 import FrontLayout from "./layout/FrontLayout";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
-import Contact from "./pages/Contact";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import ProductPage from "./components/sections/ProductPage";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import UserDashboard from "./pages/UserProfile/UserDashboard";
+import UserBookings from "./pages/UserProfile/UserBookings";
 import AboutUs from "./pages/aboutus/AboutUs";
 import Team from "./pages/team/Team";
 import ProductnewProfile from "./pages/ProductDetails";
@@ -33,7 +34,9 @@ export const FrontendRoutes = (
       <Route path="userprofile/:slug" element={<UserProfile />} />
       <Route path="contactUs" element={<ContactUs />} />
       <Route path="appointment" element={<BookingPage />} />
+      <Route path="userdashboard" element={<UserDashboard />} />
     </Route>
+    <Route path="userbooking" element={<UserBookings />} />
 
     <Route path="productdetails" element={<ProductnewProfile />} />
     <Route path="contactUs" element={<ContactUs />} />
@@ -42,5 +45,6 @@ export const FrontendRoutes = (
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/forget-password" element={<ForgetPassword />} />
+    <Route path="/salon/:slug" element={<AboutUs />} />
   </>
 );

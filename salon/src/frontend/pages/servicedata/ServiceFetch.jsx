@@ -30,6 +30,8 @@ export default function ServicesPage() {
       );
       if (!res.ok) throw new Error("Category fetch failed");
       const json = await res.json();
+      console.log("category data", json.data);
+      debugger;
       setCategories(json.data || []);
     } catch {
       setError("Failed to load categories");
@@ -206,16 +208,49 @@ export default function ServicesPage() {
                         </button>
                       </Link>
                       <button
-                        onClick={() =>
-                          navigate("/appointment", {
-                            state: {
-                              category_id: service.category?.id,
-                              sub_category_id: service.subcategory?.id,
-                              service_id: service.id,
-                            },
-                          })
-                        }
-                        className="w-full bg-[#00CED1] text-black px-4 py-2 rounded-full hover:bg-gradient-to-r from-[#00CED1] to-black hover:text-white transition"
+                        onClick={() => {
+                          console.log(
+                            "Booking service:",
+                            "booking_data",
+                            JSON.stringify({
+                              category: {
+                                id: service.category?.id,
+                                name: service.category?.name,
+                              },
+                              subcategory: {
+                                id: service.subcategory?.id,
+                                name: service.subcategory?.name,
+                              },
+                              service: {
+                                id: service.id,
+                                name: service.service_name,
+                              },
+                            }),
+                            filteredServices
+                          );
+                          debugger;
+                          // Save booking data in localStorage
+                          localStorage.setItem(
+                            "booking_data",
+                            JSON.stringify({
+                              category: {
+                                id: service.category?.id,
+                                name: service.category?.name,
+                              },
+                              subcategory: {
+                                id: service.subcategory?.id,
+                                name: service.subcategory?.name,
+                              },
+                              service: {
+                                id: service.id,
+                                name: service.service_name,
+                              },
+                            })
+                          );
+
+                          // Navigate to appointment page
+                          navigate("/appointment");
+                        }}
                       >
                         Book Appointment
                       </button>
