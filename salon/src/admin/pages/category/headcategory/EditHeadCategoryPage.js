@@ -157,32 +157,34 @@ export default function EditHeadCategoryPage() {
           </div>
 
           {/* Active / Inactive Toggle */}
-          <div className="flex items-center gap-3 pb-1">
-            <label className="inline-flex items-center cursor-pointer">
-              status
+          {/* Active / Inactive Toggle */}
+          <div className="flex items-center gap-3 mt-4">
+            <label className="font-medium">
+              Status<span className="text-red-500 font-semibold">*</span>
             </label>
-            <input
-              type="checkbox"
-              className="sr-only peer"
-              checked={active}
-              onChange={(e) => setActive(e.target.checked)}
-            />
 
-            <div
-              className={`
-                  relative w-9 h-5 rounded-full transition-colors
-                  peer-focus:outline-none peer-focus:ring-4
-                  peer-focus:ring-blue-200
-                  ${active ? "bg-blue-600" : "bg-red-600"}
-                  after:content-['']
-                  after:absolute after:top-[2px] after:left-[2px]
-                  after:h-4 after:w-4 after:rounded-full
-                  after:bg-white after:transition-all
-                  ${active ? "after:translate-x-4" : ""}
-                `}
-            />
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={active}
+                onChange={(e) => setActive(e.target.checked)}
+              />
 
-            <span className="select-none ms-2 text-sm font-medium">
+              <div
+                className="
+        w-11 h-6 rounded-full transition-colors
+        bg-red-600 peer-checked:bg-blue-600
+        after:content-['']
+        after:absolute after:top-[2px] after:left-[2px]
+        after:h-5 after:w-5 after:bg-white after:rounded-full
+        after:transition-transform
+        peer-checked:after:translate-x-5
+      "
+              ></div>
+            </label>
+
+            <span className="text-sm font-medium">
               {active ? (
                 <span className="text-blue-600">Active</span>
               ) : (

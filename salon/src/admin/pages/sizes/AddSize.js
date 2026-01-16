@@ -60,10 +60,12 @@ export default function AddPage() {
       );
 
       const data = await res.json();
+      console.log("data", data);
+      debugger
 
       if (data.success) {
         toast.success("Page created successfully ✅");
-        setTimeout(() => navigate("/pages"), 2000);
+        setTimeout(() => navigate("/admin/pages"), 2000);
       } else {
         toast.error(data.message || "Failed ❌");
       }
@@ -172,7 +174,7 @@ export default function AddPage() {
           )}
         </div>
 
-        <button className="bg-red-600 text-white px-6 py-2 rounded">
+        <button className="bg-blue-600 text-white px-6 py-2 rounded">
           Save Page
         </button>
       </form>

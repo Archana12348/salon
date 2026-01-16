@@ -60,7 +60,7 @@ export default function AddHeadCategoryPage() {
 
       const response = await axios.post(
         API_BASE,
-        { name, slug, description, active },
+        { name, slug, description, active: active ? 1 : 0, },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
