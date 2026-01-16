@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -14,6 +14,8 @@ export default function LoginForm({ goSignup, goForgetPassword }) {
 
   const { login, loading } = useUserAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,8 +35,7 @@ export default function LoginForm({ goSignup, goForgetPassword }) {
     try {
       const response = await login(email, password);
 
-      console.log("Login successful:", response); // ✅ success log
-      debugger;
+      console.log("Login successful:", response);
 
       Swal.fire({
         icon: "success",
@@ -42,9 +43,13 @@ export default function LoginForm({ goSignup, goForgetPassword }) {
         text: "Login Successful",
       });
 
-      navigate("/");
+      // ✅ ALWAYS go to appointment after login
+      navigate("/appointment", {
+        replace: true,
+        state: { from: location.state?.from },
+      });
     } catch (err) {
-      console.error("Login failed:", err); // ✅ failure log
+      console.error("Login failed:", err);
 
       Swal.fire({
         icon: "error",

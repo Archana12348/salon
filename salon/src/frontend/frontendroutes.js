@@ -16,6 +16,7 @@ import ContactUs from "./pages/contactus/ContactUs";
 import BookingPage from "./pages/features/booking-flow/BookingPage";
 import ServicesPage from "./pages/servicedata/ServiceFetch";
 import ServiceView from "./pages/servicedata/ServiceView";
+import ProtectedRoute from "./route/ProtectedRoute";
 // import NotFound from "./pages/NotFound";
 
 export const FrontendRoutes = (
@@ -29,14 +30,17 @@ export const FrontendRoutes = (
       <Route path="service/:slug" element={<ServicesPage />} />
       <Route path="service/:slug/:slug" element={<ServicesPage />} />
       <Route path="/:slug" element={<ServiceView />} />
-      <Route path="aboutus" element={<AboutUs />} />
+      <Route path="aboutus/:slug" element={<AboutUs />} />
       <Route path="team" element={<Team />} />
       <Route path="userprofile/:slug" element={<UserProfile />} />
       <Route path="contactUs" element={<ContactUs />} />
-      <Route path="appointment" element={<BookingPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="appointment" element={<BookingPage />} />
+      </Route>
+
       <Route path="userdashboard" element={<UserDashboard />} />
+      <Route path="userbooking" element={<UserBookings />} />
     </Route>
-    <Route path="userbooking" element={<UserBookings />} />
 
     <Route path="productdetails" element={<ProductnewProfile />} />
     <Route path="contactUs" element={<ContactUs />} />

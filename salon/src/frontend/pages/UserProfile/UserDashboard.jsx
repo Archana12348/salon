@@ -2,7 +2,7 @@ import React from "react";
 
 const UserDashboard = () => {
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12 space-y-8">
+    <div className="max-w-7xl mx-auto px-6 py-12 space-y-8 mt-5">
       {/* Dashboard Header */}
       <h1 className="text-3xl font-semibold text-gray-800">
         Welcome, John Doe

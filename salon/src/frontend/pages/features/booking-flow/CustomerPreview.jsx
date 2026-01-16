@@ -137,13 +137,15 @@ export default function CustomerPreview({
   onConfirm,
   onBack,
 }) {
+  console.log(data);
+  debugger;
   const navigate = useNavigate();
 
   if (!data) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-10">
+    <div className="min-h-screen bg-gray-50 px-4 py-8 ">
+      <div className="max-w-4xl mx-auto bg-white rounded-2xl  p-6 md:p-10 shadow-[0_25px_50px_rgba(0,206,209,0.4)] hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow">
         {/* HEADER */}
         <div className="mb-8 border-b pb-4">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -196,7 +198,7 @@ export default function CustomerPreview({
             onClick={onConfirm}
             className="flex-1 py-3 rounded-xl bg-gradient-to-r from-[#00CED1] to-slate-500 text-white font-semibold transition"
           >
-            Booking
+            Confirm Booking
           </button>
         </div>
       </div>
