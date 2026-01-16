@@ -200,10 +200,10 @@ const SizesTable = () => {
       {/* Table */}
       <div className="overflow-x-auto w-full">
         <fieldset className="border border-gray-700 rounded-lg p-4 mb-6">
-          <table className="w-full border border-gray-300">
+          <table className="w-full border border-gray-300 text-center">
             <thead>
               <tr className="bg-black text-white">
-                <th className="p-2 border">
+                <th className="p-2 border text-center">
                   <input
                     type="checkbox"
                     onChange={handleSelectAll}
@@ -213,13 +213,13 @@ const SizesTable = () => {
                     }
                   />
                 </th>
-                <th className="p-2 border">Name</th>
-                <th className="p-2 border">Slug</th>
-                <th className="p-2 border">Status</th>
-                <th className="p-2 border">Actions</th>
+                <th className="p-2 border text-center">Name</th>
+                <th className="p-2 border text-center">Slug</th>
+                <th className="p-2 border text-center">Status</th>
+                <th className="p-2 border text-center">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-center">
               {loading ? (
                 <tr>
                   <td colSpan="5" className="text-center p-4 text-gray-500">

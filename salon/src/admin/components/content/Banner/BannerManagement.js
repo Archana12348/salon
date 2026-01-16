@@ -321,7 +321,7 @@ const BannerManagement = () => {
                       {banner.banner_type || "-"}
                     </TableCell>
                     <TableCell className="text-xl">
-                      {getStatusBadge(banner.is_active)}
+                      {getStatusBadge(banner.active)}
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2 justify-start">

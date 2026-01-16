@@ -63,41 +63,47 @@ export default function EditPage() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("slug", slug);
-    formData.append("title", title);
-    formData.append("content", content);
-    formData.append("status", status ? 1 : 0);
+  const formData = new FormData();
+  formData.append("_method", "PUT"); // ✅ VERY IMPORTANT
+  formData.append("slug", slug);
+  formData.append("title", title);
+  formData.append("content", content);
+  formData.append("status", status ? 1 : 0);
 
-    if (backgroundImage) {
-      formData.append("background_image", backgroundImage);
-    }
+  if (backgroundImage) {
+    formData.append("background_image", backgroundImage);
+  }
 
-    try {
-      const res = await fetch(
-        `https://jumeirah.premierwebtechservices.com/backend/api/admin/pages/${id}`,
-        {
-          method: "POST", // or PUT/PATCH depending on your backend
-          body: formData,
-        }
-      );
+  // Debug
+  console.log(Object.fromEntries(formData.entries()));
 
-      const data = await res.json();
-
-      if (data.success) {
-        toast.success("Page updated successfully ✅");
-        setTimeout(() => navigate("/pages"), 2000);
-      } else {
-        toast.error(data.message || "Failed ❌");
+  try {
+    const res = await fetch(
+      `https://jumeirah.premierwebtechservices.com/backend/api/admin/pages/${id}`,
+      {
+        method: "POST", // ✅ NOT PUT
+        body: formData,
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Server error ❌");
+    );
+
+    const data = await res.json();
+    console.log(data);
+
+    if (data.success) {
+      toast.success("Page updated successfully ✅");
+      setTimeout(() => navigate("/admin/pages"), 2000);
+    } else {
+      toast.error(data.message || "Failed ❌");
     }
-  };
+  } catch (error) {
+    console.error(error);
+    toast.error("Server error ❌");
+  }
+};
+
 
   return (
     <div className="max-w-5xl mx-auto bg-white dark:bg-gray-900 shadow rounded-lg p-6 mt-6">
@@ -198,7 +204,7 @@ export default function EditPage() {
           )}
         </div>
 
-        <button className="bg-red-600 text-white px-6 py-2 rounded">
+        <button className="bg-blue-600 text-white px-6 py-2 rounded">
           Update Page
         </button>
       </form>

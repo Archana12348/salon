@@ -97,7 +97,7 @@ const AddParentCategory = () => {
         if (!res.ok) {
           return res.json().then((data) => {
             const message =
-              data?.message?.split(".")[0] || "Failed to add parent category";
+              data?.message?.split(".")[0] || "Failed to add subcategory";
             throw new Error(message);
           });
         }
@@ -108,7 +108,7 @@ const AddParentCategory = () => {
 
         console.log(data);
         debugger;
-        toast.success("Parent category added successfully!");
+        toast.success("SubCategory added successfully!");
         setTimeout(() => {
           navigate("/admin/subcategory");
         }, 1500);
@@ -117,7 +117,7 @@ const AddParentCategory = () => {
         Swal.close(); // ✅ Close loader on error
         console.error("Error:", error);
         toast.error(
-          error.message || "An error occurred while adding the parent category."
+          error.message || "An error occurred while adding the subcategory."
         );
       });
   };

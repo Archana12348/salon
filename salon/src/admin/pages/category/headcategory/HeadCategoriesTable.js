@@ -41,8 +41,6 @@ const HeadCategoriesTable = () => {
         `https://jumeirah.premierwebtechservices.com/backend/api/admin/categories?page=${currentPage}&perPage=${perPage}&search=${searchTerm}&sortDir=${sortDir}`
       );
       const result = await response.json();
-      console.log(result);
-      debugger;
 
       setData(result.data || []);
       if (result.meta) {
@@ -83,31 +81,39 @@ const HeadCategoriesTable = () => {
     }
   };
 
-  const handleDelete = async (cat) => {
-    const confirmed = await Swal.fire({
-      title: "Are you sure?",
-      text: `Do you want to delete "${cat.name}"?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
-    });
+const handleDelete = async (cat) => {
+  const confirmed = await Swal.fire({
+    title: "Are you sure?",
+    text: `Do you want to delete "${cat.name}"?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, delete it!",
+  });
 
-    if (confirmed.isConfirmed) {
-      try {
-        const response = await fetch(
-          `https://jumeirah.premierwebtechservices.com/backend/api/admin/categories/${cat.id}`,
-          { method: "DELETE" }
-        );
-        if (!response.ok) throw new Error("Failed to delete category.");
-        await fetchCategories();
-        Swal.fire("Deleted!", "Category has been deleted.", "success");
-      } catch (error) {
-        Swal.fire("Error", "Failed to delete category.", "error");
+  if (confirmed.isConfirmed) {
+    try {
+      const response = await fetch(
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/categories/${cat.id}`,
+        { method: "DELETE" }
+      );
+
+      const data = await response.json(); // ✅ get JSON data
+      console.log(data);
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to delete category.");
       }
+
+      await fetchCategories();
+      Swal.fire("Deleted!",  "Category has been deleted.", "success");
+    } catch (error) {
+      Swal.fire("Error", error.message || "Failed to delete category.", "error");
     }
-  };
+  }
+};
+
 
   const handleBulkDelete = async () => {
     const confirmed = await Swal.fire({
@@ -301,8 +307,8 @@ const HeadCategoriesTable = () => {
                           variant="ghost"
                           size="icon"
                           onClick={() =>
-                            (window.location.href = `category/${cat.id}/edit`)
-                          }
+                        navigate(`/admin/category/${cat.id}/edit`)
+                      }
                           title="Edit"
                         >
                           <Edit className="h-5 w-5" />

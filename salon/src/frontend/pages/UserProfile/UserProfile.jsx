@@ -46,7 +46,7 @@ const UserProfile = () => {
         <div className="flex flex-col md:flex-row items-center gap-6 p-6 rounded-2xl bg-green-100 shadow-inner">
           <div className="relative">
             <img
-              src={`https://jumeirah.premierwebtechservices.com/backend${user.avatar}`}
+              src={`https://jumeirah.premierwebtechservices.com/backend/${user.avatar}`}
               alt="profile"
               className="w-36 h-36 rounded-full object-cover border-4 border-green-900 shadow-xl"
             />
