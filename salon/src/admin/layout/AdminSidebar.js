@@ -745,7 +745,7 @@ const Sidebar = () => {
               <UserCheck className="h-4 w-4" /> Customer
             </NavLink>
 
-            <NavLink
+            {/* <NavLink
               to="/admin/settings"
               className={({ isActive }) =>
                 clsx(
@@ -757,7 +757,7 @@ const Sidebar = () => {
               }
             >
               <Settings className="h-4 w-4" /> General Settings
-            </NavLink>
+            </NavLink> */}
           </ul>
         </div>
       </nav>
