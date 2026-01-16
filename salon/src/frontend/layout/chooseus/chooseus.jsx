@@ -30,12 +30,12 @@ export default function WhyTrustUs() {
       className="py-10 text-white  bg-center bg-cover bg-no-repeat"
       style={{
         backgroundImage:
-          "linear-gradient(120deg, rgba(0,206,209,0.5), rgba(255,255,255,0.95))",
+          "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url('/gallery/bb.jpeg')",
         fontFamily: "var(--font-heading--family)",
       }}
     >
       <h2
-        className="text-3xl sm:text-3xl md:text-4xl  text-center mb-10 text-black"
+        className="text-3xl sm:text-3xl md:text-4xl  text-center mb-10 text-white"
         style={{ fontFamily: "var(--font-heading--family)" }}
       >
         Why Trust Us?
@@ -49,7 +49,7 @@ export default function WhyTrustUs() {
               alt={item.label1}
               className="w-full h-full mb-3"
             />
-            <p className="text-lg leading-tight text-black bg-clip-text">
+            <p className="text-lg leading-tight text-white bg-clip-text">
               {item.label1}
               <br />
               {item.label2}

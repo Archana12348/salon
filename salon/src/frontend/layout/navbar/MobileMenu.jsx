@@ -9,8 +9,6 @@ export default function MobileMenu({
   slug,
   categories = [],
 }) {
-  console.log("MobileMenu categories:", categories);
-
   const [openMenu, setOpenMenu] = useState(null); // services / products
   const [openCategory, setOpenCategory] = useState(null); // category id
 
@@ -174,20 +172,20 @@ export default function MobileMenu({
             )} */}
           </div>
 
-          <Link to="/contact" onClick={onClose} className="block">
+          <Link to="/contactUs" onClick={onClose} className="block">
             Contact Us
           </Link>
-          <Link
+          {/* <Link
             to="/login"
             onClick={onClose}
             className="flex items-center justify-center gap-2 text-xl bg-[#00CED1] text-white py-2 rounded-full mt-6"
           >
             <User size={20} />
             <span className="text-sm mt-1">Login</span>
-          </Link>
+          </Link> */}
 
           <Link
-            to="/booking"
+            to="/appointment"
             onClick={onClose}
             className="flex items-center justify-center gap-2 text-xl bg-[#00CED1] text-white py-2 rounded-full mt-2"
           >

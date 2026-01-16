@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useLocation, Link, useNavigate, useParams } from "react-router-dom";
 import {
   User,
   Calendar,
@@ -8,23 +8,22 @@ import {
   Menu,
   LogOut,
   LayoutDashboard,
-  ShoppingBag,
 } from "lucide-react";
 import MegaMenu from "./MegaMenu";
 import MobileMenu from "./MobileMenu";
 
-export default function HeaderWithVideo() {
+export default function HeaderWithVideo({ slug }) {
   const [showNavbar, setShowNavbar] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
   const [categories, setCategories] = useState([]);
   const [userOpen, setUserOpen] = useState(false);
-
+  // const { slug } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const closeTimerRef = useRef(null);
   const userRef = useRef(null);
-
+  const closeTimeout = useRef(null);
   const isHomePage = location.pathname === "/";
 
   /* ---------------- AUTH ---------------- */
@@ -71,7 +70,19 @@ export default function HeaderWithVideo() {
   const cancelClose = () => {
     if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
   };
+  const handleMouseEnter = () => {
+    if (closeTimeout.current) {
+      clearTimeout(closeTimeout.current);
+      closeTimeout.current = null;
+    }
+    setUserOpen(true);
+  };
 
+  const handleMouseLeave = () => {
+    closeTimeout.current = setTimeout(() => {
+      setUserOpen(false);
+    }, 200); // 👈 delay solves gap issue
+  };
   /* ---------------- NAVBAR SCROLL LOGIC (ONE useEffect) ---------------- */
   useEffect(() => {
     let handleScroll;
@@ -97,49 +108,101 @@ export default function HeaderWithVideo() {
   }, [isHomePage]);
   /* ---------------- LOGOUT ---------------- */
   const handleLogout = () => {
+    localStorage.clear();
+    localStorage.removeItem("token");
     localStorage.removeItem("user_auth");
     navigate("/login");
   };
 
   /* ---------------- USER ICON ---------------- */
-  const UserDropdown = ({ color = "text-black" }) => (
-    <div className="relative" ref={userRef}>
+  // 🔥 COLOR LOGIC
+  const textColor = showNavbar
+    ? "text-black"
+    : isHomePage
+    ? "text-white"
+    : "text-black";
+
+  const UserDropdown = ({ showNavbar, isHomePage }) => (
+    <div
+      className="relative"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* USER ICON */}
       <div
-        className="flex items-center gap-2 cursor-pointer overflow-hidden"
-        onClick={() => setUserOpen((p) => !p)}
+        className="flex items-center gap-2 cursor-pointer"
+        style={{ fontFamily: "var(--font-heading--family)" }}
       >
         {user?.avatar ? (
           <img
-            src={user.avatar}
+            src={`https://jumeirah.premierwebtechservices.com/backend/${user.avatar}`}
             alt="avatar"
-            className="w-7 h-7 rounded-full object-cover"
+            className="w-9 h-9 rounded-full object-cover"
           />
         ) : (
-          <User size={18} className={color} />
+          <User size={18} className={textColor} />
         )}
-        <span className={`hidden sm:block text-xs ${color}`}>{user?.name}</span>
+
+        <span className={`hidden sm:block uppercase text-sm ${textColor}`}>
+          {user?.name}
+        </span>
       </div>
 
-      {userOpen && (
-        <div className="absolute right-0 top-9 w-44 bg-white text-black rounded-xl shadow-lg z-50 border over">
+      {/* DROPDOWN */}
+      {/* {userOpen && (
+        <div
+          className="absolute mt-3 -ml-20 md:top-10 w-44 bg-yellow-200 text-black  shadow-lg z-50 border"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <Link
-            className="flex gap-2 px-4 py-2 hover:bg-gray-100"
-            to="/dashboard"
+            to="/userdashboard"
+            className="flex gap-2 px-4 py-2 hover:bg-gray-100 text-black hover:text-[#00CED1]"
           >
-            <LayoutDashboard size={16} /> Dashboard
+            <LayoutDashboard size={16} className="mt-1" /> Dashboard
           </Link>
+
           <Link
-            className="flex gap-2 px-4 py-2 hover:bg-gray-100"
-            to="/bookings"
+            to="/userbooking"
+            className="flex gap-2 px-4 py-2 hover:bg-gray-100 text-black hover:text-[#00CED1]"
           >
-            <Calendar size={16} /> Bookings
+            <Calendar size={16} className="mt-1" /> Bookings
           </Link>
 
           <button
             onClick={handleLogout}
-            className="flex gap-2 w-full px-4 py-2 text-red-600 hover:bg-red-50"
+            className="flex gap-2 w-full px-4 py-2 text-red-600 hover:bg-red-50 "
           >
-            <LogOut size={16} /> Logout
+            <LogOut size={16} className="mt-1" /> Logout
+          </button>
+        </div>
+      )} */}
+      {userOpen && (
+        <div
+          className="absolute mt-3 md:mt-3 -ml-20 md:left-auto md:top-10 w-40 sm:w-44 md:w-44 bg-white text-black shadow-lg z-50 border rounded-md
+               overflow-hidden"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <Link
+            to="/userdashboard"
+            className="flex gap-2 px-4 py-2 hover:bg-gray-100 text-black hover:text-[#00CED1] whitespace-nowrap"
+          >
+            <LayoutDashboard size={16} className="mt-1" /> Dashboard
+          </Link>
+
+          <Link
+            to="/userbooking"
+            className="flex gap-2 px-4 py-2 hover:bg-gray-100 text-black hover:text-[#00CED1] whitespace-nowrap"
+          >
+            <Calendar size={16} className="mt-1" /> Bookings
+          </Link>
+
+          <button
+            onClick={handleLogout}
+            className="flex gap-2 w-full px-4 py-2 text-red-600 hover:bg-red-50 whitespace-nowrap"
+          >
+            <LogOut size={16} className="mt-1" /> Logout
           </button>
         </div>
       )}
@@ -174,13 +237,18 @@ export default function HeaderWithVideo() {
                 <Link to="/login">
                   <User
                     size={16}
-                    className="sm:size-[18px] cursor-pointer text-black"
+                    className="sm:size-[18px] cursor-pointer text-black mt-2"
                   />
                 </Link>
               ) : (
                 <UserDropdown />
               )}
-              <Calendar size={16} className="sm:size-[18px] cursor-pointer" />
+              <Link to="/appointment">
+                <Calendar
+                  size={16}
+                  className="sm:size-[18px] cursor-pointer text-black mt-2"
+                />
+              </Link>
             </div>
           </div>
 
@@ -202,7 +270,7 @@ export default function HeaderWithVideo() {
               Home
             </Link>
             <Link
-              to="#"
+              to={`/aboutus/${slug || "about-us"}`}
               className="text-black"
               style={{ fontFamily: "var(--font-heading--family)" }}
             >
@@ -237,7 +305,7 @@ export default function HeaderWithVideo() {
               Products
             </Link>
             <Link
-              to="/contact"
+              to="/contactUs"
               className="text-black"
               style={{ fontFamily: "var(--font-heading--family)" }}
             >
@@ -252,7 +320,7 @@ export default function HeaderWithVideo() {
         <header className="relative w-full h-screen overflow-hidden">
           <div className=" ml-16 flex items-center justify-between px-4 mt-[16px] md:hidden absolute top-0 left-0 w-full z-20 text-white">
             <Menu
-              className="cursor-pointer mt-2"
+              className="cursor-pointer mt-[15px]"
               size={20}
               onClick={() => setMobileMenuOpen(true)}
             />
@@ -285,10 +353,25 @@ export default function HeaderWithVideo() {
               </h1>
 
               <div className="flex gap-3 sm:gap-4">
-                <Link to="/login">
+                {/* <Link to="/login">
                   <User size={20} className="cursor-pointer text-white" />
+                </Link> */}
+                {!user ? (
+                  <Link to="/login">
+                    <User
+                      size={16}
+                      className="sm:size-[18px] cursor-pointer text-white mt-2"
+                    />
+                  </Link>
+                ) : (
+                  <UserDropdown />
+                )}
+                <Link to="/appointment">
+                  <Calendar
+                    size={20}
+                    className="sm:size-[18px] cursor-pointer text-white mt-2"
+                  />
                 </Link>
-                <Calendar size={20} className="cursor-pointer" />
               </div>
             </div>
 
@@ -304,7 +387,7 @@ export default function HeaderWithVideo() {
                 Home
               </Link>
               <Link
-                to="/about"
+                to={`/aboutus/${slug || "about-us"}`}
                 className="text-white"
                 style={{ fontFamily: "var(--font-heading--family)" }}
               >
@@ -337,7 +420,7 @@ export default function HeaderWithVideo() {
               >
                 Products
               </Link>
-              <Link to="/contact" className="text-white">
+              <Link to="/contactUs" className="text-white">
                 Contact Us
               </Link>
             </nav>
@@ -379,7 +462,11 @@ export default function HeaderWithVideo() {
                hover:bg-[#00CED1] hover:text-white
               hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
               "
-                onClick={() => navigate("/appointment")}
+                onClick={() =>
+                  navigate("/appointment", {
+                    state: { from: location.pathname },
+                  })
+                }
               >
                 Book Appointment
               </button>

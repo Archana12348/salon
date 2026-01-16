@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 export default function ServiceView() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [previewIndex, setPreviewIndex] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openFaq, setOpenFaq] = useState(null);
+  const [services, setServices] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     fetch(
@@ -39,6 +42,13 @@ export default function ServiceView() {
   }
 
   const show = (val) => (val ? val : "N/A");
+
+  // ---------------- FILTER ----------------
+  const filteredServices = selectedCategory
+    ? services.filter(
+        (service) => service?.subcategory?.slug === selectedCategory
+      )
+    : services;
 
   return (
     <div
@@ -80,8 +90,52 @@ export default function ServiceView() {
 
           {/* ================= BOOK APPOINTMENT BUTTON ================= */}
           <button
-            onClick={() => navigate("/appointment")}
             className="w-full bg-[#00CED1] text-black px-4 py-2 rounded-full hover:bg-gradient-to-r from-[#00CED1] to-black hover:text-white transition"
+            onClick={() => {
+              console.log(
+                "Booking service:",
+                "booking_data",
+                JSON.stringify({
+                  category: {
+                    id: service.category?.id,
+                    name: service.category?.name,
+                  },
+                  subcategory: {
+                    id: service.subcategory?.id,
+                    name: service.subcategory?.name,
+                  },
+                  service: {
+                    id: service.id,
+                    name: service.service_name,
+                  },
+                }),
+                filteredServices
+              );
+              debugger;
+              // Save booking data in localStorage
+              localStorage.setItem(
+                "booking_data",
+                JSON.stringify({
+                  category: {
+                    id: service.category?.id,
+                    name: service.category?.name,
+                  },
+                  subcategory: {
+                    id: service.subcategory?.id,
+                    name: service.subcategory?.name,
+                  },
+                  service: {
+                    id: service.id,
+                    name: service.service_name,
+                  },
+                })
+              );
+
+              // Navigate to appointment page
+              navigate("/appointment", {
+                state: { from: location.pathname },
+              });
+            }}
           >
             Book Appointment
           </button>

@@ -4,6 +4,7 @@ import {
   useSearchParams,
   useNavigate,
   Link,
+  useLocation,
 } from "react-router-dom";
 
 export default function ServicesPage() {
@@ -13,6 +14,7 @@ export default function ServicesPage() {
   const [services, setServices] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
 
@@ -208,6 +210,7 @@ export default function ServicesPage() {
                         </button>
                       </Link>
                       <button
+                        className="w-full bg-[#00CED1] text-black px-4 py-2 rounded-full hover:bg-gradient-to-r from-[#00CED1] to-black hover:text-white transition"
                         onClick={() => {
                           console.log(
                             "Booking service:",
@@ -249,7 +252,9 @@ export default function ServicesPage() {
                           );
 
                           // Navigate to appointment page
-                          navigate("/appointment");
+                          navigate("/appointment", {
+                            state: { from: location.pathname },
+                          });
                         }}
                       >
                         Book Appointment
