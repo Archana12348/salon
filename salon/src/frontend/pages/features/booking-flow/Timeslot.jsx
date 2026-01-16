@@ -70,8 +70,13 @@ const TimeSlot = ({
   if (!selectedDate) return null;
 
   return (
-    <div className="bg-white p-4 sm:p-5 shadow-lg rounded-2xl mt-5">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Select Time</h2>
+    <div className="bg-white p-4 sm:p-5  rounded-2xl mt-5 shadow-[0_25px_50px_rgba(0,206,209,0.4)] hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow">
+      <h2
+        className="text-2xl font-semibold mb-4 text-center"
+        style={{ fontFamily: "var(--font-heading--family)" }}
+      >
+        Select Time
+      </h2>
 
       {/* Grid of slots */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">

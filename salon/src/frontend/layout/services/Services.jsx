@@ -87,20 +87,20 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const services = [
-  { name: "Makeup", img: "/gallery/Captureb.PNG" },
-  { name: "Hair", img: "/gallery/Captureh.PNG" },
-  { name: "Heena", img: "/gallery/Capturem.PNG" },
-  { name: "Nails", img: "/gallery/Capturen.PNG" },
-  { name: "Makeup", img: "/gallery/Captureb.PNG" },
+  { name: "Makeup", img: "/gallery/Captureb-removebg-preview.png" },
+  { name: "Hair", img: "/gallery/Captureh-removebg-preview.png" },
+  { name: "Heena", img: "/gallery/Capturem-removebg-preview.png" },
+  { name: "Nails", img: "/gallery/Capturen-removebg-preview.png" },
+  { name: "Makeup", img: "/gallery/Captureb-removebg-preview.png" },
 ];
 
 export default function ServicesSection() {
   return (
     <div
-      className="w-full py-16 sm:py-20 md:py-12 "
+      className="w-full py-16 sm:py-20 md:py-12 bg-[#00CED1]"
       style={{
-        backgroundImage:
-          "linear-gradient(120deg, rgba(0,206,209,0.5), rgba(255,255,255,0.95))",
+        // backgroundImage:
+        //   "linear-gradient(120deg, rgba(0,206,209,0.5), rgba(255,255,255,0.95))",
         fontFamily: "var(--font-heading--family)",
       }}
     >

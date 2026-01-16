@@ -23,9 +23,12 @@ const CustomerForm = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-6 shadow-xl rounded-2xl mt-6"
+      className="bg-white p-6  rounded-2xl mt-6 shadow-[0_25px_50px_rgba(0,206,209,0.4)] hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow"
     >
-      <h2 className="text-2xl font-semibold mb-4 text-center">
+      <h2
+        className="text-2xl font-semibold mb-4 text-center"
+        style={{ fontFamily: "var(--font-heading--family)" }}
+      >
         Enter Customer Details
       </h2>
 
@@ -147,7 +150,7 @@ const CustomerForm = ({
           type="submit"
           className="flex-1 bg-gradient-to-r from-[#00CED1] to-slate-500 text-white shadow-[0_0_15px_rgba(0,206,209,0.6) py-2 sm:py-3 rounded-xl"
         >
-          Confirm Booking
+          Preview Booking
         </button>
       </div>
     </form>

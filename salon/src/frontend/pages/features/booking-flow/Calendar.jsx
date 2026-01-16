@@ -55,7 +55,7 @@ export default function CustomCalendar({
     selectedDate && dateObj.toDateString() === selectedDate.toDateString();
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow-2xl border border-gray-200">
+    <div className="w-full max-w-3xl mx-auto bg-white p-8 rounded-3xl  border border-gray-200 shadow-[0_25px_50px_rgba(0,206,209,0.4)] hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <button
