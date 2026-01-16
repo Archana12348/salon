@@ -5,30 +5,17 @@ function UserBookings() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get user_auth from localStorage
     const userAuth = localStorage.getItem("user_auth");
+    if (!userAuth) return setLoading(false);
 
-    if (!userAuth) {
-      setLoading(false);
-      alert("User not logged in");
-      return;
-    }
-
-    // Parse JSON and get token
     const token = JSON.parse(userAuth)?.token;
-
-    if (!token) {
-      setLoading(false);
-      alert("Token not found");
-      return;
-    }
+    if (!token) return setLoading(false);
 
     fetch(
       "https://jumeirah.premierwebtechservices.com/backend/api/site/bookings",
       {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // ✅ Add token here
+          Authorization: `Bearer ${token}`,
         },
       }
     )
@@ -37,10 +24,7 @@ function UserBookings() {
         setBookings(data.data || []);
         setLoading(false);
       })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, []);
 
   const statusStyle = (status) => {
@@ -58,77 +42,95 @@ function UserBookings() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <span className="text-gray-500 text-lg">Loading bookings...</span>
+      <div className="flex items-center justify-center min-h-[60vh] text-gray-500">
+        Loading bookings...
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12">
-      <h1 className="text-3xl font-semibold text-gray-800 mb-8">My Bookings</h1>
+    <div
+      style={
+        {
+          // backgroundImage:
+          //   "linear-gradient(120deg, rgba(0,206,209,0.5), rgba(255,255,255,0.95))",
+        }
+      }
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 md:mt-14 ">
+        <h1
+          className="text-3xl font-semibold text-gray-800 mb-10"
+          style={{ fontFamily: "var(--font-heading--family)" }}
+        >
+          My Bookings
+        </h1>
 
-      {bookings.length === 0 ? (
-        <div className="text-center text-gray-500">No bookings found</div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {bookings.map((booking) => (
-            <div
-              key={booking.id}
-              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-6"
-            >
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-800">
-                    {booking.service?.service_name}
-                  </h2>
-                  <p className="text-sm text-gray-500">
-                    Booking Code: {booking.booking_code}
-                  </p>
+        {bookings.length === 0 ? (
+          <div className="text-center text-gray-500">No bookings available</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {bookings.map((booking) => (
+              <div
+                key={booking.id}
+                className="bg-sky-50 group hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow rounded-2xl shadow-md  overflow-hidden"
+              >
+                {/* HEADER */}
+                <div className="p-4 border-b flex items-start justify-between">
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      {booking.service?.service_name}
+                    </h2>
+                    <span className="text-xs text-gray-500">
+                      Booking Code: {booking.booking_code}
+                    </span>
+                  </div>
+
+                  <span
+                    className={`px-3 py-1 text-xs font-semibold rounded-full ${statusStyle(
+                      booking.status
+                    )}`}
+                  >
+                    {booking.status}
+                  </span>
                 </div>
 
-                <span
-                  className={`px-3 py-1 rounded-full text-xs font-medium ${statusStyle(
-                    booking.status
-                  )}`}
-                >
-                  {booking.status}
-                </span>
+                {/* BODY */}
+                <div className="p-4 space-y-4 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Date</span>
+                    <span className="font-medium text-gray-800">
+                      {booking.date}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Time</span>
+                    <span className="font-medium text-gray-800">
+                      {booking.time_from} – {booking.time_to}
+                    </span>
+                  </div>
+
+                  <div className="border-t pt-4 space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Name</span>
+                      <span className="font-medium text-gray-800">
+                        {booking.name}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Phone</span>
+                      <span className="font-medium text-gray-800">
+                        {booking.phone}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              <div className="space-y-2 text-sm text-gray-600">
-                <div className="flex justify-between">
-                  <span>Date</span>
-                  <span className="font-medium text-gray-800">
-                    {booking.date}
-                  </span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span>Time</span>
-                  <span className="font-medium text-gray-800">
-                    {booking.time_from} – {booking.time_to}
-                  </span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span>Name</span>
-                  <span className="font-medium text-gray-800">
-                    {booking.name}
-                  </span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span>Phone</span>
-                  <span className="font-medium text-gray-800">
-                    {booking.phone}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

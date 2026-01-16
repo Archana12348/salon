@@ -61,7 +61,7 @@ export default function ContactUs() {
         </div>
 
         {/* RIGHT CONTACT FORM */}
-        <div className="bg-[#00CED1] p-10 shadow-lg">
+        <div className="bg-[#00CED1] p-10 shadow-lg rounded-xl">
           <h2 className="text-3xl font-bold text-center mb-6">Contact Us</h2>
 
           <form className="space-y-4">

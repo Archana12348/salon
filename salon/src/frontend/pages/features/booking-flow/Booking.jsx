@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Calendar from "./Calendar";
-import TimeSlot from "./TimeSlot";
+import TimeSlot from "./Timeslot";
 import CustomerForm from "./CustomerForm";
 import SuccessModal from "./SuccessModal";
 import CustomerPreview from "./CustomerPreview";
