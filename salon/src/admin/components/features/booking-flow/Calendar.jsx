@@ -57,7 +57,7 @@ export default function CustomCalendar({
     selectedDate && dateObj.toDateString() === selectedDate.toDateString();
 
   return (
-    <div className="w-full max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow-2xl border border-gray-200">
+    <div className="w-full max-w-3xl mx-auto bg-white p-8 rounded-3xl  border border-gray-200 shadow-[0_25px_50px_rgba(0,206,209,0.4)] hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <button
@@ -122,11 +122,11 @@ export default function CustomCalendar({
                     : "hover:bg-indigo-100 cursor-pointer border-gray-300"
                 }
 
-                ${isToday(dateObj) ? "border-indigo-500 font-bold" : ""}
+                ${isToday(dateObj) ? "border-[#00CED1] font-bold" : ""}
 
                 ${
                   isSelected(dateObj)
-                    ? "bg-indigo-600 text-white shadow-lg border-indigo-600"
+                    ? "bg-[#00CED1] text-white shadow-lg border-[#00CED1]"
                     : ""
                 }
               `}

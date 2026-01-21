@@ -189,7 +189,7 @@ export default function RoleTable() {
   /* -------------------- RENDER -------------------- */
   return (
     <div className="p-6 max-w-6xl mx-auto border rounded-lg bg-white dark:bg-gray-900 shadow">
-      <h2 className="text-3xl font-bold mb-4 ">Bookings</h2>
+      <h2 className="text-2xl font-bold mb-4 ">Bookings</h2>
 
       {/* Top Controls */}
       <div className="flex flex-col md:flex-row justify-between gap-3">
@@ -197,13 +197,13 @@ export default function RoleTable() {
         <div className="flex gap-2">
           <button
             onClick={() => navigate("/admin/bookings/add")}
-            className="bg-red-600 text-white px-4 py-2 rounded"
+            className="bg-[#00CED1] text-white px-4 py-2 rounded"
           >
             Add Booking
           </button>
           <button
             onClick={handleBulkDelete}
-            className="bg-red-600 text-white px-4 py-2 rounded"
+            className="bg-[#00CED1] text-white px-4 py-2 rounded"
           >
             Bulk Delete
           </button>
@@ -211,7 +211,7 @@ export default function RoleTable() {
       </div>
       {/* Show per page + Search */}
       <div className="flex flex-col sm:flex-row justify-between gap-3 mb-3 mt-3">
-        <div className="flex items-center gap-2 text-xl font-semibold">
+        <div className="flex items-center gap-2 text-md  font-semibold">
           <label>Show</label>
           <select
             value={perPage}
@@ -240,7 +240,7 @@ export default function RoleTable() {
               setSearchTerm(e.target.value);
               setCurrentPage(1);
             }}
-            className="border-none p-2 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 w-full"
+            className="border border-gray-500 p-2 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 w-full"
           />
         </div>
       </div>
@@ -250,7 +250,7 @@ export default function RoleTable() {
         <table className="min-w-full border bg-white text-center">
           <thead className="bg-gray-200">
             <tr>
-              <th className="p-2 text-white text-xl bg-black">
+              <th className="p-2 text-white text-md  bg-black">
                 <input
                   type="checkbox"
                   checked={
@@ -259,13 +259,13 @@ export default function RoleTable() {
                   onChange={toggleSelectAll}
                 />
               </th>
-              <th className="p-2 text-white text-xl bg-black">
+              <th className="p-2 text-white text-md  bg-black">
                 Booking Number
               </th>
-              <th className="p-2 text-white text-xl bg-black">Name</th>
-              <th className="p-2 text-white text-xl bg-black">Email</th>
-              <th className="p-2 text-white text-xl bg-black">Status</th>
-              <th className="p-2 text-white text-xl bg-black ">Actions</th>
+              <th className="p-2 text-white text-md  bg-black">Name</th>
+              <th className="p-2 text-white text-md  bg-black">Email</th>
+              <th className="p-2 text-white text-md  bg-black">Status</th>
+              <th className="p-2 text-white text-md  bg-black ">Actions</th>
             </tr>
           </thead>
 
@@ -279,11 +279,11 @@ export default function RoleTable() {
                     onChange={() => toggleSelectRole(r.id)}
                   />
                 </td>
-                <td className="p-2 text-xl">{r.booking_code || "N/A"}</td>
-                <td className="p-2 text-xl">{r.name || "-"}</td>
-                <td className="p-2 text-xl">{r.email || "-"}</td>
+                <td className="p-2 text-md ">{r.booking_code || "N/A"}</td>
+                <td className="p-2 text-md ">{r.name || "-"}</td>
+                <td className="p-2 text-md ">{r.email || "-"}</td>
 
-                <td className="p-2 text-xl">
+                <td className="p-2 text-md ">
                   <div className="relative">
                     <select
                       disabled={updatingStatusId === r.id}
@@ -331,7 +331,7 @@ export default function RoleTable() {
 
       {/* Pagination Info */}
       <div className="flex flex-col md:flex-row justify-between items-center mt-4 mb-4 gap-2">
-        <div className="font-semibold text-xl">
+        <div className="font-semibold text-md ">
           Showing {from} to {to} of {totalItems} entries
         </div>
 

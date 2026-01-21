@@ -77,10 +77,10 @@ const BannerManagement = () => {
 
   const handleView = (item) => {
     const imageUrl = item.background_image
-      ? `http://localhost:3000/api/admin/${item.background_image}`
+      ? `https://jumeirah.premierwebtechservices.com/backend/storage/${item.background_image}`
       : null;
 
-    const statusText = item.is_active ? "✅ Active" : "❌ Inactive";
+    const statusText = item.status ? "✅ Active" : "❌ Inactive";
     const createdDate = new Date(item.created_at).toLocaleString();
     const updatedDate = new Date(item.updated_at).toLocaleString();
     const isDark = document.documentElement.classList.contains("dark");
@@ -103,7 +103,7 @@ const BannerManagement = () => {
         }">
           <tr>
             <td style="font-weight:bold;padding:6px;">Position</td>
-            <td>${item.position || "—"}</td>
+            <td>${item.banner_type || item.position || "—"}</td>
           </tr>
           <tr>
             <td style="font-weight:bold;padding:6px;">Target URL</td>
@@ -193,7 +193,7 @@ const BannerManagement = () => {
 
   const getStatusBadge = (is_active) =>
     is_active ? (
-      <Badge className="bg-green-100 text-green-800">Active</Badge>
+      <Badge variant="success">Active</Badge>
     ) : (
       <Badge className="bg-gray-100 text-gray-800">Inactive</Badge>
     );
@@ -312,7 +312,7 @@ const BannerManagement = () => {
                     </TableCell>
                     <TableCell>
                       <img
-                        src={`${banner.background_image}`}
+                        src={`https://jumeirah.premierwebtechservices.com/backend/storage/${banner.background_image}`}
                         alt="banner"
                         className="w-20 h-12 object-cover rounded"
                       />
@@ -321,7 +321,7 @@ const BannerManagement = () => {
                       {banner.banner_type || "-"}
                     </TableCell>
                     <TableCell className="text-xl">
-                      {getStatusBadge(banner.active)}
+                      {getStatusBadge(banner.status)}
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2 justify-start">

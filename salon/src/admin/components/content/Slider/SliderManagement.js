@@ -82,24 +82,13 @@ const SliderManagement = ({ onStatsUpdate }) => {
     }
   };
 
-  const handleEdit = (slider) => {
-    if (!slider?.id) {
-      Swal.fire("Error", "Invalid slider ID!", "error");
-      return;
-    }
-
-    // Always use absolute path starting with /
-    const editPath = `/admin/slider/${slider.id}/edit`;
-    console.log("Navigating to:", editPath);
-    debugger;
-    navigate(editPath);
-  };
+  const handleEdit = (item) => navigate(`/admin/slider/${item.id}/edit`);
 
   const handleView = (item) => {
     // ✅ Ensure we handle full URL correctly even if backend doesn't send full path
     const imageUrl = item.background_image_url
       ? item.background_image_url
-      : `https://jumeirah.premierwebtechservices.com/backend/api/admin/storage/${item.background_image}`;
+      : `https://jumeirah.premierwebtechservices.com/backend/storage/${item.background_image}`;
 
     const statusText = item.is_active ? "✅ Active" : "❌ Inactive";
     const createdDate = new Date(item.created_at).toLocaleString();
@@ -221,7 +210,7 @@ const SliderManagement = ({ onStatsUpdate }) => {
 
   const getStatusBadge = (is_active) =>
     is_active ? (
-      <Badge className="bg-green-100 text-green-800">Active</Badge>
+      <Badge variant="success">Active</Badge>
     ) : (
       <Badge className="bg-gray-100 text-gray-800">Inactive</Badge>
     );
@@ -339,17 +328,16 @@ const SliderManagement = ({ onStatsUpdate }) => {
                     </TableCell>
                     <TableCell>
                       <img
-                        src={slider.background_image_url}
+                        src={`https://jumeirah.premierwebtechservices.com/backend/storage/${slider.background_image_url}`}
                         alt="slider"
                         className="w-20 h-12 object-cover rounded"
-                        onError={(e) => (e.target.src = "/placeholder.jpg")}
                       />
                     </TableCell>
                     <TableCell className="text-xl">
                       {slider.button_name || "-"}
                     </TableCell>
                     <TableCell className="text-xl">
-                      {getStatusBadge(slider.is_active)}
+                      {getStatusBadge(slider.status)}
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2 justify-start">

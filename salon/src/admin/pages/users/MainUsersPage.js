@@ -154,7 +154,7 @@ const UsersListPage = () => {
 
         <button
           onClick={() => navigate("/admin/user/add")}
-          className="bg-sky-500 text-white px-4 py-2 rounded hover:bg-sky-600"
+          className="bg-[#00CED1] text-white px-4 py-2 rounded hover:shadow-2xl"
         >
           Add User
         </button>
@@ -162,7 +162,7 @@ const UsersListPage = () => {
 
       {/* Controls */}
       <div className="flex flex-col sm:flex-row justify-between gap-3 mb-4 mt-2">
-        <div className="flex items-center gap-2 text-xl font-semibold">
+        <div className="flex items-center gap-2 text-md  font-semibold">
           <label>Show</label>
           <select
             value={usersPerPage}
@@ -211,7 +211,7 @@ const UsersListPage = () => {
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <fieldset className="border border-gray-700 rounded-lg p-4 mb-6">
+        <fieldset className="border border-gray-700 rounded-lg mb-6">
           <table className="min-w-full border border-black">
             <thead className="text-center">
               <tr className="bg-black text-white">
@@ -294,7 +294,7 @@ const UsersListPage = () => {
       {/* Pagination */}
       {meta && (
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 p-2 border-t">
-          <div className="text-gray-600 font-semibold ml-3 mb-4 text-xl">
+          <div className="text-gray-600 font-semibold ml-3 mb-4 text-md ">
             Showing {meta.from ?? 0} to {meta.to ?? 0} of {meta.total ?? 0}{" "}
             entries
           </div>
@@ -381,7 +381,7 @@ const UsersListPage = () => {
               ✕
             </button>
 
-            <h2 className="text-xl font-bold mb-4">Customer Details</h2>
+            <h2 className="text-md  font-bold mb-4">Customer Details</h2>
 
             <div className="space-y-3">
               <div>

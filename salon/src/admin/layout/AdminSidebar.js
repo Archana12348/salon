@@ -482,6 +482,7 @@ import {
   UserPlus,
   UserCheck,
   Settings,
+  Contact,
 } from "lucide-react";
 import { clsx } from "clsx";
 
@@ -557,11 +558,11 @@ const Sidebar = () => {
                 label: "Banners",
                 icon: Image,
               },
-              {
-                to: "/admin/slider",
-                label: "Sliders",
-                icon: SlidersHorizontal,
-              },
+              // {
+              //   to: "/admin/slider",
+              //   label: "Sliders",
+              //   icon: SlidersHorizontal,
+              // },
               { to: "/admin/pages", label: "Pages", icon: FileText },
             ].map((item) => {
               const Icon = item.icon;
@@ -744,7 +745,19 @@ const Sidebar = () => {
             >
               <UserCheck className="h-4 w-4" /> Customer
             </NavLink>
-
+            <NavLink
+              to="/admin/contact"
+              className={({ isActive }) =>
+                clsx(
+                  linkBase,
+                  linkHover,
+                  "cursor-pointer",
+                  isActive && linkActive
+                )
+              }
+            >
+              <Contact className="h-4 w-4" /> Customer Enquiries
+            </NavLink>
             {/* <NavLink
               to="/admin/settings"
               className={({ isActive }) =>

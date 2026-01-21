@@ -70,8 +70,13 @@ const TimeSlot = ({
   if (!selectedDate) return null;
 
   return (
-    <div className="bg-white p-5 shadow-lg rounded-2xl mt-5">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Select Time</h2>
+    <div className="bg-white p-4 sm:p-5  rounded-2xl mt-5 shadow-[0_25px_50px_rgba(0,206,209,0.4)] hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow">
+      <h2
+        className="text-2xl font-semibold mb-4 text-center"
+        style={{ fontFamily: "var(--font-heading--family)" }}
+      >
+        Select Time
+      </h2>
 
       {/* Grid of slots */}
       <div className="grid grid-cols-3 gap-3">
@@ -88,14 +93,14 @@ const TimeSlot = ({
         ${
           isTaken
             ? "bg-red-200 cursor-not-allowed"
-            : "bg-gray-100 hover:bg-blue-600 hover:text-white"
+            : "bg-gray-100 hover:bg-[#00CED1] hover:text-white"
         }
         ${isSelected && !isTaken ? "text-white shadow-md" : ""}
       `}
             >
               {/* Glow effect */}
               {isSelected && !isTaken && (
-                <span className="absolute inset-0 bg-gradient-to-r from-indigo-400 via-sky-400 to-sky-400 opacity-50 blur-xl rounded-lg z-0"></span>
+                <span className="absolute inset-0 bg-gradient-to-r from-[#00CED1] via-sky-400 to-gray-500 opacity-80 blur-md rounded-lg z-0"></span>
               )}
 
               {/* Button text on top */}
@@ -119,7 +124,7 @@ const TimeSlot = ({
         <button
           type="button"
           onClick={onNext}
-          className="flex-1 bg-gray-200 py-3 rounded-xl"
+          className="flex-1 bg-gradient-to-r from-[#00CED1] to-slate-500 text-white shadow-[0_0_15px_rgba(0,206,209,0.6) py-2 sm:py-3 rounded-xl"
         >
           Next
         </button>

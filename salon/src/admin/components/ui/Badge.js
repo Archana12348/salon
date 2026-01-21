@@ -6,6 +6,7 @@ const Badge = ({ className, variant = "default", ...props }) => {
     secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
     destructive: "bg-red-500 text-white hover:bg-red-600",
     outline: "text-foreground border border-input",
+    success: "bg-green-100 text-green-800 hover:bg-green-200", // ✅ NEW
   };
 
   return (
