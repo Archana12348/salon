@@ -63,6 +63,8 @@ export default function BookingPage() {
           `https://jumeirah.premierwebtechservices.com/backend/api/booking/${id}`
         );
         const result = await res.json();
+        console.log("result", result);
+        debugger;
 
         if (!result.success) throw new Error("Booking not found");
 
@@ -84,7 +86,7 @@ export default function BookingPage() {
 
         // 2️⃣ Fetch services first
         const serviceRes = await fetch(
-          `https://jumeirah.premierwebtechservices.com/backend/api/site/all-services/${booking.subcategory_id}`
+          `https://jumeirah.premierwebtechservices.com/backend/api/site/all-services-book/${booking.category_id}`
         );
         const serviceData = await serviceRes.json();
         setServices(serviceData.data ?? serviceData);
@@ -95,7 +97,7 @@ export default function BookingPage() {
           service_id: booking.service_id,
         }));
 
-        setStep("form");
+        setStep("calendar");
       } catch (err) {
         alert("Failed to fetch booking");
         navigate("/admin/bookings");
@@ -121,12 +123,16 @@ export default function BookingPage() {
     if (!formData.category_id) return;
 
     fetch(
-      `https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories/${formData.category_id}`
+      `https://jumeirah.premierwebtechservices.com/backend/api/site/sub-categories-book/${formData.category_id}`
     )
       .then((res) => res.json())
       .then((data) => setSubCategories(data.data ?? data));
 
-    setFormData((p) => ({ ...p, sub_category_id: "", service_id: "" }));
+    setFormData((p) => ({
+      ...p,
+      sub_category_id: formData.sub_category_id || "",
+      service_id: "",
+    }));
     setServices([]);
   }, [formData.category_id]);
 
@@ -134,10 +140,10 @@ export default function BookingPage() {
   useEffect(() => {
     if (!formData.sub_category_id) return;
 
-    console.log(formData.sub_category_id);
+    console.log(formData.category_id);
     debugger;
     fetch(
-      `https://jumeirah.premierwebtechservices.com/backend/api/site/all-services/${formData.sub_category_id}`
+      `https://jumeirah.premierwebtechservices.com/backend/api/site/all-services-book/${formData.category_id}`
     )
       .then((res) => res.json())
       .then((data) => setServices(data.data ?? data));

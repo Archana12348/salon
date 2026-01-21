@@ -38,7 +38,8 @@ const UsersListPage = () => {
 
       setUsers(res.data?.data || []);
       setMeta(res.data?.meta || null);
-
+      console.log("dataaa", res.data.data);
+      debugger;
       // remove ids not on current page
       setSelectedUsers((prev) =>
         prev.filter((id) => res.data?.data?.data?.some((u) => u.id === id))
@@ -153,7 +154,7 @@ const UsersListPage = () => {
 
         <button
           onClick={() => navigate("/admin/user/add")}
-          className="bg-sky-500 text-white px-4 py-2 rounded hover:bg-sky-600"
+          className="bg-[#00CED1] text-white px-4 py-2 rounded hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)]"
         >
           Add Customer
         </button>
@@ -161,7 +162,7 @@ const UsersListPage = () => {
 
       {/* Controls */}
       <div className="flex flex-col sm:flex-row justify-between gap-3">
-        <div className="flex items-center gap-2 text-xl font-semibold">
+        <div className="flex items-center gap-2 text-md font-semibold">
           <label>Show</label>
           <select
             value={usersPerPage}
@@ -210,7 +211,7 @@ const UsersListPage = () => {
 
       {/* Table */}
       <div className="overflow-x-auto mt-4">
-        <fieldset className="border border-gray-700 rounded-lg p-4 mb-6">
+        <fieldset className="border border-gray-700 rounded-lg  mb-6">
           <table className="min-w-full border border-black">
             <thead className="text-center">
               <tr className="bg-black text-white">
@@ -246,13 +247,13 @@ const UsersListPage = () => {
                         onChange={() => toggleSelectUser(u.id)}
                       />
                     </td>
-                    <td className="border p-2 text-xl">{u.name}</td>
-                    <td className="border p-2 text-xl">{u.email}</td>
-                    <td className="border p-2 text-xl">{u.phone}</td>
-                    <td className="border p-2 text-xl">
-                      {u.active === 1 ? "Active" : "Inactive"}
+                    <td className="border p-2 text-md">{u.name}</td>
+                    <td className="border p-2 text-md">{u.email}</td>
+                    <td className="border p-2 text-md">{u.phone}</td>
+                    <td className="border p-2 text-md">
+                      {u.active === true ? "Active" : "Inactive"}
                     </td>
-                    <td className="border p-2 flex justify-center gap-2">
+                    <td className=" p-2 flex justify-center gap-2">
                       <button
                         onClick={() => {
                           setSelectedUser(u);
@@ -287,7 +288,7 @@ const UsersListPage = () => {
       {/* Pagination */}
       {meta && (
         <div className="flex justify-between items-center p-4 border-t">
-          <div className="text-xl font-semibold">
+          <div className="text-md font-semibold">
             Showing {meta.from} to {meta.to} of {meta.total} entries
           </div>
 

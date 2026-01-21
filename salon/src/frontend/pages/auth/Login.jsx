@@ -44,10 +44,18 @@ export default function LoginForm({ goSignup, goForgetPassword }) {
       });
 
       // ✅ ALWAYS go to appointment after login
-      navigate("/appointment", {
-        replace: true,
-        state: { from: location.state?.from },
-      });
+      // navigate("/appointment", {
+      //   replace: true,
+      //   state: { from: location.state?.from },
+      // });
+      // login success ke baad
+      const from = location.state?.from;
+
+      if (from === location.state?.from) {
+        navigate("/appointment", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
     } catch (err) {
       console.error("Login failed:", err);
 

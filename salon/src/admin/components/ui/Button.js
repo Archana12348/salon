@@ -17,7 +17,7 @@ const Button = React.forwardRef(
       "cursor-pointer inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background";
 
     const variants = {
-      default: "bg-sky-600 text-white hover:bg-sky-700",
+      default: "bg-[#00CED1] text-white hover:bg-sky-700",
       destructive: "bg-sky-500 text-white hover:bg-sky-600",
       outline:
         "border border-input hover:bg-accent hover:text-accent-foreground",

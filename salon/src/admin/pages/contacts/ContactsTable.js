@@ -113,8 +113,6 @@ const ContactsPage = () => {
       title: contact.name,
       html: `
         <p><b>Email:</b> ${contact.email}</p>
-        <p><b>Phone:</b> ${contact.phone ?? "-"}</p>
-        <p><b>Subject:</b> ${contact.subject ?? "-"}</p>
         <hr/>
         <p>${contact.message}</p>
       `,
@@ -171,7 +169,7 @@ const ContactsPage = () => {
   return (
     <div className="p-6 max-w-6xl mx-auto border rounded-lg bg-white dark:bg-gray-900 shadow">
       <CardHeader>
-        <CardTitle className="text-3xl">Contact Messages</CardTitle>
+        <CardTitle className="text-1xl">Contact Messages</CardTitle>
         <CardDescription>Manage contact inquiries</CardDescription>
         <div className="flex justify-end gap-2">
           <Button onClick={() => navigate("/admin/contacts/create")}>
@@ -183,7 +181,7 @@ const ContactsPage = () => {
           </Button>
         </div>
         <div className="flex justify-between items-center mt-4">
-          <div className="flex gap-2 items-center text-xl">
+          <div className="flex gap-2 items-center text-md font-semibold">
             <label>Show</label>
             <select
               className="border dark:bg-slate-600"
@@ -224,7 +222,7 @@ const ContactsPage = () => {
               </TableHead>
               <TableHead className="bg-black text-white">Name</TableHead>
               <TableHead className="bg-black text-white">Email</TableHead>
-              <TableHead className="bg-black text-white">Subject</TableHead>
+              {/* <TableHead className="bg-black text-white">Subject</TableHead> */}
               <TableHead className="bg-black text-white">Status</TableHead>
               <TableHead className="bg-black text-white">Actions</TableHead>
             </TableRow>
@@ -241,10 +239,14 @@ const ContactsPage = () => {
                       onChange={() => toggleSingleSelect(c.id)}
                     />
                   </TableCell>
-                  <TableCell className="text-xl">{c.name}</TableCell>
-                  <TableCell className="text-xl">{c.email}</TableCell>
-                  <TableCell className="text-xl">{c.subject ?? "-"}</TableCell>
-                  <TableCell className="text-xl">
+                  <TableCell className="text-md font-semibold">
+                    {c.name}
+                  </TableCell>
+                  <TableCell className="text-md font-semibold">
+                    {c.email}
+                  </TableCell>
+                  {/* <TableCell className="text-md font-semibold">{c.subject ?? "-"}</TableCell> */}
+                  <TableCell className="text-md font-semibold">
                     {c.is_read ? (
                       <span className="text-green-500 font-semibold">Read</span>
                     ) : (
@@ -277,7 +279,7 @@ const ContactsPage = () => {
           </TableBody>
         </Table>
 
-        <div className="flex justify-between items-center mt-4 text-xl">
+        <div className="flex justify-between items-center mt-4 text-md font-semibold">
           <div>
             Showing {startIndex + 1} to {endIndex} of {totalItems}
           </div>

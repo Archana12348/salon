@@ -175,7 +175,7 @@ const SeasonsPage = () => {
       <CardHeader>
         <div className="flex justify-between items-center">
           <div>
-            <CardTitle className="text-4xl font-bold">Services</CardTitle>
+            <CardTitle className="text-2xl font-bold">Services</CardTitle>
             <CardDescription className="text-3xl font-bold">
               Manage your Services
             </CardDescription>
@@ -194,12 +194,12 @@ const SeasonsPage = () => {
           )}
 
           <Button onClick={() => navigate("/admin/bookingadd")}>
-            <Plus className="mr-2 h-4 w-4 text-xl" /> Add New Service
+            <Plus className="mr-2 h-4 w-4 text-md " /> Add New Service
           </Button>
         </div>
 
         <div className="flex justify-between items-center mt-4">
-          <div className="flex items-center gap-2 text-xl font-semibold">
+          <div className="flex items-center gap-2 text-md  font-semibold">
             <label>Show</label>
             <select
               className="mb-2 border "
@@ -216,7 +216,7 @@ const SeasonsPage = () => {
             </select>
             <label>entries</label>
           </div>
-          <div className="className w-[30rem] pr-2">
+          <div className="className w-[15rem] pr-2">
             <Input
               placeholder="Search services..."
               value={searchTerm}
@@ -236,23 +236,23 @@ const SeasonsPage = () => {
             <Table className="text-center">
               <TableHeader className="text-center">
                 <TableRow className="text-center">
-                  <TableHead className=" text-center min-w-[150px] w-[25%] text-xl text-white bg-black">
+                  <TableHead className=" text-center min-w-[150px] w-[25%] text-md  text-white bg-black">
                     <input
                       type="checkbox"
                       checked={areAllOnPageSelected}
                       onChange={handleSelectAllSeasons}
                     />
                   </TableHead>
-                  <TableHead className=" text-center min-w-[150px] w-[25%] text-xl text-white bg-black">
+                  <TableHead className=" text-center min-w-[150px] w-[25%] text-md  text-white bg-black">
                     Name
                   </TableHead>
-                  <TableHead className="text-center min-w-[150px] w-[25%] text-xl text-white bg-black">
+                  <TableHead className="text-center min-w-[150px] w-[25%] text-md  text-white bg-black">
                     Slug
                   </TableHead>
-                  <TableHead className=" text-center min-w-[150px] w-[25%] text-xl text-white bg-black">
+                  <TableHead className=" text-center min-w-[150px] w-[25%] text-md  text-white bg-black">
                     Status
                   </TableHead>
-                  <TableHead className=" text-center min-w-[150px] w-[25%] text-xl text-white bg-black">
+                  <TableHead className=" text-center min-w-[150px] w-[25%] text-md  text-white bg-black">
                     Actions
                   </TableHead>
                 </TableRow>
@@ -269,17 +269,17 @@ const SeasonsPage = () => {
                           onChange={() => handleSelectSeason(s.id)}
                         />
                       </TableCell>
-                      <TableCell className="text-xl">
+                      <TableCell className="text-md ">
                         {s.service_name}
                       </TableCell>
-                      <TableCell className="text-xl">{s.slug}</TableCell>
-                      <TableCell className="text-xl">
+                      <TableCell className="text-md ">{s.slug}</TableCell>
+                      <TableCell className="text-md ">
                         {s.status ? (
-                          <span className="ml-3 px-3 py-1 rounded-full text-base font-semibold bg-green-100 text-green-700">
+                          <span className="ml-3 px-3 py-1 rounded-full  font-semibold bg-green-100 text-green-700">
                             Active
                           </span>
                         ) : (
-                          <span className="ml-3 px-3 py-1 rounded-full text-base font-semibold  bg-red-100 text-red-700">
+                          <span className="ml-3 px-3 py-1 rounded-full  font-semibold  bg-red-100 text-red-700">
                             Inactive
                           </span>
                         )}
@@ -303,7 +303,7 @@ const SeasonsPage = () => {
                     </TableRow>
                   ))
                 ) : (
-                  <TableRow className="text-xl">
+                  <TableRow className="text-md ">
                     <TableCell colSpan={7} className="text-center">
                       No services found
                     </TableCell>
@@ -316,7 +316,7 @@ const SeasonsPage = () => {
 
         <div className="flex justify-between items-center mt-4 flex-wrap gap-2">
           {/* Showing text */}
-          <span className="text-xl font-semibold text-gray-600">
+          <span className="text-md  font-semibold text-gray-600">
             Showing {(page - 1) * itemsPerPage + 1}–
             {Math.min(page * itemsPerPage, totalEntries)} of {totalEntries}{" "}
             entries

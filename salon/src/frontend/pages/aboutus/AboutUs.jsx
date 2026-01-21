@@ -43,14 +43,14 @@ const AboutUs = () => {
       >
         <div className="relative z-20 max-w-4xl mx-auto px-5 py-24 text-center">
           <h1
-            className="text-5xl mb-6 text-[#00CED1] drop-shadow-[0_0_15px_#956D13]"
+            className="text-5xl mb-6 text-black drop-shadow-[0_0_15px_#956D13]"
             style={{ fontFamily: "var(--font-heading--family)" }}
           >
             {page?.title}
           </h1>
 
           <div
-            className="text-lg leading-8 text-white space-y-5"
+            className="text-3xl leading-8 space-y-5"
             style={{ fontFamily: "var(--font-heading--family)" }}
             dangerouslySetInnerHTML={{ __html: page?.content }}
           />

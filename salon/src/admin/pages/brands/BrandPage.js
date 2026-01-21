@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Upload, Trash2, Search } from "lucide-react";
-import BrandTable from "../../pages/brands/BrandTable";
+import BrandTable from "./BrandTable";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
