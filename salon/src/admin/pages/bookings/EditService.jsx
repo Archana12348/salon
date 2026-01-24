@@ -15,10 +15,13 @@ export default function EditService() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      }
+      },
     )
       .then((res) => res.json())
-      .then((res) => setData(res.data));
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      });
   }, [id]);
 
   const submit = async (formData) => {
@@ -33,7 +36,7 @@ export default function EditService() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: formData,
-        }
+        },
       );
 
       const d = await res.json();

@@ -11,6 +11,19 @@ import { Provider } from "react-redux";
 import store from "./frontend/components/redux/store"; // <-- path check kar lena
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+if (typeof window !== "undefined") {
+  const resizeObserverErr = window.console.error;
+  window.console.error = (...args) => {
+    if (
+      args[0]?.includes?.(
+        "ResizeObserver loop completed with undelivered notifications",
+      )
+    ) {
+      return;
+    }
+    resizeObserverErr(...args);
+  };
+}
 
 root.render(
   <Provider store={store}>
@@ -21,7 +34,7 @@ root.render(
         </UserAuthProvider>
       </AuthProvider>
     </React.StrictMode>
-  </Provider>
+  </Provider>,
 );
 
 reportWebVitals();

@@ -9,7 +9,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetch(
-      "https://jumeirah.premierwebtechservices.com/backend/api/admin/dashboard"
+      "https://jumeirah.premierwebtechservices.com/backend/api/admin/dashboard",
     )
       .then((res) => res.json())
       .then((json) => {
@@ -49,7 +49,7 @@ const Dashboard = () => {
     <div className="space-y-6 px-4 py-4">
       {/* Heading */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground mt-1">
           Welcome back! Here’s what’s happening today.
         </p>

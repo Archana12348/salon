@@ -38,7 +38,7 @@ const HeadCategoriesTable = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://jumeirah.premierwebtechservices.com/backend/api/admin/categories?page=${currentPage}&perPage=${perPage}&search=${searchTerm}&sortDir=${sortDir}`
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/categories?page=${currentPage}&perPage=${perPage}&search=${searchTerm}&sortDir=${sortDir}`,
       );
       const result = await response.json();
 
@@ -68,7 +68,7 @@ const HeadCategoriesTable = () => {
 
   const handleSelect = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
     );
   };
 
@@ -81,39 +81,42 @@ const HeadCategoriesTable = () => {
     }
   };
 
-const handleDelete = async (cat) => {
-  const confirmed = await Swal.fire({
-    title: "Are you sure?",
-    text: `Do you want to delete "${cat.name}"?`,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-    confirmButtonText: "Yes, delete it!",
-  });
+  const handleDelete = async (cat) => {
+    const confirmed = await Swal.fire({
+      title: "Are you sure?",
+      text: `Do you want to delete "${cat.name}"?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
 
-  if (confirmed.isConfirmed) {
-    try {
-      const response = await fetch(
-        `https://jumeirah.premierwebtechservices.com/backend/api/admin/categories/${cat.id}`,
-        { method: "DELETE" }
-      );
+    if (confirmed.isConfirmed) {
+      try {
+        const response = await fetch(
+          `https://jumeirah.premierwebtechservices.com/backend/api/admin/categories/${cat.id}`,
+          { method: "DELETE" },
+        );
 
-      const data = await response.json(); // ✅ get JSON data
-      console.log(data);
+        const data = await response.json(); // ✅ get JSON data
+        console.log(data);
 
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to delete category.");
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to delete category.");
+        }
+
+        await fetchCategories();
+        Swal.fire("Deleted!", "Category has been deleted.", "success");
+      } catch (error) {
+        Swal.fire(
+          "Error",
+          error.message || "Failed to delete category.",
+          "error",
+        );
       }
-
-      await fetchCategories();
-      Swal.fire("Deleted!",  "Category has been deleted.", "success");
-    } catch (error) {
-      Swal.fire("Error", error.message || "Failed to delete category.", "error");
     }
-  }
-};
-
+  };
 
   const handleBulkDelete = async () => {
     const confirmed = await Swal.fire({
@@ -139,7 +142,7 @@ const handleDelete = async (cat) => {
           body: JSON.stringify({
             ids: selectedIds,
           }),
-        }
+        },
       );
 
       const result = await response.json();
@@ -154,7 +157,7 @@ const handleDelete = async (cat) => {
       Swal.fire(
         "Deleted!",
         "Selected categories have been deleted.",
-        "success"
+        "success",
       );
     } catch (error) {
       Swal.fire("Error", error.message, "error");
@@ -166,8 +169,8 @@ const handleDelete = async (cat) => {
       {/* Card Header */}
       <CardHeader className="space-y-4">
         <div className="flex flex-col space-y">
-          <CardTitle className="text-3xl sm:text-3xl">Categories</CardTitle>
-          <CardDescription className="text-xl">
+          <CardTitle className="text-2xl sm:text-2xl">Categories</CardTitle>
+          <CardDescription className="text-md">
             Manage your top-level categories
           </CardDescription>
         </div>
@@ -215,7 +218,7 @@ const handleDelete = async (cat) => {
           </div>
           <div
             className="flex items-center px-3 py-2 w-full sm:w-64"
-            style={{ width: "450px", marginRight: "-13px" }}
+            style={{ width: "350px", marginRight: "-13px" }}
           >
             <Input
               placeholder="Search here categories..."
@@ -236,7 +239,7 @@ const handleDelete = async (cat) => {
           <Table className="min-w-[640px] w-full">
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[50px] text-white text-xl bg-black">
+                <TableHead className="w-[50px] text-white text-md bg-black">
                   <input
                     type="checkbox"
                     className="form-checkbox h-4 w-4 text-sky-600 rounded border-gray-300 focus:ring-sky-500"
@@ -244,16 +247,16 @@ const handleDelete = async (cat) => {
                     onChange={handleSelectAll}
                   />
                 </TableHead>
-                <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+                <TableHead className="min-w-[150px] w-[25%] text-md text-white bg-black">
                   Name
                 </TableHead>
-                <TableHead className="min-w-[150px] w-[20%] text-xl text-white bg-black">
+                <TableHead className="min-w-[150px] w-[20%] text-md text-white bg-black">
                   Slug
                 </TableHead>
-                <TableHead className="min-w-[150px] w-[20%] text-xl text-white bg-black">
+                <TableHead className="min-w-[150px] w-[20%] text-md text-white bg-black">
                   Status
                 </TableHead>
-                <TableHead className="min-w-[100px] w-[20%]   text-xl text-white bg-black">
+                <TableHead className="min-w-[100px] w-[20%]   text-md text-white bg-black">
                   Actions
                 </TableHead>
               </TableRow>
@@ -285,9 +288,9 @@ const handleDelete = async (cat) => {
                         onChange={() => handleSelect(cat.id)}
                       />
                     </TableCell>
-                    <TableCell className="text-xl">{cat.name}</TableCell>
-                    <TableCell className="text-xl">{cat.slug}</TableCell>
-                    <TableCell className="text-xl">
+                    <TableCell className="text-md">{cat.name}</TableCell>
+                    <TableCell className="text-md">{cat.slug}</TableCell>
+                    <TableCell className="text-md">
                       <span
                         className={`ml-3 px-3 py-1 rounded-full text-sm font-semibold
                       ${
@@ -301,14 +304,14 @@ const handleDelete = async (cat) => {
                       </span>
                     </TableCell>
 
-                    <TableCell className=" text-xl text-right">
+                    <TableCell className=" text-md text-right">
                       <div className="flex items-center justify-start gap-2">
                         <Button
                           variant="ghost"
                           size="icon"
                           onClick={() =>
-                        navigate(`/admin/category/${cat.id}/edit`)
-                      }
+                            navigate(`/admin/category/${cat.id}/edit`)
+                          }
                           title="Edit"
                         >
                           <Edit className="h-5 w-5" />
@@ -332,7 +335,7 @@ const handleDelete = async (cat) => {
         </fieldset>
         {/* Pagination */}
         <div className="flex justify-between items-center mt-4 px-2 ">
-          <div className="text-gray-600 text-xl ml-3 mb-4">
+          <div className="text-gray-600 text-md ml-3 mb-4">
             Showing {totalItems === 0 ? 0 : from} to {to} of {totalItems}{" "}
             entries
           </div>
@@ -343,7 +346,7 @@ const handleDelete = async (cat) => {
               className={`px-3 py-1 rounded ${
                 currentPage === 1
                   ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                  : "bg-sky-500 hover:bg-gray-300"
+                  : "bg-[#00CED1] hover:bg-gray-300"
               }`}
             >
               Previous
@@ -356,7 +359,7 @@ const handleDelete = async (cat) => {
                   onClick={() => setCurrentPage(pageNum)}
                   className={`px-3 py-1 rounded ${
                     currentPage === pageNum
-                      ? "bg-sky-500 text-white"
+                      ? "bg-[#00CED1] text-white"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   }`}
                 >
@@ -370,7 +373,7 @@ const handleDelete = async (cat) => {
               className={`px-3 py-1 rounded ${
                 currentPage === lastPage || lastPage === 0
                   ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                  : "bg-sky-500 hover:bg-gray-300"
+                  : "bg-[#00CED1] hover:bg-gray-300"
               }`}
             >
               Next

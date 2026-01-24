@@ -74,7 +74,7 @@ const FabricsPage = () => {
             page,
             search: searchTerm || undefined,
           },
-        }
+        },
       );
       console.log(res.data.data[0].active);
       debugger;
@@ -113,7 +113,7 @@ const FabricsPage = () => {
             `https://jumeirah.premierwebtechservices.com/backend/api/admin/packages/${id}`,
             {
               headers: { Authorization: `Bearer ${token}` },
-            }
+            },
           );
           Swal.fire("Deleted!", "The fabric has been deleted.", "success");
           fetchFabrics();
@@ -146,14 +146,14 @@ const FabricsPage = () => {
                 `https://jumeirah.premierwebtechservices.com/backend/api/admin/packages/${id}`,
                 {
                   headers: { Authorization: `Bearer ${token}` },
-                }
-              )
-            )
+                },
+              ),
+            ),
           );
           Swal.fire(
             "Deleted!",
             "Selected fabrics have been deleted.",
-            "success"
+            "success",
           );
           setSelectedFabrics([]);
           fetchFabrics();
@@ -175,7 +175,7 @@ const FabricsPage = () => {
       setSelectedFabrics((prev) => [...new Set([...prev, ...idsOnPage])]);
     } else {
       setSelectedFabrics((prev) =>
-        prev.filter((id) => !idsOnPage.includes(id))
+        prev.filter((id) => !idsOnPage.includes(id)),
       );
     }
   };
@@ -184,16 +184,16 @@ const FabricsPage = () => {
     setSelectedFabrics((prev) =>
       prev.includes(id)
         ? prev.filter((fabricId) => fabricId !== id)
-        : [...prev, id]
+        : [...prev, id],
     );
   };
 
   return (
     <div className="p-6 max-w-6xl mx-auto border rounded-lg bg-white dark:bg-gray-900 shadow">
       <CardHeader>
-        <div className="flex justify-between text-xl items-center">
+        <div className="flex justify-between text-md items-center">
           <div>
-            <CardTitle className="text-3xl sm:text-3xl">Packages</CardTitle>
+            <CardTitle className="text-2xl sm:text-2xl">Packages</CardTitle>
             <CardDescription className="text-base">
               Manage your packages
             </CardDescription>
@@ -217,7 +217,7 @@ const FabricsPage = () => {
         </div>
 
         <div className="flex justify-between items-center">
-          <div className="flex items-center text-xl font-semibold gap-2">
+          <div className="flex items-center text-md font-semibold gap-2">
             <label>Show</label>
             <select
               className="mb-2 border dark:bg-slate-600"
@@ -249,23 +249,23 @@ const FabricsPage = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+                <TableHead className="min-w-[150px] w-[25%] text-md text-white bg-black">
                   <input
                     type="checkbox"
                     checked={areAllOnPageSelected}
                     onChange={handleSelectAllFabrics}
                   />
                 </TableHead>
-                <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+                <TableHead className="min-w-[150px] w-[25%] text-md text-white bg-black">
                   Name
                 </TableHead>
-                <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+                <TableHead className="min-w-[150px] w-[25%] text-md text-white bg-black">
                   Slug
                 </TableHead>
-                <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+                <TableHead className="min-w-[150px] w-[25%] text-md text-white bg-black">
                   Status
                 </TableHead>
-                <TableHead className="min-w-[150px] w-[25%] text-xl text-white bg-black">
+                <TableHead className="min-w-[150px] w-[25%] text-md text-white bg-black">
                   Actions
                 </TableHead>
               </TableRow>
@@ -281,9 +281,9 @@ const FabricsPage = () => {
                         onChange={() => handleSelectFabric(fabric.id)}
                       />
                     </TableCell>
-                    <TableCell className="text-xl">{fabric.name}</TableCell>
-                    <TableCell className="text-xl">{fabric.slug}</TableCell>
-                    <TableCell className="text-xl">
+                    <TableCell className="text-md">{fabric.name}</TableCell>
+                    <TableCell className="text-md">{fabric.slug}</TableCell>
+                    <TableCell className="text-md">
                       {fabric.active === true || fabric.active === 1 ? (
                         <span className="text-green-500 font-semibold">
                           Active
@@ -294,7 +294,7 @@ const FabricsPage = () => {
                         </span>
                       )}
                     </TableCell>
-                    <TableCell className="text-xl">
+                    <TableCell className="text-md">
                       <button
                         onClick={() =>
                           navigate({
@@ -327,7 +327,7 @@ const FabricsPage = () => {
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-between items-center mt-4 flex-wrap gap-2 text-xl font-semibold">
+        <div className="flex justify-between items-center mt-4 flex-wrap gap-2 text-md font-semibold">
           <div>
             Showing {totalItems === 0 ? 0 : startIndex + 1} to {endIndex} of{" "}
             {totalItems} entries
@@ -338,7 +338,7 @@ const FabricsPage = () => {
             <Button
               disabled={page === 1}
               onClick={() => setPage((p) => Math.max(p - 1, 1))}
-              className="bg-red-500 text-white disabled:opacity-50"
+              className="bg-[#00CED1] text-white disabled:opacity-50"
             >
               <ChevronLeft className="h-4 w-4 mr-1" /> Previous
             </Button>
@@ -347,7 +347,7 @@ const FabricsPage = () => {
             <button
               className={`px-3 py-1 border rounded ${
                 page === 1
-                  ? "bg-red-600 text-white"
+                  ? "bg-[#00CED1] text-white"
                   : "bg-transparent dark:text-white"
               }`}
               onClick={() => setPage(1)}
@@ -368,7 +368,7 @@ const FabricsPage = () => {
                     onClick={() => setPage(pageNumber)}
                     className={`px-3 py-1 border rounded ${
                       page === pageNumber
-                        ? "bg-red-600 text-white"
+                        ? "bg-[#00CED1] text-white"
                         : "bg-transparent dark:text-white"
                     }`}
                   >
@@ -389,7 +389,7 @@ const FabricsPage = () => {
               <button
                 className={`px-3 py-1 border rounded ${
                   page === totalPages
-                    ? "bg-red-600 text-white"
+                    ? "bg-[#00CED1] text-white"
                     : "bg-transparent dark:text-white"
                 }`}
                 onClick={() => setPage(totalPages)}
@@ -402,7 +402,7 @@ const FabricsPage = () => {
             <Button
               disabled={page === totalPages}
               onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-              className="bg-red-500 text-white disabled:opacity-50"
+              className="bg-[#00CED1] text-white disabled:opacity-50"
             >
               Next <ChevronRight className="h-4 w-4 ml-1" />
             </Button>

@@ -35,7 +35,7 @@ export default function WhyTrustUs() {
       }}
     >
       <h2
-        className="text-3xl sm:text-3xl md:text-4xl  text-center mb-10 text-white"
+        className="text-3xl sm:text-3xl md:text-4xl  text-center mb-10 text-[#00CED1]"
         style={{ fontFamily: "var(--font-heading--family)" }}
       >
         Why Trust Us?
@@ -49,7 +49,7 @@ export default function WhyTrustUs() {
               alt={item.label1}
               className="w-full h-full mb-3"
             />
-            <p className="text-lg leading-tight text-white bg-clip-text">
+            <p className="text-lg leading-tight text-[#00CED1] bg-clip-text">
               {item.label1}
               <br />
               {item.label2}

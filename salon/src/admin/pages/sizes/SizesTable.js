@@ -27,7 +27,7 @@ const SizesTable = () => {
         `https://jumeirah.premierwebtechservices.com/backend/api/admin/pages?page=${currentPage}&perPage=${perPage}&search=${searchTerm}&sortDir=desc`,
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       const data = await res.json();
 
@@ -73,7 +73,7 @@ const SizesTable = () => {
           {
             method: "DELETE",
             headers: { Authorization: `Bearer ${token}` },
-          }
+          },
         );
         fetchSizes();
         setSelectedIds(selectedIds.filter((sid) => sid !== id));
@@ -108,9 +108,9 @@ const SizesTable = () => {
               {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` },
-              }
-            )
-          )
+              },
+            ),
+          ),
         );
         fetchSizes();
         setSelectedIds([]);
@@ -132,7 +132,7 @@ const SizesTable = () => {
 
   const handleSelectRow = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id],
     );
   };
 
@@ -140,7 +140,7 @@ const SizesTable = () => {
     <div className="p-6 max-w-6xl mx-auto border rounded-lg bg-white dark:bg-gray-900 shadow">
       {/* Header */}
       <div className="flex justify-between mb-4">
-        <h1 className="text-3xl font-bold ">Pages</h1>
+        <h1 className="text-2xl font-bold ">Pages</h1>
       </div>
 
       {/* Actions */}
@@ -154,7 +154,7 @@ const SizesTable = () => {
         </button>
         <button
           onClick={() => navigate("/admin/pages/add")}
-          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          className="bg-[#00CED1] text-white px-4 py-2 rounded hover:bg-[#00CED1]"
         >
           <Plus size={18} className="inline mr-2" />
           Add Pages
@@ -163,7 +163,7 @@ const SizesTable = () => {
 
       {/* Controls */}
       <div className="flex flex-col sm:flex-row justify-between gap-3 mt-2 mb-4">
-        <div className="flex items-center gap-2 text-xl font-bold">
+        <div className="flex items-center gap-2 text-md font-bold">
           Show{" "}
           <select
             value={perPage}
@@ -182,7 +182,7 @@ const SizesTable = () => {
         </div>
         <div
           className="flex items-center px-3 py-2 w-full sm:w-64"
-          style={{ width: "450px", marginRight: "-13px" }}
+          style={{ width: "350px", marginRight: "-13px" }}
         >
           <input
             type="text"
@@ -192,14 +192,14 @@ const SizesTable = () => {
               setSearchTerm(e.target.value);
               setCurrentPage(1);
             }}
-            className="border-sky-1 p-2 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 w-full"
+            className="border-sky-1 p-2 bg-transparent border border-gray-500 rounded-md focus-visible:ring-0 focus-visible:ring-offset-0 w-full"
           />
         </div>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto w-full">
-        <fieldset className="border border-gray-700 rounded-lg p-4 mb-6">
+        <fieldset className="border border-gray-700 rounded-lg mb-6">
           <table className="w-full border border-gray-300 text-center">
             <thead>
               <tr className="bg-black text-white">
@@ -282,7 +282,7 @@ const SizesTable = () => {
       {/* Pagination */}
       <div className="flex justify-between items-center mt-4 gap-2 flex-wrap">
         {/* Entries Count */}
-        <div className="text-gray-600 text-xl ml-3 mb-4 font-semibold">
+        <div className="text-gray-600 text-md ml-3 mb-4 font-semibold">
           Showing {sizes.length === 0 ? 0 : 1} to {sizes.length} of {totalItems}{" "}
           entries
         </div>
@@ -304,7 +304,7 @@ const SizesTable = () => {
               onClick={() => setCurrentPage(i + 1)}
               className={`px-3 py-1 border rounded ${
                 currentPage === i + 1
-                  ? "bg-red-600 text-white"
+                  ? "bg-[#00CED1] text-white"
                   : "bg-transparent"
               }`}
             >

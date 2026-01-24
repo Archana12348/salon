@@ -17,6 +17,7 @@ import BookingPage from "./pages/features/booking-flow/BookingPage";
 import ServicesPage from "./pages/servicedata/ServiceFetch";
 import ServiceView from "./pages/servicedata/ServiceView";
 import ProtectedRoute from "./route/ProtectedRoute";
+
 // import NotFound from "./pages/NotFound";
 
 export const FrontendRoutes = (
