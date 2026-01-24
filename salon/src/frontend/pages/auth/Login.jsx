@@ -49,7 +49,7 @@ export default function LoginForm({ goSignup, goForgetPassword }) {
       //   state: { from: location.state?.from },
       // });
       // login success ke baad
-      const from = location.state?.from;
+      // const from = location.state?.from;
 
       if (from === location.state?.from) {
         navigate("/appointment", { replace: true });

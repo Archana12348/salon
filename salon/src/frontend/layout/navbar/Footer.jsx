@@ -151,7 +151,7 @@ export default function FooterPage() {
             Get in Touch
           </h2>
 
-          <p className="-mb-0">Phone: +91 90413 69160</p>
+          <p className="-mb-0">Phone: +91 6239624181</p>
           <p>kylaviejum@gmail.com</p>
 
           <div className="flex items-center justify-center gap-4 mt-4 text-xl">
@@ -239,7 +239,7 @@ export default function FooterPage() {
             >
               {item}
             </Link>
-          )
+          ),
         )}
       </div>
 

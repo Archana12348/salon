@@ -33,7 +33,7 @@ export default function HeaderWithVideo({ slug }) {
   /* ---------------- FETCH CATEGORY (ONE TIME) ---------------- */
   useEffect(() => {
     fetch(
-      "https://jumeirah.premierwebtechservices.com/backend/api/site/category"
+      "https://jumeirah.premierwebtechservices.com/backend/api/site/category",
     )
       .then((res) => res.json())
       .then((data) => {
@@ -117,10 +117,10 @@ export default function HeaderWithVideo({ slug }) {
   /* ---------------- USER ICON ---------------- */
   // 🔥 COLOR LOGIC
   const textColor = showNavbar
-    ? "text-black"
+    ? "text-[#00CED1]"
     : isHomePage
-    ? "text-white"
-    : "text-black";
+      ? "text-white"
+      : "text-black";
 
   const UserDropdown = ({ showNavbar, isHomePage }) => (
     <div
@@ -130,7 +130,7 @@ export default function HeaderWithVideo({ slug }) {
     >
       {/* USER ICON */}
       <div
-        className="flex items-center gap-2 cursor-pointer"
+        className="flex items-center gap-2 cursor-pointer mt-2"
         style={{ fontFamily: "var(--font-heading--family)" }}
       >
         {user?.avatar ? (
@@ -213,7 +213,7 @@ export default function HeaderWithVideo({ slug }) {
     <>
       {/* ================= FIXED NAVBAR ================= */}
       {showNavbar && (
-        <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-md text-black transition-all duration-500">
+        <div className="fixed top-0 left-0 w-full z-50 bg-black shadow-md text-[#00CED1] transition-all duration-500">
           <div className="flex items-center justify-between px-3 sm:px-6 md:px-10 py-3 sm:py-4">
             <div className="flex gap-3 sm:gap-4">
               <Search size={16} className="sm:size-[18px] cursor-pointer" />
@@ -237,7 +237,7 @@ export default function HeaderWithVideo({ slug }) {
                 <Link to="/login">
                   <User
                     size={16}
-                    className="sm:size-[18px] cursor-pointer text-black mt-2"
+                    className="sm:size-[18px] cursor-pointer text-[#00CED1] mt-2"
                   />
                 </Link>
               ) : (
@@ -246,7 +246,7 @@ export default function HeaderWithVideo({ slug }) {
               <Link to="/appointment">
                 <Calendar
                   size={16}
-                  className="sm:size-[18px] cursor-pointer text-black mt-2"
+                  className="sm:size-[18px] cursor-pointer text-[#00CED1] mt-2"
                 />
               </Link>
             </div>
@@ -264,14 +264,14 @@ export default function HeaderWithVideo({ slug }) {
           >
             <Link
               to="/"
-              className="text-black"
+              className="text-[#00CED1]"
               style={{ fontFamily: "var(--font-heading--family)" }}
             >
               Home
             </Link>
             <Link
               to={`/aboutus/${slug || "about-us"}`}
-              className="text-black"
+              className="text-[#00CED1]"
               style={{ fontFamily: "var(--font-heading--family)" }}
             >
               About Us
@@ -283,7 +283,7 @@ export default function HeaderWithVideo({ slug }) {
               onMouseLeave={closeMenuWithDelay}
             >
               <span
-                className="cursor-pointer hover:underline text-black"
+                className="cursor-pointer hover:underline text-[#00CED1]"
                 style={{ fontFamily: "var(--font-heading--family)" }}
               >
                 Services
@@ -299,14 +299,14 @@ export default function HeaderWithVideo({ slug }) {
 
             <Link
               to="/products"
-              className="text-black"
+              className="text-[#00CED1]"
               style={{ fontFamily: "var(--font-heading--family)" }}
             >
               Products
             </Link>
             <Link
               to="/contactUs"
-              className="text-black"
+              className="text-[#00CED1]"
               style={{ fontFamily: "var(--font-heading--family)" }}
             >
               Contact Us
@@ -444,7 +444,7 @@ export default function HeaderWithVideo({ slug }) {
                  hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
                  "
               >
-                <span className="relative z-10">Shop Now</span>
+                <span className="relative z-10">HYATTI'S VANITY</span>
                 <span className="absolute inset-0 bg-white opacity-0 hover:opacity-20 transition" />
               </button>
               {/* Book Appointment */}

@@ -4,6 +4,7 @@ import Header from "../layout/navbar/Header";
 import Footer from "../layout/navbar/Footer";
 import AnnouncementBar from "./navbar/Topbar";
 import SparkleCanvas from "../components/common/effect/SparkleCanvas";
+import TawkToChat from "../chartbot/TawkToChat";
 
 // 2. Remove { children } from the function arguments
 export default function MainLayout() {
@@ -13,7 +14,9 @@ export default function MainLayout() {
   return (
     <div className="flex flex-col min-h-screen">
       <SparkleCanvas />
+
       <AnnouncementBar />
+      <TawkToChat />
       <Header />
 
       {/* 3. Replace {children} with <Outlet /> */}

@@ -37,7 +37,7 @@ const BannerManagement = () => {
       });
 
       const res = await fetch(
-        `https://jumeirah.premierwebtechservices.com/backend/api/admin/banners?${params}`
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/banners?${params}`,
       );
       const data = await res.json();
       console.log("Fetched Banners:", data);
@@ -61,7 +61,7 @@ const BannerManagement = () => {
 
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
     );
   };
 
@@ -209,7 +209,7 @@ const BannerManagement = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-0">
         <div>
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
+          <h3 className="text-md sm:text-2xl md:text-2xl font-bold tracking-tight">
             Banner Management
           </h3>
           <p className="text-sm sm:text-base text-muted-foreground mt-1 sm:mt-2">
@@ -228,14 +228,14 @@ const BannerManagement = () => {
 
         <Button
           onClick={() => navigate("/admin/banner/add")}
-          className="bg-red-600 hover:bg-red-700"
+          className="bg-[#00CED1] hover:bg-[#00CED1]"
         >
           <Plus className="h-4 w-4 mr-2" /> Add Banner
         </Button>
       </div>
 
       {/* Top controls */}
-      <div className="flex justify-between items-center mt-4 w-full max-w-full dark:text-black text-xl">
+      <div className="flex justify-between items-center mt-4 w-full max-w-full dark:text-black text-md ">
         <div>
           Show{" "}
           <select
@@ -255,7 +255,7 @@ const BannerManagement = () => {
         </div>
         <div
           className="flex items-center px-3 py-2 w-full sm:w-64"
-          style={{ width: "450px", marginRight: "-13px" }}
+          style={{ width: "330px", marginRight: "-13px" }}
         >
           <Input
             placeholder="Search banners..."
@@ -271,11 +271,11 @@ const BannerManagement = () => {
 
       {/* Table */}
       <div className="hidden md:block w-full overflow-x-auto mt-4">
-        <fieldset className="border border-gray-700 rounded-lg p-4 mb-6">
+        <fieldset className="border border-gray-700 rounded-lg  mb-6">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[50px] text-white text-xl bg-black">
+                <TableHead className="w-[50px] text-white text-md bg-black">
                   <input
                     type="checkbox"
                     checked={
@@ -285,16 +285,16 @@ const BannerManagement = () => {
                     onChange={toggleSelectAll}
                   />
                 </TableHead>
-                <TableHead className="w-[50px] text-white text-xl bg-black">
+                <TableHead className="w-[50px] text-white text-md bg-black">
                   Banner Image
                 </TableHead>
-                <TableHead className="w-[50px] text-white text-xl bg-black">
+                <TableHead className="w-[50px] text-white text-md bg-black">
                   Position
                 </TableHead>
-                <TableHead className="w-[50px] text-white text-xl bg-black">
+                <TableHead className="w-[50px] text-white text-md bg-black">
                   Status
                 </TableHead>
-                <TableHead className="w-[50px] text-white text-xl bg-black">
+                <TableHead className="w-[50px] text-white text-md bg-black">
                   Actions
                 </TableHead>
               </TableRow>
@@ -317,10 +317,10 @@ const BannerManagement = () => {
                         className="w-20 h-12 object-cover rounded"
                       />
                     </TableCell>
-                    <TableCell className="text-xl">
+                    <TableCell className="text-md">
                       {banner.banner_type || "-"}
                     </TableCell>
-                    <TableCell className="text-xl">
+                    <TableCell className="text-md">
                       {getStatusBadge(banner.status)}
                     </TableCell>
                     <TableCell>
@@ -363,7 +363,7 @@ const BannerManagement = () => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-between items-center mt-2 font-semibold text-xl mb-4">
+      <div className="flex justify-between items-center mt-2 font-semibold text-md mb-4">
         <div>
           Showing {totalItems === 0 ? 0 : startIndex + 1} to {endIndex} of{" "}
           {totalItems} entries
@@ -382,7 +382,7 @@ const BannerManagement = () => {
               onClick={() => setPage(num)}
               className={`px-3 py-1 border rounded ${
                 num === page
-                  ? "bg-red-600 text-white"
+                  ? "bg-[#00CED1] text-white"
                   : "bg-transparent dark:text-white"
               }`}
             >

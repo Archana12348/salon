@@ -89,7 +89,7 @@ export default function ContactUs() {
             <h4 className="mt-3 text-sm text-black font-semibold tracking-widest">
               PHONE NUMBER
             </h4>
-            <p className="text-md text-gray-600 mt-2">+91 90413 69160</p>
+            <p className="text-md text-gray-600 mt-2">+91 6239624181</p>
           </div>
 
           <div

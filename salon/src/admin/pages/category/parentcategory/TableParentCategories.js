@@ -36,7 +36,7 @@ const ParentCategories = () => {
   const fetchSubCategories = async () => {
     try {
       const res = await fetch(
-        `https://jumeirah.premierwebtechservices.com/backend/api/admin/subcategories?page=${currentPage}&perPage=${itemsPerPage}&search=${searchTerm}`
+        `https://jumeirah.premierwebtechservices.com/backend/api/admin/subcategories?page=${currentPage}&perPage=${itemsPerPage}&search=${searchTerm}`,
       );
       const result = await res.json();
 
@@ -70,7 +70,7 @@ const ParentCategories = () => {
 
   const handleSelectCategory = (id) => {
     setSelectedParents((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
   };
 
@@ -89,7 +89,7 @@ const ParentCategories = () => {
       try {
         const res = await fetch(
           `https://jumeirah.premierwebtechservices.com/backend/api/admin/subcategories/${id}`,
-          { method: "DELETE" }
+          { method: "DELETE" },
         );
         const data = await res.json();
 
@@ -124,7 +124,7 @@ const ParentCategories = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ids: selectedParents }),
-        }
+        },
       );
 
       const data = await res.json();
@@ -166,7 +166,7 @@ const ParentCategories = () => {
       {/* Controls */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
         {/* Show entries */}
-        <div className="flex items-center pl-2 font-bold gap-2 text-xl">
+        <div className="flex items-center pl-2 font-bold gap-2 text-md">
           <label>Show</label>
           <select
             value={itemsPerPage}
@@ -238,14 +238,14 @@ const ParentCategories = () => {
                       onChange={() => handleSelectCategory(cat.id)}
                     />
                   </TableCell>
-                  <TableCell className="text-xl">{cat.name}</TableCell>
-                  <TableCell className="text-xl">{cat.slug}</TableCell>
-                  <TableCell className="text-xl">
+                  <TableCell className="text-md">{cat.name}</TableCell>
+                  <TableCell className="text-md">{cat.slug}</TableCell>
+                  <TableCell className="text-md">
                     {cat.category_name || "N/A"}
                   </TableCell>
                   <TableCell>
                     <span
-                      className={`px-2 py-1 rounded text-xl font-semibold ${
+                      className={`px-2 py-1 rounded text-md font-semibold ${
                         cat.active === 1
                           ? "bg-green-100 text-green-700"
                           : "bg-red-100 text-red-700"
@@ -262,14 +262,14 @@ const ParentCategories = () => {
                         navigate(`/admin/subcategory/${cat.id}/edit`)
                       }
                     >
-                      <Edit />
+                      <Edit size={18} />
                     </Button>
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => deleteCategory(cat.id)}
                     >
-                      <Trash2 className="text-red-500" />
+                      <Trash2 size={18} className="text-red-500" />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -281,7 +281,7 @@ const ParentCategories = () => {
 
       {/* Pagination */}
       <div className="flex justify-between mt-4 mb-4">
-        <div className="text-xl font-semibold">
+        <div className="text-md font-semibold">
           Showing {from} to {to} of {totalEntries} entries
         </div>
 
@@ -297,7 +297,7 @@ const ParentCategories = () => {
             <Button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={currentPage === page ? "bg-sky-600 text-white" : ""}
+              className={currentPage === page ? "bg-sky-300 text-white" : ""}
             >
               {page}
             </Button>

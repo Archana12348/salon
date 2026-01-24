@@ -55,7 +55,7 @@ export default function RoleTable() {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-          }
+          },
         );
 
         if (!res.ok) throw new Error("Failed to fetch");
@@ -74,7 +74,7 @@ export default function RoleTable() {
       }
       setLoading(false);
     },
-    [perPage, debouncedSearch]
+    [perPage, debouncedSearch],
   );
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export default function RoleTable() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify({ status }),
-        }
+        },
       );
 
       if (!res.ok) throw new Error();
@@ -128,7 +128,7 @@ export default function RoleTable() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       const message = await response.json(); // ✅ only once
@@ -166,7 +166,7 @@ export default function RoleTable() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({ ids: selectedRoles }),
-      }
+      },
     );
 
     setSelectedRoles([]);
@@ -176,13 +176,13 @@ export default function RoleTable() {
   /* -------------------- SELECT TOGGLE -------------------- */
   const toggleSelectRole = (id) => {
     setSelectedRoles((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
   };
 
   const toggleSelectAll = () => {
     setSelectedRoles(
-      selectedRoles.length === roles.length ? [] : roles.map((r) => r.id)
+      selectedRoles.length === roles.length ? [] : roles.map((r) => r.id),
     );
   };
 
@@ -342,7 +342,7 @@ export default function RoleTable() {
               disabled={!l.page}
               onClick={() => l.page && setCurrentPage(l.page)}
               className={`px-3 py-1 border rounded ${
-                l.active ? "bg-red-600 text-white" : ""
+                l.active ? "bg-[#00CED1] text-white" : ""
               }`}
               dangerouslySetInnerHTML={{ __html: l.label }}
             />

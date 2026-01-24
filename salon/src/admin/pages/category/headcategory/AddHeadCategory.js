@@ -39,7 +39,7 @@ export default function AddHeadCategoryPage() {
     const namePattern = /^[A-Za-z\s-]+$/;
     if (!namePattern.test(name.trim())) {
       toast.error(
-        "Category name can only contain letters, spaces, and hyphens."
+        "Category name can only contain letters, spaces, and hyphens.",
       );
       return;
     }
@@ -60,8 +60,8 @@ export default function AddHeadCategoryPage() {
 
       const response = await axios.post(
         API_BASE,
-        { name, slug, description, active: active ? 1 : 0, },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { name, slug, description, active: active ? 1 : 0 },
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       Swal.close(); // ✅ Loader Close
@@ -141,7 +141,7 @@ export default function AddHeadCategoryPage() {
               <div
                 className="
         w-11 h-6 rounded-full transition-colors
-        bg-red-600 peer-checked:bg-blue-600
+        bg-red-600 peer-checked:bg-[#00CED1]
         after:content-['']
         after:absolute after:top-[2px] after:left-[2px]
         after:h-5 after:w-5 after:bg-white after:rounded-full
@@ -153,7 +153,7 @@ export default function AddHeadCategoryPage() {
 
             <span className="text-sm font-medium">
               {active ? (
-                <span className="text-blue-600">Active</span>
+                <span className="text-[#00CED1]">Active</span>
               ) : (
                 <span className="text-red-600">Inactive</span>
               )}
@@ -172,7 +172,7 @@ export default function AddHeadCategoryPage() {
             </Button>
             <Button
               type="submit"
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-[#00CED1] shadow-xl "
               disabled={loading} // ✅ Disable when loading
             >
               {loading ? "Saving..." : "Add Category"}
