@@ -185,10 +185,10 @@ export default function HeaderWithVideo({ slug }) {
           onMouseLeave={handleMouseLeave}
         >
           <Link
-            to="/userdashboard"
+            to={`/user-profile/${user.slug}`}
             className="flex gap-2 px-4 py-2 hover:bg-gray-100 text-black hover:text-[#00CED1] whitespace-nowrap"
           >
-            <LayoutDashboard size={16} className="mt-1" /> Dashboard
+            <LayoutDashboard size={16} className="mt-1" /> Profile
           </Link>
 
           <Link

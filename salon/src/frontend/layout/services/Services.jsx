@@ -1,84 +1,3 @@
-// import React from "react";
-
-// const services = [
-//   { name: "Skin", img: "/gallery/Captureb.PNG" },
-//   { name: "Hair", img: "/gallery/Captureh.PNG" },
-//   { name: "Makeup", img: "/gallery/Capturem.PNG" },
-//   { name: "Heena", img: "/gallery/Capturen.PNG" },
-//   { name: "Skin", img: "/gallery/Captureb.PNG" },
-// ];
-
-// export default function ServicesSection() {
-//   return (
-//     <div className="max-w-7xl mx-auto px-4 sm:px-6 md:py-9">
-//       {/* Section Heading */}
-//       <h2
-//         className="text-2xl sm:text-3xl md:text-5xl font-bold text-center mb-10 sm:mb-12 md:mb-16 text-black  bg-clip-text"
-//         style={{ fontFamily: "Scheherazade New" }}
-//       >
-//         Our Premium Services
-//       </h2>
-
-//       {/* Responsive Grid */}
-//       <div
-//         className="
-//             grid
-//             grid-cols-2
-//             sm:grid-cols-3
-//             md:grid-cols-3
-//             lg:grid-cols-5
-//             gap-8 sm:gap-10 md:gap-12
-//         "
-//       >
-//         {services.map((item) => (
-//           <div
-//             key={item.name}
-//             className="flex flex-col items-center text-center "
-//           >
-//             {/* Frame Wrapper Responsive */}
-//             <div
-//               className="
-//                   relative
-//                   w-[150px] h-[200px]
-//                   sm:w-[180px] sm:h-[180px]
-//                   md:w-[250px] md:h-[300px]
-//                   lg:w-[250px] lg:h-[320px]
-//                   flex items-center justify-center
-//                 "
-//             >
-//               {/* FRAME */}
-//               {/* <img
-//                 src="/service/frame.png"
-//                 alt="frame"
-//                 className="absolute inset-0 w-full h-full object-cover"
-//               /> */}
-
-//               {/* SERVICE IMAGE (always same ratio) */}
-//               <img
-//                 src={item.img}
-//                 alt={item.name}
-//                 className="
-//                     relative
-
-//                     object-contain
-//                   "
-//               />
-//             </div>
-
-//             {/* Name */}
-//             <p
-//               className="mt-4 sm:mt-5 text-lg sm:text-base md:text-xl  text-black bg-clip-text "
-//               style={{ fontFamily: "var(--font-heading--family)" }}
-//             >
-//               {item.name}
-//             </p>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
@@ -164,3 +83,99 @@ export default function ServicesSection() {
     </div>
   );
 }
+
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Autoplay, Pagination } from "swiper/modules";
+// import { useNavigate } from "react-router-dom";
+
+// import "swiper/css";
+// import "swiper/css/pagination";
+
+// const API_URL =
+//   "https://jumeirah.premierwebtechservices.com/backend/api/site/category";
+
+// const IMAGE_BASE =
+//   "https://jumeirah.premierwebtechservices.com/backend/storage/";
+
+// export default function ServicesSection() {
+//   const [categories, setCategories] = useState([]);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     fetchCategories();
+//   }, []);
+
+//   const fetchCategories = async () => {
+//     try {
+//       const res = await axios.get(API_URL);
+
+//       // 🔥 ONLY REQUIRED FIELDS
+//       const formattedData = (res.data.data || []).map((item) => ({
+//         id: item.id,
+//         name: item.name,
+//         slug: item.slug,
+//         photo: item.photo,
+//       }));
+
+//       console.log("FINAL CATEGORY DATA:", formattedData);
+
+//       setCategories(formattedData);
+//     } catch (error) {
+//       console.error(
+//         "CATEGORY FETCH ERROR:",
+//         error.response?.data || error.message,
+//       );
+//     }
+//   };
+
+//   return (
+//     <div
+//       className="w-full py-16 sm:py-20 md:py-12 bg-[#00CED1]"
+//       style={{ fontFamily: "var(--font-heading--family)" }}
+//     >
+//       <h2 className="text-3xl md:text-4xl text-center mb-10 text-black">
+//         Our Premium Services
+//       </h2>
+
+//       <Swiper
+//         modules={[Autoplay, Pagination]}
+//         spaceBetween={30}
+//         autoplay={{ delay: 2500, disableOnInteraction: false }}
+//         pagination={{ clickable: true }}
+//         breakpoints={{
+//           0: { slidesPerView: 1 },
+//           640: { slidesPerView: 2 },
+//           768: { slidesPerView: 3 },
+//           1024: { slidesPerView: 4 },
+//         }}
+//         className="pb-12"
+//       >
+//         {categories.map((item) => (
+//           <SwiperSlide key={item.id}>
+//             <div className="flex flex-col items-center text-center group">
+//               {/* Image */}
+//               <div
+//                 className="flex items-center justify-center cursor-pointer transition-transform duration-500 group-hover:scale-105"
+//                 onClick={() => navigate(`/service/${item.slug}`)}
+//               >
+//                 <img
+//                   src={
+//                     item.photo ? `${IMAGE_BASE}${item.photo}` : "/no-image.png"
+//                   }
+//                   alt={item.name}
+//                   className="object-contain w-full h-full"
+//                   onError={(e) => (e.target.src = "/no-image.png")}
+//                 />
+//               </div>
+
+//               {/* Name */}
+//               <p className="mt-4 text-lg md:text-xl text-black">{item.name}</p>
+//             </div>
+//           </SwiperSlide>
+//         ))}
+//       </Swiper>
+//     </div>
+//   );
+// }

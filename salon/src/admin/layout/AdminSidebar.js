@@ -101,6 +101,11 @@ const Sidebar = () => {
               //   label: "Sliders",
               //   icon: SlidersHorizontal,
               // },
+              {
+                to: "/admin/reviews",
+                label: "Love Letter",
+                icon: Image,
+              },
               { to: "/admin/pages", label: "Pages", icon: FileText },
             ].map((item) => {
               const Icon = item.icon;

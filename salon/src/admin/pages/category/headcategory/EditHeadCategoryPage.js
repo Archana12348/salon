@@ -20,6 +20,9 @@ export default function EditHeadCategoryPage() {
   const [loading, setLoading] = useState(false); // ✅ Loader state added
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const [photo, setPhoto] = useState(null); // new image
+  const [preview, setPreview] = useState(null); // preview (new)
+  const [oldImage, setOldImage] = useState(null); // backend image
 
   // Load existing category data
   useEffect(() => {
@@ -38,6 +41,12 @@ export default function EditHeadCategoryPage() {
         setSlug(data.slug || "");
         setDescription(data.description || "");
         setActive(data.active ? true : false);
+        // ✅ OLD IMAGE
+        if (data.photo) {
+          setOldImage(
+            `https://jumeirah.premierwebtechservices.com/backend/storage/${data.photo}`,
+          );
+        }
       })
       .catch((err) => {
         toast.error("Failed to load category");
@@ -60,62 +69,64 @@ export default function EditHeadCategoryPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const namePattern = /^[A-Za-z\s-]+$/;
-    if (!namePattern.test(name.trim())) {
-      toast.error(
-        "Category name can only contain letters, spaces, and hyphens."
-      );
-      return;
-    }
-
-    if (!name.trim()) {
-      toast.error("Please enter a category name");
-      return;
-    }
-
-    if (!slug.trim()) {
-      toast.error("Slug cannot be empty.");
-      return;
-    }
 
     try {
-      setLoading(true); // ✅ Start loader
+      setLoading(true);
+
       Swal.fire({
         title: "Updating Category...",
-        text: "Please wait while we update your category.",
         allowOutsideClick: false,
-        background: "#ffff",
-        color: "#dc2626",
-        didOpen: () => {
-          Swal.showLoading();
-        },
+        didOpen: () => Swal.showLoading(),
       });
-      console.log("active ", active);
-      debugger;
 
-      const response = await axios.put(
-        `${API_BASE}/${id}`,
-        { name, slug, description, active },
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("slug", slug);
+      formData.append("description", description);
+      formData.append("active", active ? 1 : 0);
+
+      // ✅ image sirf tab bhejo jab new select ho
+      if (photo) {
+        formData.append("photo", photo);
+      }
+
+      // ✅ console print
+      console.log("===== UPDATE FORM DATA =====");
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+
+      const response = await axios.post(
+        `${API_BASE}/${id}?_method=PUT`,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
-      Swal.close(); // ✅ Close loader
+      console.log("===== UPDATE RESPONSE =====", response.data);
 
+      Swal.close();
+      setLoading(false);
       toast.success("Category updated successfully!");
-      setLoading(false); // ✅ Stop loader
-
       setTimeout(() => navigate("/admin/category"), 800);
     } catch (error) {
-      Swal.close(); // ✅ Close loader on error
-      setLoading(false); // ✅ Stop loader
+      Swal.close();
+      setLoading(false);
       toast.error("Failed to update category");
-      console.error("PUT error:", error.response?.data || error.message);
+      console.error(error.response?.data || error.message);
     }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setPhoto(file);
+    setPreview(URL.createObjectURL(file)); // new preview
   };
 
   return (
@@ -154,6 +165,41 @@ export default function EditHeadCategoryPage() {
           <div>
             <label className="block mb-1 font-medium">Description</label>
             <RichTextEditor value={description} onChange={setDescription} />
+          </div>
+          {/* Category Image */}
+          <div>
+            <label className="block mb-1 font-medium">Category Image</label>
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="block w-full text-sm"
+            />
+
+            {/* NEW IMAGE PREVIEW */}
+            {preview && (
+              <div className="mt-3">
+                <p className="text-sm text-green-600 mb-1">New Image Preview</p>
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="h-32 w-32 object-cover rounded border"
+                />
+              </div>
+            )}
+
+            {/* OLD IMAGE */}
+            {!preview && oldImage && (
+              <div className="mt-3">
+                <p className="text-sm text-gray-500 mb-1">Current Image</p>
+                <img
+                  src={oldImage}
+                  alt="Old"
+                  className="h-32 w-32 object-cover rounded border"
+                />
+              </div>
+            )}
           </div>
 
           {/* Active / Inactive Toggle */}

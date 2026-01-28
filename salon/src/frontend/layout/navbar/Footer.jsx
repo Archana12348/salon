@@ -208,10 +208,6 @@ export default function FooterPage() {
           />
         </a>
 
-        <FaTwitter
-          className="hover:text-blue-300 transition-colors duration-300 cursor-pointer"
-          size={22}
-        />
         <a
           href="https://www.instagram.com/laviejumeirah/?igsh=eno5Y2o1ajY2NWZq#"
           target="_blank"

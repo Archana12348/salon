@@ -416,63 +416,6 @@ const SeasonsPage = () => {
   const [servicesWithCode, setServicesWithCode] = useState([]);
 
   /* -------------------- Fetch Services -------------------- */
-  useEffect(() => {
-    setServicesWithCode(seasons);
-  }, [seasons]);
-  const assignCodeUI = async (service) => {
-    const { value: code } = await Swal.fire({
-      title: "Assign Ky Code",
-      html: `
-      <div style="text-align:left">
-        <label style="font-size:14px;font-weight:600;margin-bottom:6px;display:block">
-          Booking Code
-        </label>
-        <input
-          id="bookingCode"
-          class="swal2-input"
-          placeholder="Eg: BK-2026-001"
-          style="
-            width:100%;
-            height:40px;
-            font-size:14px;
-            padding:6px 10px;
-            margin:0;
-          "
-        />
-        <p style="font-size:12px;color:#666;margin-top:6px">
-          This code will be shown in the service table
-        </p>
-      </div>
-    `,
-      showCancelButton: true,
-      confirmButtonText: "Save Code",
-      confirmButtonColor: "#00CED1",
-      focusConfirm: false,
-      preConfirm: () => {
-        const value = document.getElementById("bookingCode").value;
-        if (!value) {
-          Swal.showValidationMessage("Booking code is required");
-        }
-        return value;
-      },
-    });
-
-    if (!code) return;
-
-    const updated = servicesWithCode.map((s) =>
-      s.id === service.id ? { ...s, booking_code: code } : s,
-    );
-
-    setServicesWithCode(updated);
-
-    Swal.fire({
-      icon: "success",
-      title: "Saved",
-      text: "Booking code assigned successfully",
-      timer: 1500,
-      showConfirmButton: false,
-    });
-  };
 
   const fetchSeasons = async () => {
     try {
@@ -667,20 +610,17 @@ const SeasonsPage = () => {
                       onChange={handleSelectAllSeasons}
                     />
                   </TableHead>
-                  <TableHead className=" text-center min-w-[150px] w-[25%] text-md  text-white bg-black">
+                  <TableHead className=" text-center min-w-[150px] w-[20%] text-md  text-white bg-black">
                     Name
                   </TableHead>
-                  <TableHead className="text-center min-w-[150px] w-[25%] text-md  text-white bg-black">
+                  <TableHead className="text-center min-w-[150px] w-[20%] text-md  text-white bg-black">
                     Slug
                   </TableHead>
-                  <TableHead className=" text-center min-w-[150px] w-[25%] text-md  text-white bg-black">
+                  <TableHead className=" text-center min-w-[150px] w-[20%] text-md  text-white bg-black">
                     Status
                   </TableHead>
 
-                  <TableHead className=" text-center min-w-[150px] w-[25%] text-md  text-white bg-black">
-                    Ky Code
-                  </TableHead>
-                  <TableHead className=" text-center min-w-[150px] w-[25%] text-md  text-white bg-black">
+                  <TableHead className=" text-center min-w-[150px] w-[20%] text-md  text-white bg-black">
                     Actions
                   </TableHead>
                 </TableRow>
@@ -712,17 +652,8 @@ const SeasonsPage = () => {
                           </span>
                         )}
                       </TableCell>
-                      <TableCell className="font-semibold text-blue-600">
-                        {s.booking_code ? s.booking_code : "-"}
-                      </TableCell>
 
                       <TableCell className="flex justify-center items-center">
-                        <button
-                          onClick={() => assignCodeUI(s)}
-                          className="px-3 py-1 bg-[#00CED1] text-white rounded-lg text-sm mr-3"
-                        >
-                          Assign Code
-                        </button>
                         <button
                           onClick={() =>
                             navigate(`/admin/services/${s.id}/edit`)

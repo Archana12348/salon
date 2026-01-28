@@ -16,6 +16,9 @@ import SubCategoryEdit from "./pages/category/parentcategory/EditParentCategory"
 import Packages from "./pages/packages/PackagesTable";
 import PackagesAdd from "./pages/packages/AddPackages";
 import PackagesEdit from "./pages/packages/EditPackages";
+import Reviews from "./pages/review/ReviewsPage";
+import ReviewsAdd from "./pages/review/AddPackages";
+import ReviewsEdit from "./pages/review/EditPackages";
 import Contact from "./pages/contacts/ContactsTable";
 import ContactAdd from "./pages/contacts/AddContact";
 import Services from "./pages/services/RolesTable";
@@ -99,6 +102,9 @@ export const AdminRoutes = (
         <Route path="settings" element={<Settings />} />
         <Route path="contact" element={<Contact />} />
         <Route path="contact/add" element={<ContactAdd />} />
+        <Route path="reviews" element={<Reviews />} />
+        <Route path="reviews/add" element={<ReviewsAdd />} />
+        <Route path="reviews/:id/edit" element={<ReviewsEdit />} />
       </Route>
     </Route>
   </>

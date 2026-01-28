@@ -12,7 +12,7 @@ export default function AdminLayout() {
         <aside className="fixed top-16 left-0 w-64 h-[calc(100vh-64px)] border-r-2 border-black">
           <Sidebar />
         </aside>
-        <main className="flex-1 ml-64 mt-16 p-6 overflow-y-auto bg-black/5 min-h-[calc(100vh-64px)]">
+        <main className="flex-1 ml-64 mt-16 p-6 overflow-y-auto  min-h-[calc(100vh-64px)]">
           <Outlet />
         </main>
       </div>

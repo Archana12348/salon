@@ -248,6 +248,9 @@ const HeadCategoriesTable = () => {
                   />
                 </TableHead>
                 <TableHead className="min-w-[150px] w-[25%] text-md text-white bg-black">
+                  Image
+                </TableHead>
+                <TableHead className="min-w-[150px] w-[25%] text-md text-white bg-black">
                   Name
                 </TableHead>
                 <TableHead className="min-w-[150px] w-[20%] text-md text-white bg-black">
@@ -287,6 +290,17 @@ const HeadCategoriesTable = () => {
                         checked={selectedIds.includes(cat.id)}
                         onChange={() => handleSelect(cat.id)}
                       />
+                    </TableCell>
+                    <TableCell>
+                      {cat.photo ? (
+                        <img
+                          src={`https://jumeirah.premierwebtechservices.com/backend/storage/${cat.photo}`}
+                          alt={cat.name}
+                          className="w-20 h-12 object-cover rounded"
+                        />
+                      ) : (
+                        <span className="text-gray-400 text-sm">No Image</span>
+                      )}
                     </TableCell>
                     <TableCell className="text-md">{cat.name}</TableCell>
                     <TableCell className="text-md">{cat.slug}</TableCell>

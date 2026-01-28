@@ -27,7 +27,7 @@ export const FrontendRoutes = (
       <Route index element={<Home />} />
       <Route path="shop" element={<Shop />} />
       <Route path="product" element={<ProductPage />} />
-      <Route path="userprofile" element={<UserProfile />} />
+      <Route path="user-profile/:slug" element={<UserProfile />} />
       <Route path="service/:slug" element={<ServicesPage />} />
       <Route path="service/:slug/:slug" element={<ServicesPage />} />
       <Route path="/:slug" element={<ServiceView />} />
