@@ -444,7 +444,7 @@ export default function HeaderWithVideo({ slug }) {
                  hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
                  "
               >
-                <span className="relative z-10">HYATTI'S VANITY</span>
+                <span className="relative z-10">HAYATI'S VANITY</span>
                 <span className="absolute inset-0 bg-white opacity-0 hover:opacity-20 transition" />
               </button>
               {/* Book Appointment */}

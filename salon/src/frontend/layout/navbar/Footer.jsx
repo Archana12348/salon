@@ -95,7 +95,7 @@
 //             <a
 //               key={item}
 //               href="#"
-//               className="hover:text-white hover:underline transition duration-300"
+//               className="hover:text-[#00CED1] hover:underline transition duration-300"
 //             >
 //               {item}
 //             </a>
@@ -115,11 +115,21 @@ import React from "react";
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
+/* Menu Data */
+const menuItems = [
+  { label: "ABOUT", path: "/aboutus/about-us" },
+  // { label: "SERVICES", path: "/services" },
+  // { label: "TEAM", path: "/team" },
+  // { label: "GALLERY", path: "/gallery" },
+  { label: "BLOG", path: "/blog" },
+  { label: "CONTACT", path: "/contactUs" },
+];
+
 export default function FooterPage() {
   return (
     <div
       className="w-full bg-center  bg-cover bg-no-repeat bottom-0 left-0 right-0 z-0 
-                 text-white   relative"
+                 text-[#00CED1]   relative"
       style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), url('/gallery/ky footer banner.jpg')`,
         fontFamily: "var(--font-heading--family)",
@@ -131,7 +141,7 @@ export default function FooterPage() {
         <div className="transition-transform hover:scale-105 duration-300">
           <h2
             className="text-2xl font-semibold mb-4 
-            text-white bg-clip-text"
+            text-[#00CED1] bg-clip-text"
           >
             Our Location
           </h2>
@@ -146,13 +156,13 @@ export default function FooterPage() {
         <div className="transition-transform hover:scale-105 duration-300">
           <h2
             className="text-2xl font-semibold mb-4 
-           text-white bg-clip-text"
+           text-[#00CED1] bg-clip-text"
           >
             Get in Touch
           </h2>
 
           <p className="-mb-0">Phone: +91 6239624181</p>
-          <p>kylaviejum@gmail.com</p>
+          <p>ky@laviejumeirah.com</p>
 
           <div className="flex items-center justify-center gap-4 mt-4 text-xl">
             <a
@@ -161,7 +171,7 @@ export default function FooterPage() {
               rel="noopener noreferrer"
             >
               <FaFacebookF
-                className="hover:text-blue-400 transition-colors duration-300 cursor-pointer text-white"
+                className="hover:text-blue-400 transition-colors duration-300 cursor-pointer text-[#00CED1]"
                 size={22}
               />
             </a>
@@ -171,7 +181,7 @@ export default function FooterPage() {
               rel="noopener noreferrer"
             >
               <FaInstagram
-                className="hover:text-pink-400 transition-colors duration-300 cursor-pointer text-white"
+                className="hover:text-pink-400 transition-colors duration-300 cursor-pointer text-[#00CED1]"
                 size={22}
               />
             </a>
@@ -182,7 +192,7 @@ export default function FooterPage() {
         <div className="transition-transform hover:scale-105 duration-300">
           <h2
             className="text-2xl font-semibold mb-4 
-           text-white bg-clip-text"
+           text-[#00CED1] bg-clip-text"
           >
             Working Hours
           </h2>
@@ -204,7 +214,7 @@ export default function FooterPage() {
         >
           <FaFacebookF
             size={22}
-            className="text-white transition-colors duration-300 group-hover:text-blue-400 cursor-pointer"
+            className="text-[#00CED1] transition-colors duration-300 group-hover:text-blue-400 cursor-pointer"
           />
         </a>
 
@@ -214,7 +224,7 @@ export default function FooterPage() {
           rel="noopener noreferrer"
         >
           <FaInstagram
-            className="hover:text-pink-400 transition-colors duration-300 cursor-pointer text-white"
+            className="hover:text-pink-400 transition-colors duration-300 cursor-pointer text-[#00CED1]"
             size={22}
           />
         </a>
@@ -225,18 +235,31 @@ export default function FooterPage() {
       </div>
 
       {/* Menu */}
-      <div className="flex flex-wrap items-center justify-center gap-6 text-sm tracking-widest mb-8 px-4 ">
+      {/* <div className="flex flex-wrap items-center justify-center gap-6 text-sm tracking-widest mb-8 px-4 ">
         {["ABOUT", "SERVICES", "TEAM", "GALLERY", "BLOG", "CONTACT"].map(
           (item) => (
             <Link
               key={item}
               to="#"
-              className="text-white hover:underline transition duration-300"
+              className="text-[#00CED1] hover:underline transition duration-300"
             >
               {item}
             </Link>
           ),
         )}
+      </div> */}
+
+      {/* Menu */}
+      <div className="flex flex-wrap items-center justify-center gap-6 text-sm tracking-widest mb-8 px-4">
+        {menuItems.map((item) => (
+          <Link
+            key={item.label}
+            to={item.path}
+            className="text-[#00CED1] hover:underline transition duration-300"
+          >
+            {item.label}
+          </Link>
+        ))}
       </div>
 
       {/* Footer Bottom */}

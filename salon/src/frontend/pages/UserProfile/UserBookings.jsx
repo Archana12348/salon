@@ -288,7 +288,8 @@ function UserBookings() {
             {bookings.map((booking) => (
               <div
                 key={booking.id}
-                className="bg-sky-50 rounded-2xl shadow-md overflow-hidden"
+                className="!border !border-[#9ee0e3] rounded-xl overflow-hidden
+                  group hover:shadow-[0_35px_60px_rgba(0,206,209,0.5)] transition-shadow duration-300 bg-white"
               >
                 {/* HEADER */}
                 <div className="p-4 border-b flex items-start justify-between">
