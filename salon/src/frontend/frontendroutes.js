@@ -17,6 +17,9 @@ import BookingPage from "./pages/features/booking-flow/BookingPage";
 import ServicesPage from "./pages/servicedata/ServiceFetch";
 import ServiceView from "./pages/servicedata/ServiceView";
 import ProtectedRoute from "./route/ProtectedRoute";
+import SearchPage from "./layout/navbar/SearchPage";
+import ProductsPage from "./pages/product/ProductsPage";
+import ProductDetailPage from "./pages/product/ProductDetailPage";
 
 // import NotFound from "./pages/NotFound";
 
@@ -25,9 +28,12 @@ export const FrontendRoutes = (
     {/* 🔹 FRONT LAYOUT ROUTES */}
     <Route element={<FrontLayout />}>
       <Route index element={<Home />} />
+      <Route path="/search" element={<SearchPage />} />
       <Route path="shop" element={<Shop />} />
-      <Route path="product" element={<ProductPage />} />
-      <Route path="userprofile" element={<UserProfile />} />
+      <Route path="product" element={<ProductsPage />} />
+      <Route path="/product/:slug" element={<ProductDetailPage />} />
+
+      <Route path="user-profile/:slug" element={<UserProfile />} />
       <Route path="service/:slug" element={<ServicesPage />} />
       <Route path="service/:slug/:slug" element={<ServicesPage />} />
       <Route path="/:slug" element={<ServiceView />} />

@@ -113,7 +113,7 @@ export default function ContactUs() {
             <h4 className="mt-3 text-black text-sm font-semibold tracking-widest">
               EMAIL
             </h4>
-            <p className="text-md text-gray-600 mt-2">kylaviejum@gmail.com</p>
+            <p className="text-md text-gray-600 mt-2">ky@laviejumeirah.com</p>
           </div>
         </div>
 
