@@ -21,6 +21,7 @@ import {
   UserCheck,
   Settings,
   Contact,
+  Box,
 } from "lucide-react";
 import { clsx } from "clsx";
 
@@ -177,6 +178,48 @@ const Sidebar = () => {
                 }
               >
                 <List className="h-4 w-4" /> All Services
+              </NavLink>
+            </ul>
+          )}
+          {/* PRODUCT */}
+          <h4
+            className="flex items-center justify-between px-2 text-xs font-semibold uppercase cursor-pointer hover:text-[#00CED1]"
+            onClick={() => toggleDropdown("product")}
+          >
+            <span className="flex items-center gap-2">
+              <Box className="h-4 w-4" /> Product
+            </span>
+            {openDropdown.product ? <ChevronDown /> : <ChevronRight />}
+          </h4>
+
+          {openDropdown.product && (
+            <ul className="ml-6 mt-2 space-y-1">
+              <NavLink
+                to="/admin/product/add"
+                className={({ isActive }) =>
+                  clsx(
+                    linkBase,
+                    linkHover,
+                    "cursor-pointer",
+                    isActive && linkActive,
+                  )
+                }
+              >
+                <PlusCircle className="h-4 w-4" /> Add Product
+              </NavLink>
+
+              <NavLink
+                to="/admin/services"
+                className={({ isActive }) =>
+                  clsx(
+                    linkBase,
+                    linkHover,
+                    "cursor-pointer",
+                    isActive && linkActive,
+                  )
+                }
+              >
+                <List className="h-4 w-4" /> All Product
               </NavLink>
             </ul>
           )}

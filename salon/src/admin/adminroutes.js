@@ -47,6 +47,7 @@ import Logout from "./pages/auth/Logout";
 import Settings from "./pages/SettingsPage";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
+import ProductForm from "./pages/product/ProductForm";
 
 export const AdminRoutes = (
   <>
@@ -105,6 +106,7 @@ export const AdminRoutes = (
         <Route path="reviews" element={<Reviews />} />
         <Route path="reviews/add" element={<ReviewsAdd />} />
         <Route path="reviews/:id/edit" element={<ReviewsEdit />} />
+        <Route path="product/add" element={<ProductForm />} />
       </Route>
     </Route>
   </>

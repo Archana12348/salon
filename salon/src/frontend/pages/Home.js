@@ -20,7 +20,7 @@ export default function Home() {
       <LuxuryTestimonials /> */}
       <div className="relative overflow-hidden">
         {/* ✨ Glitter Sparkle Effect */}
-        <SparkleCanvas />
+        {/* <SparkleCanvas /> */}
         {/* Home Sections */}
         <FeaturesSection />
         <Banner />

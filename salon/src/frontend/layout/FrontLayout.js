@@ -15,7 +15,7 @@ export default function MainLayout() {
   return (
     <div className="flex flex-col min-h-screen">
       <ScrollToTop />
-      <SparkleCanvas />
+      {/* <SparkleCanvas /> */}
 
       <AnnouncementBar />
       <TawkToChat />

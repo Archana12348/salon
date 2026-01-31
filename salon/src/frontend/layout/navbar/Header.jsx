@@ -216,17 +216,26 @@ export default function HeaderWithVideo({ slug }) {
         <div className="fixed top-0 left-0 w-full z-50 bg-black shadow-md text-[#00CED1] transition-all duration-500">
           <div className="flex items-center justify-between px-3 sm:px-6 md:px-10 py-3 sm:py-4">
             <div className="flex gap-3 sm:gap-4">
-              <Search size={16} className="sm:size-[18px] cursor-pointer" />
-              <MapPin size={16} className="sm:size-[18px] cursor-pointer" />
+              <Search
+                size={16}
+                className="cursor-pointer mt-2"
+                onClick={() => navigate("/search")}
+              />
+              <Link to="/contactUs">
+                <MapPin
+                  size={16}
+                  className="sm:size-[18px] cursor-pointer text-[#00CED1] mt-2"
+                />
+              </Link>
               <Menu
-                className="cursor-pointer md:hidden  sm:size-[18px]"
+                className="cursor-pointer md:hidden mt-2"
                 size={16}
                 onClick={() => setMobileMenuOpen(true)}
               />
             </div>
 
             <h2
-              className="text-lg sm:text-2xl md:text-3xl lg:text-4xl tracking-wide text-center whitespace-nowrap"
+              class="text-lg sm:text-2xl md:text-3xl lg:text-4xl tracking-wide text-center whitespace-nowrap  ml:0 md:ml-20"
               style={{ fontFamily: "var(--font-heading--family)" }}
             >
               LA VIE JUMERIAH
@@ -298,7 +307,7 @@ export default function HeaderWithVideo({ slug }) {
             </div>
 
             <Link
-              to="/products"
+              to="/product"
               className="text-[#00CED1]"
               style={{ fontFamily: "var(--font-heading--family)" }}
             >
@@ -318,7 +327,11 @@ export default function HeaderWithVideo({ slug }) {
       {/* ================= HOME VIDEO HEADER ================= */}
       {isHomePage && (
         <header className="relative w-full h-screen overflow-hidden">
-          <div className=" ml-16 flex items-center justify-between px-4 mt-[16px] md:hidden absolute top-0 left-0 w-full z-20 text-white">
+          <div
+            className=" ml-16 flex items-center justify-between px-4 mt-[16px]
+  md:hidden absolute top-0 left-0 w-full
+  z-[999] text-white pointer-events-auto"
+          >
             <Menu
               className="cursor-pointer mt-[15px]"
               size={20}
@@ -327,7 +340,7 @@ export default function HeaderWithVideo({ slug }) {
           </div>
           {/* Background Video */}
           <video
-            className="absolute top-0 left-0 w-full h-full object-cover"
+            className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
             src="/gallery/videobg.mp4"
             autoPlay
             muted
@@ -337,11 +350,17 @@ export default function HeaderWithVideo({ slug }) {
           {/* Overlay */}
           {/* <div className="absolute inset-0 " /> */}
           {/* Content */}
-          <div className="relative z-10 text-white h-full flex flex-col">
+          <div className="relative z-20 text-white h-full flex flex-col">
             <div className="flex items-center justify-between px-4 sm:px-6 md:px-10 py-4">
               <div className="flex gap-3 sm:gap-4">
-                <Search size={20} className="cursor-pointer" />
-                <MapPin size={20} className="cursor-pointer" />
+                <Search
+                  size={20}
+                  className="cursor-pointer"
+                  onClick={() => navigate("/search")}
+                />
+                <Link to="/contactUs">
+                  <MapPin size={20} className="cursor-pointer text-white" />
+                </Link>
               </div>
 
               {/* Center Title */}
@@ -414,7 +433,7 @@ export default function HeaderWithVideo({ slug }) {
               </div>
 
               <Link
-                to="/products"
+                to="/product"
                 className="hover:underline text-white"
                 style={{ fontFamily: "var(--font-heading--family)" }}
               >
@@ -444,7 +463,7 @@ export default function HeaderWithVideo({ slug }) {
                  hover:scale-105 hover:shadow-[0_0_35px_rgba(0,206,209,0.9)]
                  "
               >
-                <span className="relative z-10">HAYATI'S VANITY</span>
+                <span className="relative z-30">HAYATI'S VANITY</span>
                 <span className="absolute inset-0 bg-white opacity-0 hover:opacity-20 transition" />
               </button>
               {/* Book Appointment */}
